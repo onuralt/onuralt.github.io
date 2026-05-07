@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Onur Altinordu | Hardware, Verification & Embedded Systems</title>
+    <meta
+      name="description"
+      content="A presentation-style engineering portfolio focused on connected project evidence in hardware verification, FPGA CPU design, embedded firmware, robotics, and VLSI."
+    >
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/slides.css">
+    <link rel="stylesheet" href="css/robot.css">
+    <link rel="stylesheet" href="css/vlsi.css?v=3">
+    <link rel="stylesheet" href="css/responsive.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top">Onur Altinordu</a>
+      <nav aria-label="Portfolio sections">
+        <a href="#verification">Verification</a>
+        <a href="#cpu">FPGA CPU</a>
+        <a href="#firmware">Firmware</a>
+        <a href="#robotics">Robot</a>
+        <a href="#vlsi">VLSI</a>
+      </nav>
+    </header>
+
+    <main id="top" class="deck">
+      <section class="slide cover-slide" aria-labelledby="intro-title">
+        <div class="top-bars" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="cover-copy">
+          <p class="eyebrow">Engineering Portfolio</p>
+          <h1 id="intro-title">Hardware Design, Verification & Embedded Systems</h1>
+          <p>
+            A focused set of projects showing how I move from hardware architecture
+            to implementation evidence and verification results.
+          </p>
+        </div>
+        <div class="cover-evidence" aria-label="Representative project evidence">
+          <figure>
+            <img src="images/gbframework/gbframework-004.png" alt="RISC-V formal verification framework architecture">
+            <figcaption>Verification architecture</figcaption>
+          </figure>
+          <figure>
+            <img src="images/pisa-020.png" alt="Annotated datapath for the PISA CPU">
+            <figcaption>CPU implementation</figcaption>
+          </figure>
+          <figure>
+            <img src="images/psinvestigation-004.png" alt="3D PCB rendering for force sensor interface board">
+            <figcaption>Embedded hardware target</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="verification" class="slide case-slide" aria-labelledby="verification-title">
+        <article class="case-copy">
+          <p class="eyebrow">Formal Verification</p>
+          <h2 id="verification-title">Generator-Based RISC-V Formal Verification Framework</h2>
+          <p>
+            A generator-oriented workflow for producing formal interfaces, golden
+            models, wrappers, bind files, and ISA equivalence checks from shared
+            core configuration.
+          </p>
+          <ul>
+            <li>Targets: PicoRV32, NERV, Ibex, Hazard3</li>
+            <li>Evidence chain: generated harness, observed RVFI signals, golden model trace</li>
+          </ul>
+        </article>
+        <div class="evidence-grid verification-grid">
+          <figure class="primary">
+            <img src="images/gbframework/gbframework-004.png" alt="RISC-V formal verification framework overview">
+            <figcaption>1. Generator architecture</figcaption>
+          </figure>
+          <figure>
+            <img src="images/gbframework/gbframework-007.png" alt="RVFI waveform trace from formal verification">
+            <figcaption>2. RVFI observation trace</figcaption>
+          </figure>
+          <figure>
+            <img src="images/gbframework/gbframework-009.png" alt="Generated golden model waveform trace">
+            <figcaption>3. Golden model trace</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="cpu" class="slide case-slide reverse" aria-labelledby="cpu-title">
+        <article class="case-copy dark">
+          <p class="eyebrow">FPGA & Computer Architecture</p>
+          <h2 id="cpu-title">PISA: Custom 8-bit CPU and ISA on FPGA</h2>
+          <p>
+            A Primitive Instruction Set Architecture implemented on an Altera DE2-70
+            board with a custom datapath, ALU, control unit, instruction set, and
+            Python assembler.
+          </p>
+          <ul>
+            <li>8x8 register file, 16-bit instructions, SRAM-backed data memory</li>
+            <li>Documented FPGA execution and 50 MHz target</li>
+          </ul>
+        </article>
+        <div class="evidence-grid cpu-grid">
+          <figure class="primary">
+            <img src="images/pisa-020.png" alt="Annotated PISA datapath and control structure">
+            <figcaption>1. Datapath and control structure</figcaption>
+          </figure>
+          <figure>
+            <img src="images/pisa-021.png" alt="PISA instruction state and operation grouping">
+            <figcaption>2. ISA operation grouping</figcaption>
+          </figure>
+          <figure>
+            <img src="images/pisa-034.png" alt="PISA CPU simulation waveform">
+            <figcaption>3. Simulation waveform</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="firmware" class="slide case-slide" aria-labelledby="firmware-title">
+        <article class="case-copy">
+          <p class="eyebrow">Embedded Firmware</p>
+          <h2 id="firmware-title">Program Skeletons for Incremental STM32 Firmware</h2>
+          <p>
+            A master's project on preserving HAL API ordering while deconstructing
+            STM32 firmware into smaller verified skeletons.
+          </p>
+          <ul>
+            <li>Target: 3D ForceSense sensor on STM32</li>
+            <li>Evidence chain: hardware target, interface board, SPI timing dependency</li>
+          </ul>
+        </article>
+        <div class="evidence-grid firmware-grid">
+          <figure class="primary">
+            <img src="images/psinvestigation-004.png" alt="3D PCB rendering for force sensor interface board">
+            <figcaption>1. Interface board model</figcaption>
+          </figure>
+          <figure>
+            <img src="images/psinvestigation-011.png" alt="STM32 development board connected to a flexible force sensor">
+            <figcaption>2. STM32 sensor target</figcaption>
+          </figure>
+          <figure>
+            <img src="images/psinvestigation-009.png" alt="SPI timing diagram showing chip select, clocks, and MOSI bytes">
+            <figcaption>3. SPI call-order evidence</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="robotics" class="robot-experience" aria-labelledby="robot-title">
+        <section class="robot-opening robot-chapter" aria-label="Autonomous robot overview">
+          <div class="robot-pin">
+            <div class="robot-copy">
+              <p class="eyebrow">Embedded Robotics</p>
+              <h2 id="robot-title">Tennis Ball Detecting and Tracking Robot</h2>
+              <p>
+                A more playful build in my portfolio: a tracked robot that uses a
+                smartphone camera stream, PC-side OpenCV processing, Bluetooth
+                commands, Arduino control, and regulated battery power to detect and
+                track a tennis ball.
+              </p>
+            </div>
+            <figure class="robot-product">
+              <img src="images/robot/auto-cover.png" alt="Tracked autonomous robot prototype with phone camera and onboard electronics">
+            </figure>
+          </div>
+        </section>
+
+        <section class="robot-flow-chapter robot-chapter" aria-label="Autonomous robot system flow">
+          <div class="robot-pin robot-flow-pin">
+            <div class="robot-flow-copy">
+              <p class="eyebrow">System Flow</p>
+              <h3>Camera Stream to Motor Control</h3>
+              <p>
+                The robot splits perception and motion across the phone, PC, and
+                Arduino. The phone streams frames over LAN, the PC detects the ball
+                by fitting a circle to the filtered mask, then uses the circle center
+                and radius to decide steering and distance before sending motor
+                commands to the Arduino.
+              </p>
+            </div>
+            <div class="system-flow" aria-label="Phone camera, OpenCV processing, Bluetooth control, Arduino motor control, and regulated battery power">
+              <figure class="flow-center">
+                <img src="images/robot/umran.gif" alt="Autonomous robot tracking demonstration">
+              </figure>
+              <div class="flow-node flow-camera">
+                <span>01</span>
+                <strong>Capture</strong>
+                <small>Phone acts as an IP camera and streams live frames over LAN.</small>
+              </div>
+              <div class="flow-node flow-pc">
+                <span>02</span>
+                <strong>Filter</strong>
+                <small>PC converts RGB to HSV and thresholds the green ball.</small>
+              </div>
+              <div class="flow-node flow-command">
+                <span>03</span>
+                <strong>Measure</strong>
+                <small>OpenCV fits a circle to the mask, using center offset and radius.</small>
+              </div>
+              <div class="flow-node flow-radio">
+                <span>04</span>
+                <strong>Decide</strong>
+                <small>Offset sign sets left/right; circle radius estimates distance.</small>
+              </div>
+              <div class="flow-node flow-arduino">
+                <span>05</span>
+                <strong>Transmit</strong>
+                <small>PC sends the movement command through the HC-05 Bluetooth link.</small>
+              </div>
+              <div class="flow-node flow-motor">
+                <span>06</span>
+                <strong>Control</strong>
+                <small>Arduino MEGA converts serial commands into motor-driver signals.</small>
+              </div>
+              <div class="flow-node flow-battery">
+                <span>07</span>
+                <strong>Drive</strong>
+                <small>The motor driver moves the tracked chassis toward the ball.</small>
+              </div>
+              <div class="flow-node flow-regulator">
+                <span>08</span>
+                <strong>Power</strong>
+                <small>Three LiPo cells feed regulated rails for logic and drive electronics.</small>
+              </div>
+              <span class="flow-connector flow-a" aria-hidden="true"></span>
+              <span class="flow-connector flow-b" aria-hidden="true"></span>
+              <span class="flow-connector flow-c" aria-hidden="true"></span>
+              <span class="flow-connector flow-d" aria-hidden="true"></span>
+              <span class="flow-connector flow-e" aria-hidden="true"></span>
+              <span class="flow-connector flow-f" aria-hidden="true"></span>
+              <span class="flow-connector flow-g" aria-hidden="true"></span>
+              <span class="flow-connector flow-h" aria-hidden="true"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="robot-filter-chapter robot-chapter" aria-label="OpenCV color filtering pipeline">
+          <div class="robot-pin robot-filter-pin">
+            <div class="robot-filter-copy">
+              <p class="eyebrow">OpenCV Filtering</p>
+              <h3>RGB Frame to HSV Mask</h3>
+              <p>
+                The vision code captures the camera frame, resizes it, converts the
+                RGB image to HSV, and applies tuned lower and upper HSV thresholds.
+                This separates the green tennis ball from the background so
+                OpenCV can find the largest contour and calculate the ball center.
+              </p>
+            </div>
+            <div class="ball-filter-layout">
+              <div class="ball-filter-stack" aria-label="Ball filtering stages">
+                <figure class="ball-stage ball-rgb">
+                  <img src="images/robot/ball.jpg" alt="RGB camera frame with the green tennis ball">
+                  <figcaption>RGB frame</figcaption>
+                </figure>
+                <figure class="ball-stage ball-hsv">
+                  <img src="images/robot/ballHSV.jpg" alt="Camera frame converted to HSV color space">
+                  <figcaption>HSV conversion</figcaption>
+                </figure>
+                <figure class="ball-stage ball-threshold">
+                  <img src="images/robot/ballThreshold.png" alt="Thresholded mask isolating the ball">
+                  <figcaption>Threshold mask</figcaption>
+                </figure>
+              </div>
+              <div class="ball-caption-track" aria-hidden="true">
+                <p class="ball-caption ball-caption-rgb">RGB frame</p>
+                <p class="ball-caption ball-caption-hsv">HSV conversion</p>
+                <p class="ball-caption ball-caption-threshold">Threshold mask</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="robot-motion-chapter robot-chapter" aria-label="Circle fitting and steering logic">
+          <div class="robot-pin robot-motion-pin">
+            <div class="motion-layout">
+              <article class="motion-card motion-approach">
+                <figure>
+                  <img src="images/robot/ballApproach.gif" alt="OpenCV circle radius changing as the robot approaches the ball">
+                </figure>
+                <div>
+                  <p class="eyebrow">Distance Estimate</p>
+                  <h3>Circle Radius as Range</h3>
+                  <p>
+                    After thresholding, OpenCV fits a circle around the detected white
+                    ball region. As the robot gets closer, the fitted circle grows in
+                    the frame, so its radius becomes an approximate distance signal.
+                  </p>
+                </div>
+              </article>
+              <article class="motion-card motion-turn">
+                <figure>
+                  <img src="images/robot/ballTurn.gif" alt="OpenCV circle center moving horizontally as the robot turns toward the ball">
+                </figure>
+                <div>
+                  <p class="eyebrow">Steering Error</p>
+                  <h3>Center Offset Drives Turning</h3>
+                  <p>
+                    The horizontal distance between the circle center and the frame
+                    center tells the controller which direction to turn. The motors
+                    keep correcting left or right until that offset falls under a
+                    chosen threshold.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="robot-chapter robot-final" aria-label="Tracking test">
+          <div class="robot-pin robot-pin-dark">
+            <figure class="robot-media robot-gif-portrait">
+              <img src="images/robot/robot2.gif" alt="Autonomous robot following a green ball in a close-range test">
+            </figure>
+            <div class="robot-copy">
+              <p class="eyebrow">Working Robot</p>
+              <h3>Vision Loop Becomes Physical Motion</h3>
+              <p>
+                In this run, the PC keeps reading the phone camera stream, extracts
+                the ball position, and sends correction commands over Bluetooth. The
+                robot turns and advances as the circle center and radius change from
+                frame to frame.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="robot-chapter robot-final" aria-label="Tracking behavior demonstration">
+          <div class="robot-pin robot-pin-dark">
+            <figure class="robot-media robot-gif-wide">
+              <img src="images/robot/robot1.gif" alt="Autonomous robot adjusting its motion while tracking a green ball">
+            </figure>
+            <div class="robot-copy">
+              <p class="eyebrow">Tracking Behavior</p>
+              <h3>Continuous Corrections Keep the Ball Centered</h3>
+              <p>
+                The working behavior is not a single command. Each frame updates the
+                steering error, the PC sends a new serial instruction, and the motors
+                keep correcting until the ball is close enough to the center of the
+                frame and its radius indicates the desired range.
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="vlsi" class="vlsi-experience" aria-labelledby="vlsi-title">
+        <section class="vlsi-panel vlsi-cover vlsi-chapter" aria-label="VLSI project overview">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Digital Circuit Design</p>
+              <h2 id="vlsi-title">From Silicon Layers to Working Adders</h2>
+              <p>
+                This project was my hands-on introduction to VLSI design: drawing
+                layout, connecting schematic behavior to physical layers, building
+                adders from gates, and then using Cadence simulations to measure
+                correctness, delay, noise, and power.
+              </p>
+            </article>
+            <figure class="vlsi-cover-image">
+              <img src="images/vlsi/ic.png" alt="Line drawing of an integrated circuit package">
+            </figure>
+          </div>
+        </section>
+
+        <section id="vlsi-layers" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="Primitive cells become layout">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Layers to Logic</p>
+              <h3>OR Gate Becomes Physical</h3>
+              <p>
+                The project starts at the cell level: first describe the gate as a
+                schematic, then draw the physical layers that would implement it on
+                silicon. The OR gate is the simplest example of that translation.
+              </p>
+            </article>
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="OR gate schematic and layout progression">
+              <article class="vlsi-evidence-card vlsi-cell-or">
+                <div class="vlsi-cell-label"><span>01</span> OR gate</div>
+                <div class="vlsi-evidence-images">
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-or-schematic.jpg" alt="Carry skip adder OR gate schematic">
+                    <p>The schematic defines the OR behavior with connected logic symbols, so the intended function is clear before layout work begins.</p>
+                  </div>
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-or-layout.jpg" alt="Carry skip adder OR gate physical layout">
+                    <p>The layout turns that same OR behavior into routed diffusion, poly, metal, contacts, and vias for physical-rule and schematic-match checks.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-xor-cell" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="XOR primitive cell becomes layout">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Layers to Logic</p>
+              <h3>XOR Carries More Structure</h3>
+              <p>
+                The XOR cell is more complex than the OR gate and appears repeatedly
+                in the adders. It helps compute sum bits and propagate signals, so it
+                has to be both logically correct and physically routable.
+              </p>
+            </article>
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="XOR gate schematic and layout progression">
+              <article class="vlsi-evidence-card vlsi-cell-xor">
+                <div class="vlsi-cell-label"><span>02</span> XOR gate</div>
+                <div class="vlsi-evidence-images">
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-xor-schematic.jpg" alt="Carry skip adder XOR gate schematic">
+                    <p>The XOR schematic provides the sum and propagate behavior used repeatedly inside the adder hierarchy.</p>
+                  </div>
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-xor-layout.jpg" alt="Carry skip adder XOR gate physical layout">
+                    <p>The physical XOR layout shows why a more complex gate needs more routing and denser device placement than the OR cell.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-mux-cell" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="MUX primitive cell becomes layout">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Layers to Logic</p>
+              <h3>MUX Enables the Skip Path</h3>
+              <p>
+                The MUX is the important control primitive for the carry-skip adder.
+                It selects whether the carry ripples normally or skips across a
+                block, then that selection behavior is implemented as layout.
+              </p>
+            </article>
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="MUX schematic and layout progression">
+              <article class="vlsi-evidence-card vlsi-cell-mux">
+                <div class="vlsi-cell-label"><span>03</span> MUX</div>
+                <div class="vlsi-evidence-images">
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-mux-schematic.jpg" alt="Carry skip adder multiplexer schematic">
+                    <p>The MUX schematic selects whether the carry should ripple normally or skip across a block.</p>
+                  </div>
+                  <div class="vlsi-evidence-item">
+                    <img src="images/vlsi/cska-mux-layout.jpg" alt="Carry skip adder multiplexer physical layout">
+                    <p>The layout makes the selection circuit reusable as a compact physical building block for the skip path.</p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-cska-cell" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder design evolution">
+          <div class="vlsi-pin">
+            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder one-bit cell evidence">
+              <article class="vlsi-evidence-card vlsi-cska-one">
+                <div class="vlsi-cell-label"><span>01</span> Full adder schematic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-1bit-schematic.jpg" alt="One-bit full adder schematic">
+                  <p>The one-bit schematic combines primitive gates into a complete sum-and-carry cell, the repeated unit of the carry-skip adder.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cska-layout">
+                <div class="vlsi-cell-label"><span>02</span> Full adder layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-1bit-layout.jpg" alt="One-bit full adder physical layout">
+                  <p>The matching layout shows the same full-adder cell as routed physical geometry that can be reused in larger blocks.</p>
+                </div>
+              </article>
+            </div>
+            <article class="vlsi-copy vlsi-build-copy">
+              <p class="eyebrow">Carry Skip Adder</p>
+              <h3>One Bit Becomes Reusable</h3>
+              <p>
+                The carry-skip adder starts with one full-adder cell: a circuit that
+                adds two input bits and an incoming carry. The schematic explains the
+                logic; the layout shows that the same cell can be built physically.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="vlsi-cska-hierarchy" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder hierarchy expansion">
+          <div class="vlsi-pin">
+            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder hierarchy from two-bit block to sixteen-bit schematic">
+              <article class="vlsi-evidence-card vlsi-cska-two">
+                <div class="vlsi-cell-label"><span>03</span> Two-bit skip block</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-2bit-schematic.jpg" alt="Two-bit carry skip adder schematic">
+                  <p>Two one-bit cells are grouped with skip logic, creating a block that can bypass normal ripple-carry movement when propagation conditions allow it.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cska-sixteen">
+                <div class="vlsi-cell-label"><span>04</span> Sixteen-bit schematic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-16bit-schematic.jpg" alt="Sixteen-bit carry skip adder schematic">
+                  <p>The 16-bit schematic repeats the skip block across the full word, making the adder hierarchy and carry path visible at system scale.</p>
+                </div>
+              </article>
+            </div>
+            <article class="vlsi-copy vlsi-build-copy">
+              <p class="eyebrow">Carry Skip Adder</p>
+              <h3>The Hierarchy Expands</h3>
+              <p>
+                Once the cell is stable, the design scales through two-bit skip blocks
+                into the full 16-bit adder. The skip block shortens carry movement
+                when the logic allows it, which is the main idea behind CSKA.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="vlsi-cska-layout" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder extracted physical layout">
+          <div class="vlsi-pin">
+            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Carry skip adder extracted layout">
+              <article class="vlsi-evidence-card vlsi-cska-final">
+                <div class="vlsi-cell-label"><span>05</span> Physical layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-16bit-layout.jpg" alt="Sixteen-bit carry skip adder layout">
+                  <p>The layout view shows the repeated CSKA blocks and long routed structure that later feed extracted verification and timing measurement.</p>
+                </div>
+              </article>
+            </div>
+            <article class="vlsi-copy vlsi-build-copy">
+              <p class="eyebrow">Carry Skip Adder</p>
+              <h3>Layout Closes the Loop</h3>
+              <p>
+                The final layout shows the repeated CSKA blocks as one physical
+                circuit. This closes the loop from small gates to a complete 16-bit
+                arithmetic unit.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section id="vlsi-mcca-chain" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain propagate and slice logic">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Manchester Carry Chain</p>
+              <h3>Propagate and Generate Control</h3>
+              <p>
+                The MCCA starts with a PG block: XOR produces propagate and AND produces
+                generate. Those signals control a Manchester carry slice, where the
+                local carry decision is made before the circuit is repeated.
+              </p>
+            </article>
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Manchester carry chain PG and slice schematics">
+              <article class="vlsi-evidence-card vlsi-mcca-pg">
+                <div class="vlsi-cell-label"><span>01</span> PG logic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-pg-schematic.jpg" alt="Manchester carry chain PG block schematic">
+                  <p>The PG block derives propagate and generate signals from the adder inputs, setting up the control logic that decides how carry moves.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-mcca-slice">
+                <div class="vlsi-cell-label"><span>02</span> Carry slice</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-slice-schematic.jpg" alt="Manchester carry chain slice schematic">
+                  <p>The slice schematic shows how propagate and generate drive one local carry decision before the design is repeated into a chain.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-mcca-layout" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain slice physical layout">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Manchester Carry Chain</p>
+              <h3>Slice Becomes Layout</h3>
+              <p>
+                After the Manchester slice is defined as logic, it is drawn as a
+                physical layout. This view shows the device placement and routing that
+                implement one carry stage.
+              </p>
+            </article>
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain slice layout">
+              <article class="vlsi-evidence-card vlsi-mcca-layout">
+                <div class="vlsi-cell-label"><span>03</span> Slice layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-slice-layout.jpg" alt="Manchester carry chain slice physical layout">
+                  <p>The physical slice layout shows the routing and device placement needed to implement the carry decision in silicon layers.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-mcca-four" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain four-bit schematic">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Manchester Carry Chain</p>
+              <h3>Slices Form a Four-Bit Chain</h3>
+              <p>
+                After the slice is verified, repeated slices form a four-bit chain.
+                This intermediate step makes the carry path easier to follow before
+                the design expands to the full 16-bit layout.
+              </p>
+            </article>
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain four-bit schematic evidence">
+              <article class="vlsi-evidence-card vlsi-mcca-four">
+                <div class="vlsi-cell-label"><span>04</span> Four-bit chain</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-4bit-schematic.jpg" alt="Four-bit Manchester carry chain schematic">
+                  <p>The four-bit schematic connects repeated slices so the carry chain can be inspected before composing the final adder width.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="vlsi-mcca-final" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-wide-evidence-panel vlsi-chapter" aria-label="Manchester carry chain sixteen-bit physical layout">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Manchester Carry Chain</p>
+              <h3>Four Chains Become Sixteen Bits</h3>
+              <p>
+                The final Manchester carry-chain layout combines four chains into a
+                16-bit physical circuit. The long horizontal routing shows how the
+                repeated carry structure spans the complete word.
+              </p>
+            </article>
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain sixteen-bit layout evidence">
+              <article class="vlsi-evidence-card vlsi-mcca-final">
+                <div class="vlsi-cell-label"><span>05</span> Sixteen-bit layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-16bit-layout-only.jpg" alt="Sixteen-bit Manchester carry chain physical layout">
+                  <p>The 16-bit layout shows the completed MCCA as a routed physical design, with repeated carry structures visible across the full word.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="vlsi-panel vlsi-analysis-panel vlsi-chapter" aria-label="Functionality and waveform noise">
+          <div class="vlsi-pin">
+            <div class="vlsi-wave-scene">
+              <article class="vlsi-evidence-card vlsi-waveform">
+                <div class="vlsi-cell-label"><span>01</span> Waveform verification</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/noisy-waveform-stack.jpg" alt="Dense Cadence waveform stack with many adder signals and calculator window">
+                  <p>The simulation checks that the adder outputs settle to the expected logic values after switching, even when transition noise is visible.</p>
+                </div>
+              </article>
+            </div>
+            <article class="vlsi-copy">
+              <p class="eyebrow">Simulation Evidence</p>
+              <h3>Correct Logic Inside Noisy Waveforms</h3>
+              <p>
+                The waveform view is dense because many sum bits switch together. Some
+                traces show small noise and spikes around transitions, but the important
+                check is whether each node settles to a valid logic level and the output
+                matches the expected adder behavior.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="vlsi-panel vlsi-measure-panel vlsi-chapter" aria-label="Delay and power measurements">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Measurement</p>
+              <h3>Numbers from the Waveforms</h3>
+              <p>
+                I measured worst-case timing and power after simulation. The all-high
+                input case keeps the adder chain in propagation mode, which stresses
+                the carry path and gives a useful comparison between CSKA and MCCA.
+              </p>
+            </article>
+            <div class="vlsi-metric-grid">
+              <div>
+                <span>CSKA delay</span>
+                <strong>293.99 ps HL / 318.27 ps LH</strong>
+                <p>Marker difference between the input transition and the 16-bit CSKA carry output crossing.</p>
+              </div>
+              <div>
+                <span>MCCA delay</span>
+                <strong>0.991 us HL / 0.990 us LH</strong>
+                <p>Measured between the control/input marker and the MCCA carry output marker in the worst-case run.</p>
+              </div>
+              <div>
+                <span>CSKA power</span>
+                <strong>330.4 uW total</strong>
+                <p>Average total power from the calculator window; leakage is 8.178 nA, static power is 14.72 nW, and dynamic capacitance is 5.099 fF.</p>
+              </div>
+              <div>
+                <span>MCCA power</span>
+                <strong>22.67 uW total</strong>
+                <p>Calculator results show 416.8 nA leakage, 750.2 nW static power, and 338.3 fF dynamic capacitance.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="vlsi-panel vlsi-takeaway-panel vlsi-chapter" aria-label="VLSI project summary">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Design Perspective</p>
+              <h3>Logic, Layout, and Metrics in One Flow</h3>
+              <p>
+                The project connected circuit hierarchy with implementation evidence:
+                gate-level behavior, physical layout, extracted simulation, delay
+                measurement, and power analysis. Comparing CSKA and MCCA made the
+                tradeoff visible across area, routing, switching activity, leakage,
+                propagation delay, and waveform integrity.
+              </p>
+            </article>
+            <div class="vlsi-takeaways">
+              <div><span>01</span> Physical layers define transistor and routing behavior.</div>
+              <div><span>02</span> Gate cells scale into arithmetic building blocks.</div>
+              <div><span>03</span> Adder architecture changes delay, area, and power.</div>
+              <div><span>04</span> Simulation ties layout decisions to measurable signals.</div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="js/robot-scroll.js?v=3"></script>
+  </body>
+</html>

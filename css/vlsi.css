@@ -1,0 +1,1346 @@
+.vlsi-experience {
+  display: grid;
+  gap: 16px;
+  width: min(1200px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.vlsi-panel {
+  --vlsi-media: 0;
+  --vlsi-text: 0;
+  --vlsi-note: 0;
+  --vlsi-rail-width: 0%;
+  --vlsi-figure-1: 0;
+  --vlsi-figure-2: 0;
+  --vlsi-figure-3: 0;
+  --vlsi-figure-4: 0;
+  --vlsi-figure-5: 0;
+  --vlsi-figure-6: 0;
+  --vlsi-stage-1: 0;
+  --vlsi-stage-2: 0;
+  --vlsi-stage-3: 0;
+  --vlsi-stage-4: 0;
+  --vlsi-stage-5: 0;
+  --vlsi-media-y: 0px;
+  --vlsi-text-y: 0px;
+  --vlsi-cover-shift: 0px;
+  position: relative;
+  min-height: 220vh;
+  background: transparent;
+}
+
+.vlsi-panel + .vlsi-panel {
+  margin-top: 16px;
+}
+
+.vlsi-comparison-panel,
+.vlsi-measure-panel,
+.vlsi-takeaway-panel {
+  min-height: 220vh;
+}
+
+.vlsi-pin {
+  position: sticky;
+  top: 52px;
+  display: grid;
+  gap: clamp(28px, 4vw, 54px);
+  min-height: calc(100vh - 52px);
+  padding: clamp(32px, 5vw, 68px);
+  overflow: hidden;
+  background:
+    linear-gradient(120deg, rgba(247, 247, 243, 0.98), rgba(247, 247, 243, 0.92) 45%, rgba(224, 232, 229, 0.82)),
+    radial-gradient(circle at 80% 26%, rgba(245, 130, 32, 0.2), transparent 34%);
+  box-shadow: 0 22px 60px rgba(28, 36, 38, 0.16);
+}
+
+.vlsi-pin::before {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: clamp(20px, 3vw, 42px);
+  border-top: 8px solid var(--orange);
+  border-bottom: 1px solid rgba(67, 81, 85, 0.18);
+  pointer-events: none;
+}
+
+.vlsi-pin::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  left: clamp(20px, 3vw, 42px);
+  bottom: clamp(20px, 3vw, 42px);
+  width: var(--vlsi-rail-width);
+  max-width: calc(100% - clamp(40px, 6vw, 84px));
+  height: 3px;
+  background: var(--orange);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+.vlsi-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 570px;
+  opacity: var(--vlsi-text);
+  transform: translateY(var(--vlsi-text-y));
+  will-change: opacity, transform;
+}
+
+.vlsi-copy h2,
+.vlsi-copy h3 {
+  margin: 0 0 24px;
+  font-size: clamp(2.05rem, 4vw, 4.2rem);
+  font-weight: 520;
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+.vlsi-copy h3 {
+  font-size: clamp(1.9rem, 3.4vw, 3.5rem);
+}
+
+.vlsi-copy p {
+  margin-bottom: 0;
+  font-size: clamp(0.98rem, 1.22vw, 1.14rem);
+  font-weight: 560;
+}
+
+.vlsi-cover .vlsi-pin {
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+
+.vlsi-cover-image {
+  position: relative;
+  z-index: 2;
+  min-height: min(560px, 62vh);
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  opacity: var(--vlsi-media);
+  transform: translate(var(--vlsi-cover-shift), var(--vlsi-media-y)) scale(calc(0.96 + (0.04 * var(--vlsi-media))));
+  will-change: opacity, transform;
+}
+
+.vlsi-cover .vlsi-cover-image {
+  grid-column: 1;
+  grid-row: 1;
+  width: min(620px, 54vw);
+  min-height: min(500px, 58vh);
+  opacity: 1;
+  justify-self: center;
+  transform: translateX(var(--vlsi-cover-shift));
+}
+
+.vlsi-cover .vlsi-copy {
+  grid-column: 1;
+  grid-row: 1;
+  width: min(540px, 46%);
+  justify-self: start;
+}
+
+.vlsi-cover-image img {
+  object-fit: contain;
+  padding: clamp(20px, 3.4vw, 46px);
+  background: transparent;
+}
+
+.vlsi-evidence-large img,
+.vlsi-compare-grid img,
+.vlsi-measure-grid img,
+.vlsi-step-grid img {
+  width: 100%;
+  height: auto;
+  max-height: min(62vh, 620px);
+  object-fit: contain;
+  padding: 0;
+  background: transparent;
+}
+
+.vlsi-layer-panel .vlsi-pin,
+.vlsi-analysis-panel .vlsi-pin {
+  grid-template-columns: minmax(0, 1.14fr) minmax(320px, 0.86fr);
+  align-items: center;
+}
+
+.vlsi-layer-panel.reverse .vlsi-pin {
+  grid-template-columns: minmax(320px, 0.86fr) minmax(0, 1.14fr);
+}
+
+.vlsi-evidence-large {
+  position: relative;
+  z-index: 2;
+  display: block;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  box-shadow: 0 26px 58px rgba(28, 36, 38, 0.22);
+  opacity: var(--vlsi-media);
+  transform: translateY(var(--vlsi-media-y)) scale(calc(0.96 + (0.04 * var(--vlsi-media))));
+  will-change: opacity, transform;
+}
+
+.vlsi-comparison-panel .vlsi-pin,
+.vlsi-measure-panel .vlsi-pin {
+  grid-template-columns: 1fr;
+  align-content: center;
+}
+
+.vlsi-comparison-panel .vlsi-copy,
+.vlsi-measure-panel .vlsi-copy,
+.vlsi-takeaway-panel .vlsi-copy {
+  max-width: 760px;
+}
+
+.vlsi-compare-grid,
+.vlsi-measure-grid,
+.vlsi-step-grid,
+.vlsi-cell-flow,
+.vlsi-evolution,
+.vlsi-metric-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+}
+
+.vlsi-compare-grid figure,
+.vlsi-measure-grid figure,
+.vlsi-step-grid figure,
+.vlsi-cell-card,
+.vlsi-metric-grid div,
+.vlsi-takeaways div {
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  will-change: opacity, transform;
+}
+
+.vlsi-compare-grid figure:nth-child(1),
+.vlsi-measure-grid figure:nth-child(1),
+.vlsi-step-grid figure:nth-child(1),
+.vlsi-cell-card:nth-child(1),
+.vlsi-sequence-stage figure:nth-child(1),
+.vlsi-sequence-notes li:nth-child(1),
+.vlsi-metric-grid div:nth-child(1),
+.vlsi-takeaways div:nth-child(1) {
+  opacity: var(--vlsi-figure-1);
+  transform: translateY(calc((1 - var(--vlsi-figure-1)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-1))));
+}
+
+.vlsi-compare-grid figure:nth-child(2),
+.vlsi-measure-grid figure:nth-child(2),
+.vlsi-step-grid figure:nth-child(2),
+.vlsi-cell-card:nth-child(2),
+.vlsi-sequence-stage figure:nth-child(2),
+.vlsi-sequence-notes li:nth-child(2),
+.vlsi-metric-grid div:nth-child(2),
+.vlsi-takeaways div:nth-child(2) {
+  opacity: var(--vlsi-figure-2);
+  transform: translateY(calc((1 - var(--vlsi-figure-2)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-2))));
+}
+
+.vlsi-measure-grid figure:nth-child(3),
+.vlsi-step-grid figure:nth-child(3),
+.vlsi-cell-card:nth-child(3),
+.vlsi-sequence-stage figure:nth-child(3),
+.vlsi-sequence-notes li:nth-child(3),
+.vlsi-metric-grid div:nth-child(3),
+.vlsi-takeaways div:nth-child(3) {
+  opacity: var(--vlsi-figure-3);
+  transform: translateY(calc((1 - var(--vlsi-figure-3)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-3))));
+}
+
+.vlsi-step-grid figure:nth-child(4),
+.vlsi-sequence-stage figure:nth-child(4),
+.vlsi-sequence-notes li:nth-child(4),
+.vlsi-metric-grid div:nth-child(4) {
+  opacity: var(--vlsi-figure-4);
+  transform: translateY(calc((1 - var(--vlsi-figure-4)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-4))));
+}
+
+.vlsi-step-grid figure:nth-child(5),
+.vlsi-sequence-stage figure:nth-child(5),
+.vlsi-sequence-notes li:nth-child(5) {
+  opacity: var(--vlsi-figure-5);
+  transform: translateY(calc((1 - var(--vlsi-figure-5)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-5))));
+}
+
+.vlsi-step-grid figure:nth-child(6) {
+  opacity: var(--vlsi-figure-6);
+  transform: translateY(calc((1 - var(--vlsi-figure-6)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-figure-6))));
+}
+
+.vlsi-takeaways div:nth-child(4) {
+  opacity: var(--vlsi-note);
+  transform: translateY(calc((1 - var(--vlsi-note)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-note))));
+}
+
+.vlsi-compare-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.vlsi-measure-grid {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.vlsi-step-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.vlsi-step-grid.compact {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.vlsi-metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vlsi-cell-flow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.vlsi-evolution {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.34fr);
+  align-items: stretch;
+}
+
+.vlsi-compare-grid figure,
+.vlsi-measure-grid figure,
+.vlsi-step-grid figure {
+  display: grid;
+  grid-template-rows: auto auto;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  box-shadow: 0 20px 44px rgba(28, 36, 38, 0.16);
+}
+
+.vlsi-measure-grid figure {
+  grid-template-rows: auto auto;
+}
+
+.vlsi-compare-grid figcaption,
+.vlsi-measure-grid figcaption,
+.vlsi-step-grid figcaption {
+  padding: 13px 14px;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.96);
+  border-top: 5px solid var(--orange);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.vlsi-step-grid img {
+  aspect-ratio: 16 / 9;
+  max-height: min(33vh, 260px);
+}
+
+.vlsi-step-grid.compact img {
+  max-height: min(30vh, 230px);
+}
+
+.vlsi-cell-card {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  min-height: min(62vh, 560px);
+  padding: 18px;
+  overflow: hidden;
+  background: rgba(247, 247, 243, 0.94);
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  border-top: 6px solid var(--orange);
+  box-shadow: 0 20px 44px rgba(28, 36, 38, 0.16);
+}
+
+.vlsi-cell-card span,
+.vlsi-sequence-notes span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.vlsi-cell-card h4 {
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-size: clamp(1.08rem, 1.4vw, 1.35rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.vlsi-cell-card p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.vlsi-cell-card div {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+.vlsi-cell-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: #020303;
+}
+
+.vlsi-sequence-stage {
+  position: relative;
+  min-height: min(66vh, 620px);
+  overflow: hidden;
+  background: #050707;
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  box-shadow: 0 26px 58px rgba(28, 36, 38, 0.22);
+}
+
+.vlsi-sequence-stage figure {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  margin: 0;
+  opacity: 0;
+  transform: translateX(34px) scale(0.985);
+  transition: opacity 120ms linear, transform 120ms linear;
+  will-change: opacity, transform;
+}
+
+.vlsi-sequence-stage img {
+  width: 100%;
+  height: 100%;
+  padding: clamp(10px, 1.6vw, 20px);
+  object-fit: contain;
+}
+
+.vlsi-sequence-stage figcaption {
+  padding: 14px 16px;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.96);
+  border-top: 5px solid var(--orange);
+  font-size: clamp(0.82rem, 1vw, 0.94rem);
+  font-weight: 750;
+}
+
+.vlsi-sequence-notes {
+  display: grid;
+  align-content: stretch;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vlsi-sequence-notes li {
+  display: grid;
+  align-content: center;
+  min-height: 0;
+  padding: 16px;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.92);
+  border-left: 6px solid var(--orange);
+  box-shadow: 0 12px 28px rgba(28, 36, 38, 0.12);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-weight: 720;
+  opacity: 0;
+  transform: translateX(22px);
+  will-change: opacity, transform;
+}
+
+.vlsi-sequence-stage figure:nth-child(1) {
+  opacity: var(--vlsi-figure-1);
+  transform: translateX(calc((1 - var(--vlsi-figure-1)) * 34px)) scale(0.985);
+}
+
+.vlsi-sequence-stage figure:nth-child(2) {
+  opacity: var(--vlsi-figure-2);
+  transform: translateX(calc((1 - var(--vlsi-figure-2)) * 34px)) scale(0.985);
+}
+
+.vlsi-sequence-stage figure:nth-child(3) {
+  opacity: var(--vlsi-figure-3);
+  transform: translateX(calc((1 - var(--vlsi-figure-3)) * 34px)) scale(0.985);
+}
+
+.vlsi-sequence-stage figure:nth-child(4) {
+  opacity: var(--vlsi-figure-4);
+  transform: translateX(calc((1 - var(--vlsi-figure-4)) * 34px)) scale(0.985);
+}
+
+.vlsi-sequence-stage figure:nth-child(5) {
+  opacity: var(--vlsi-figure-5);
+  transform: translateX(calc((1 - var(--vlsi-figure-5)) * 34px)) scale(0.985);
+}
+
+.vlsi-sequence-notes li:nth-child(1) {
+  opacity: var(--vlsi-figure-1);
+  transform: translateX(calc((1 - var(--vlsi-figure-1)) * 22px));
+}
+
+.vlsi-sequence-notes li:nth-child(2) {
+  opacity: var(--vlsi-figure-2);
+  transform: translateX(calc((1 - var(--vlsi-figure-2)) * 22px));
+}
+
+.vlsi-sequence-notes li:nth-child(3) {
+  opacity: var(--vlsi-figure-3);
+  transform: translateX(calc((1 - var(--vlsi-figure-3)) * 22px));
+}
+
+.vlsi-sequence-notes li:nth-child(4) {
+  opacity: var(--vlsi-figure-4);
+  transform: translateX(calc((1 - var(--vlsi-figure-4)) * 22px));
+}
+
+.vlsi-sequence-notes li:nth-child(5) {
+  opacity: var(--vlsi-figure-5);
+  transform: translateX(calc((1 - var(--vlsi-figure-5)) * 22px));
+}
+
+.vlsi-metric-grid div {
+  min-height: 220px;
+  padding: 20px;
+  background: rgba(247, 247, 243, 0.92);
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  border-top: 6px solid var(--orange);
+  box-shadow: 0 20px 44px rgba(28, 36, 38, 0.16);
+}
+
+.vlsi-metric-grid span {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--orange);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.vlsi-metric-grid strong {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--ink);
+  font-size: clamp(1.2rem, 1.7vw, 1.65rem);
+  font-weight: 850;
+  line-height: 1.08;
+}
+
+.vlsi-metric-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.vlsi-takeaway-panel .vlsi-pin {
+  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+}
+
+.vlsi-takeaways {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.vlsi-takeaways div {
+  min-height: 148px;
+  padding: 20px;
+  background: rgba(247, 247, 243, 0.9);
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  border-top: 6px solid var(--orange);
+  box-shadow: 0 20px 44px rgba(28, 36, 38, 0.16);
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  font-weight: 720;
+}
+
+.vlsi-takeaways span {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--orange);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.vlsi-cell-panel,
+.vlsi-build-panel,
+.vlsi-analysis-panel {
+  min-height: 220vh;
+}
+
+.vlsi-cell-panel .vlsi-pin,
+.vlsi-cska-panel .vlsi-pin,
+.vlsi-mcca-panel .vlsi-pin,
+.vlsi-analysis-panel .vlsi-pin {
+  grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+  align-items: center;
+}
+
+.vlsi-cska-panel .vlsi-pin,
+.vlsi-analysis-panel .vlsi-pin {
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+}
+
+.vlsi-cell-scene,
+.vlsi-build-scene,
+.vlsi-mcca-scene,
+.vlsi-wave-scene {
+  position: relative;
+  z-index: 2;
+  min-height: min(66vh, 640px);
+}
+
+.vlsi-cell-pair,
+.vlsi-build-scene figure,
+.vlsi-mcca-scene figure,
+.vlsi-waveform {
+  margin: 0;
+  overflow: hidden;
+  background: #050707;
+  border: 1px solid rgba(67, 81, 85, 0.2);
+  box-shadow: 0 24px 54px rgba(28, 36, 38, 0.24);
+  will-change: opacity, transform;
+}
+
+.vlsi-cell-label,
+.vlsi-build-scene figcaption,
+.vlsi-mcca-scene figcaption {
+  padding: 10px 12px;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.96);
+  border-top: 5px solid var(--orange);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.vlsi-cell-label span,
+.vlsi-build-steps span {
+  color: var(--orange);
+  font-weight: 900;
+}
+
+.vlsi-image-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px;
+  height: calc(100% - 43px);
+}
+
+.vlsi-image-pair img,
+.vlsi-build-scene img,
+.vlsi-mcca-scene img,
+.vlsi-waveform img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.vlsi-cell-or {
+  left: 0;
+  top: 7%;
+  width: 62%;
+  height: 38%;
+  opacity: var(--vlsi-stage-1);
+  transform: translateX(calc((1 - var(--vlsi-stage-1)) * -70px)) scale(calc(0.78 + (0.22 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cell-xor {
+  right: 0;
+  top: 25%;
+  width: 66%;
+  height: 42%;
+  opacity: var(--vlsi-stage-2);
+  transform: translateX(calc((1 - var(--vlsi-stage-2)) * 76px)) scale(calc(0.78 + (0.22 * var(--vlsi-stage-2))));
+}
+
+.vlsi-cell-mux {
+  left: 8%;
+  bottom: 2%;
+  width: 72%;
+  height: 40%;
+  opacity: var(--vlsi-stage-3);
+  transform: translateY(calc((1 - var(--vlsi-stage-3)) * 64px)) scale(calc(0.78 + (0.22 * var(--vlsi-stage-3))));
+}
+
+.vlsi-cell-explain {
+  position: absolute;
+  right: 0;
+  bottom: 9%;
+  width: min(260px, 42%);
+  padding: 18px;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.94);
+  border-left: 6px solid var(--orange);
+  box-shadow: 0 16px 34px rgba(28, 36, 38, 0.16);
+  opacity: var(--vlsi-stage-4);
+  transform: translateY(calc((1 - var(--vlsi-stage-4)) * 36px)) scale(calc(0.9 + (0.1 * var(--vlsi-stage-4))));
+}
+
+.vlsi-cell-explain span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--orange);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.vlsi-cell-explain p {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.vlsi-build-main {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  top: 5%;
+  width: 48%;
+  height: 48%;
+}
+
+.vlsi-cska-one {
+  left: 0;
+  opacity: var(--vlsi-stage-1);
+  transform: translateX(calc((1 - var(--vlsi-stage-1)) * -76px)) scale(calc(0.72 + (0.28 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cska-layout {
+  right: 0;
+  opacity: var(--vlsi-stage-2);
+  transform: translateX(calc((1 - var(--vlsi-stage-2)) * 76px)) scale(calc(0.72 + (0.28 * var(--vlsi-stage-2))));
+}
+
+.vlsi-build-strip {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  left: 8%;
+  top: 47%;
+  width: 66%;
+  height: 24%;
+  opacity: var(--vlsi-stage-3);
+  transform: translateY(calc((1 - var(--vlsi-stage-3)) * 68px)) scale(calc(0.76 + (0.24 * var(--vlsi-stage-3))));
+}
+
+.vlsi-build-wide {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  right: 0;
+  width: 76%;
+  height: 28%;
+}
+
+.vlsi-cska-sixteen {
+  bottom: 12%;
+  opacity: var(--vlsi-stage-4);
+  transform: translateX(calc((1 - var(--vlsi-stage-4)) * 80px)) scale(calc(0.74 + (0.26 * var(--vlsi-stage-4))));
+}
+
+.vlsi-cska-final {
+  bottom: 0;
+  left: 0;
+  opacity: var(--vlsi-stage-5);
+  transform: translateY(calc((1 - var(--vlsi-stage-5)) * 74px)) scale(calc(0.72 + (0.28 * var(--vlsi-stage-5))));
+}
+
+.vlsi-build-copy {
+  justify-self: end;
+}
+
+.vlsi-build-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vlsi-build-steps li {
+  padding: 10px 12px;
+  background: rgba(247, 247, 243, 0.76);
+  border-left: 5px solid var(--orange);
+  font-size: 0.8rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.vlsi-mcca-scene figure {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.vlsi-mcca-pg {
+  left: 0;
+  top: 3%;
+  width: 52%;
+  height: 34%;
+  opacity: var(--vlsi-stage-1);
+  transform: translateY(calc((1 - var(--vlsi-stage-1)) * -64px)) scale(calc(0.76 + (0.24 * var(--vlsi-stage-1))));
+}
+
+.vlsi-mcca-slice {
+  right: 4%;
+  top: 10%;
+  width: 44%;
+  height: 42%;
+  opacity: var(--vlsi-stage-2);
+  transform: translateX(calc((1 - var(--vlsi-stage-2)) * 70px)) scale(calc(0.76 + (0.24 * var(--vlsi-stage-2))));
+}
+
+.vlsi-mcca-layout {
+  left: 8%;
+  top: 39%;
+  width: 38%;
+  height: 50%;
+  opacity: var(--vlsi-stage-3);
+  transform: translateX(calc((1 - var(--vlsi-stage-3)) * -70px)) scale(calc(0.76 + (0.24 * var(--vlsi-stage-3))));
+}
+
+.vlsi-mcca-four {
+  right: 0;
+  top: 55%;
+  width: 58%;
+  height: 22%;
+  opacity: var(--vlsi-stage-4);
+  transform: translateY(calc((1 - var(--vlsi-stage-4)) * 62px)) scale(calc(0.78 + (0.22 * var(--vlsi-stage-4))));
+}
+
+.vlsi-mcca-final {
+  right: 4%;
+  bottom: 0;
+  width: 72%;
+  height: 24%;
+  opacity: var(--vlsi-stage-5);
+  transform: translateY(calc((1 - var(--vlsi-stage-5)) * 70px)) scale(calc(0.76 + (0.24 * var(--vlsi-stage-5))));
+}
+
+.vlsi-carry-path {
+  position: absolute;
+  left: 28%;
+  top: 29%;
+  width: 52%;
+  height: 3px;
+  background: var(--orange);
+  opacity: var(--vlsi-stage-4);
+  transform: scaleX(var(--vlsi-stage-4));
+  transform-origin: left;
+}
+
+.vlsi-evidence-grid {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  align-content: center;
+  min-height: min(70vh, 680px);
+}
+
+.vlsi-cell-panel .vlsi-pin,
+.vlsi-cska-panel .vlsi-pin,
+.vlsi-mcca-panel .vlsi-pin,
+.vlsi-analysis-panel .vlsi-pin {
+  gap: clamp(28px, 4vw, 54px);
+}
+
+.vlsi-wide-evidence-panel .vlsi-pin {
+  grid-template-columns: 1fr;
+  align-content: center;
+  gap: clamp(20px, 3vw, 34px);
+}
+
+.vlsi-wide-evidence-panel .vlsi-copy {
+  max-width: 900px;
+}
+
+.vlsi-wide-evidence-panel .vlsi-evidence-grid {
+  width: min(1040px, 100%);
+  min-height: 0;
+  justify-self: center;
+}
+
+.vlsi-wide-evidence-panel .vlsi-one-card-grid .vlsi-evidence-card {
+  min-height: clamp(360px, 52vh, 560px);
+}
+
+#vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card {
+  min-height: clamp(420px, 56vh, 580px);
+}
+
+#vlsi-cska-layout .vlsi-evidence-item {
+  grid-template-rows: minmax(280px, 1fr) auto;
+}
+
+.vlsi-three-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vlsi-two-card-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vlsi-one-card-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.vlsi-mcca-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.vlsi-mcca-grid .vlsi-evidence-card {
+  grid-column: span 2;
+}
+
+.vlsi-mcca-grid .vlsi-mcca-four,
+.vlsi-mcca-grid .vlsi-mcca-final {
+  grid-column: span 3;
+}
+
+.vlsi-evidence-card,
+.vlsi-build-scene .vlsi-evidence-card,
+.vlsi-mcca-scene .vlsi-evidence-card,
+.vlsi-wave-scene .vlsi-evidence-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  width: auto;
+  height: auto;
+  min-height: clamp(360px, 52vh, 560px);
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background: rgba(247, 247, 243, 0.9);
+  border: 1px solid rgba(67, 81, 85, 0.18);
+  box-shadow: 0 24px 54px rgba(28, 36, 38, 0.18);
+  will-change: opacity, transform;
+}
+
+.vlsi-cell-panel .vlsi-evidence-card,
+.vlsi-cska-panel .vlsi-evidence-card {
+  overflow: visible;
+}
+
+.vlsi-two-card-grid .vlsi-evidence-card {
+  min-height: clamp(480px, 66vh, 690px);
+}
+
+.vlsi-one-card-grid .vlsi-evidence-card {
+  min-height: clamp(540px, 70vh, 720px);
+}
+
+.vlsi-mcca-grid .vlsi-evidence-card {
+  min-height: clamp(300px, 38vh, 420px);
+}
+
+.vlsi-evidence-images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-height: 0;
+  padding: 10px;
+}
+
+.vlsi-evidence-item {
+  display: grid;
+  grid-template-rows: minmax(180px, 1fr) auto;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(67, 81, 85, 0.12);
+}
+
+.vlsi-two-card-grid .vlsi-evidence-item,
+.vlsi-one-card-grid .vlsi-evidence-item,
+.vlsi-three-card-grid .vlsi-evidence-card:not(.vlsi-cell-or):not(.vlsi-cell-xor):not(.vlsi-cell-mux) .vlsi-evidence-item,
+.vlsi-mcca-grid .vlsi-evidence-item {
+  grid-template-rows: minmax(340px, 1fr) auto;
+}
+
+.vlsi-evidence-item img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+  cursor: zoom-in;
+}
+
+.vlsi-hover-zoom {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 56px);
+  background: rgba(28, 36, 38, 0.58);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.vlsi-hover-zoom.is-active {
+  opacity: 1;
+}
+
+.vlsi-hover-zoom img {
+  width: min(92vw, 1180px);
+  height: min(82vh, 820px);
+  padding: 14px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid rgba(247, 247, 243, 0.8);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.38);
+}
+
+.vlsi-evidence-item p {
+  margin: 0;
+  color: rgba(28, 36, 38, 0.86);
+  font-size: clamp(0.82rem, 0.92vw, 0.98rem);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.vlsi-cell-or {
+  opacity: var(--vlsi-stage-1);
+  transform: translateY(calc((1 - var(--vlsi-stage-1)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cell-xor {
+  opacity: var(--vlsi-stage-2);
+  transform: translateY(calc((1 - var(--vlsi-stage-2)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-2))));
+}
+
+.vlsi-cell-mux {
+  opacity: var(--vlsi-stage-3);
+  transform: translateY(calc((1 - var(--vlsi-stage-3)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-3))));
+}
+
+.vlsi-cska-one,
+.vlsi-mcca-pg {
+  opacity: var(--vlsi-stage-1);
+  transform: translateY(calc((1 - var(--vlsi-stage-1)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cska-layout,
+.vlsi-mcca-slice {
+  opacity: var(--vlsi-stage-2);
+  transform: translateY(calc((1 - var(--vlsi-stage-2)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-2))));
+}
+
+.vlsi-cska-two,
+.vlsi-mcca-layout {
+  opacity: var(--vlsi-stage-3);
+  transform: translateY(calc((1 - var(--vlsi-stage-3)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-3))));
+}
+
+.vlsi-cska-sixteen,
+.vlsi-mcca-four {
+  opacity: var(--vlsi-stage-4);
+  transform: translateY(calc((1 - var(--vlsi-stage-4)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-4))));
+}
+
+.vlsi-cska-final,
+.vlsi-mcca-final {
+  opacity: var(--vlsi-stage-5);
+  transform: translateY(calc((1 - var(--vlsi-stage-5)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-5))));
+}
+
+.vlsi-wave-scene {
+  min-height: min(62vh, 600px);
+}
+
+.vlsi-waveform {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: clamp(420px, 58vh, 620px);
+  background: rgba(247, 247, 243, 0.9);
+  opacity: var(--vlsi-media);
+  transform: translateY(var(--vlsi-media-y)) scale(calc(0.94 + (0.06 * var(--vlsi-media))));
+}
+
+@media (max-width: 860px) {
+  .vlsi-experience {
+    width: min(100vw - 24px, 1200px);
+  }
+
+  .vlsi-panel {
+    min-height: 0;
+  }
+
+  .vlsi-cover .vlsi-pin,
+  .vlsi-cell-panel .vlsi-pin,
+  .vlsi-build-panel .vlsi-pin,
+  .vlsi-layer-panel .vlsi-pin,
+  .vlsi-layer-panel.reverse .vlsi-pin,
+  .vlsi-analysis-panel .vlsi-pin,
+  .vlsi-comparison-panel .vlsi-pin,
+  .vlsi-measure-panel .vlsi-pin,
+  .vlsi-takeaway-panel .vlsi-pin {
+    position: relative;
+    top: auto;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 42px 20px 46px;
+    overflow: visible;
+  }
+
+  .vlsi-copy,
+  .vlsi-cover-image,
+  .vlsi-evidence-large,
+  .vlsi-waveform,
+  .vlsi-evidence-card,
+  .vlsi-build-scene .vlsi-evidence-card,
+  .vlsi-mcca-scene .vlsi-evidence-card,
+  .vlsi-compare-grid figure,
+  .vlsi-measure-grid figure,
+  .vlsi-step-grid figure,
+  .vlsi-cell-card,
+  .vlsi-metric-grid div,
+  .vlsi-takeaways div {
+    opacity: 1;
+    transform: none;
+  }
+
+  .vlsi-pin::before {
+    inset: 18px;
+  }
+
+  .vlsi-cover-image,
+  .vlsi-evidence-large {
+    min-height: 320px;
+  }
+
+  .vlsi-cover-image {
+    min-height: 260px;
+  }
+
+  .vlsi-compare-grid,
+  .vlsi-measure-grid,
+  .vlsi-step-grid,
+  .vlsi-step-grid.compact,
+  .vlsi-cell-flow,
+  .vlsi-evolution,
+  .vlsi-metric-grid,
+  .vlsi-takeaways {
+    grid-template-columns: 1fr;
+  }
+
+  .vlsi-step-grid img {
+    max-height: 260px;
+  }
+
+  .vlsi-cell-card,
+  .vlsi-sequence-stage {
+    min-height: 360px;
+  }
+
+  .vlsi-sequence-stage figure {
+    position: relative;
+    opacity: 1;
+    transform: none;
+  }
+
+  .vlsi-sequence-notes li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .vlsi-cell-scene {
+    min-height: 520px;
+  }
+
+  .vlsi-build-scene,
+  .vlsi-mcca-scene,
+  .vlsi-wave-scene {
+    min-height: 560px;
+  }
+
+  .vlsi-cell-or,
+  .vlsi-cell-xor,
+  .vlsi-cell-mux {
+    left: 0;
+    right: auto;
+    width: 100%;
+    height: 34%;
+  }
+
+  .vlsi-cell-or {
+    top: 0;
+  }
+
+  .vlsi-cell-xor {
+    top: 30%;
+  }
+
+  .vlsi-cell-mux {
+    bottom: 6%;
+  }
+
+  .vlsi-cell-explain {
+    display: none;
+  }
+
+  .vlsi-build-main {
+    width: 70%;
+    height: 31%;
+  }
+
+  .vlsi-cska-one {
+    left: 0;
+    top: 0;
+  }
+
+  .vlsi-cska-layout {
+    right: 0;
+    top: 17%;
+  }
+
+  .vlsi-build-strip {
+    left: 0;
+    top: 43%;
+    width: 100%;
+    height: 22%;
+  }
+
+  .vlsi-build-wide {
+    left: 0;
+    right: auto;
+    width: 100%;
+    height: 24%;
+  }
+
+  .vlsi-cska-sixteen {
+    bottom: 15%;
+  }
+
+  .vlsi-cska-final {
+    bottom: 0;
+  }
+
+  .vlsi-mcca-pg,
+  .vlsi-mcca-slice,
+  .vlsi-mcca-layout,
+  .vlsi-mcca-four,
+  .vlsi-mcca-final {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+
+  .vlsi-mcca-pg {
+    top: 0;
+    height: 24%;
+  }
+
+  .vlsi-mcca-slice {
+    top: 14%;
+    height: 30%;
+  }
+
+  .vlsi-mcca-layout {
+    top: 33%;
+    height: 36%;
+  }
+
+  .vlsi-mcca-four {
+    top: 61%;
+    height: 18%;
+  }
+
+  .vlsi-mcca-final {
+    bottom: 0;
+    height: 22%;
+  }
+
+  .vlsi-carry-path {
+    display: none;
+  }
+
+  .vlsi-build-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .vlsi-evidence-grid,
+  .vlsi-three-card-grid,
+  .vlsi-one-card-grid,
+  .vlsi-two-card-grid,
+  .vlsi-mcca-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .vlsi-mcca-grid .vlsi-evidence-card,
+  .vlsi-mcca-grid .vlsi-mcca-four,
+  .vlsi-mcca-grid .vlsi-mcca-final {
+    grid-column: auto;
+  }
+
+  .vlsi-evidence-card,
+  .vlsi-build-scene .vlsi-evidence-card,
+  .vlsi-mcca-scene .vlsi-evidence-card,
+  .vlsi-two-card-grid .vlsi-evidence-card,
+  .vlsi-mcca-grid .vlsi-evidence-card,
+  .vlsi-cell-or,
+  .vlsi-cell-xor,
+  .vlsi-cell-mux,
+  .vlsi-cska-one,
+  .vlsi-cska-layout,
+  .vlsi-cska-two,
+  .vlsi-cska-sixteen,
+  .vlsi-cska-final,
+  .vlsi-mcca-pg,
+  .vlsi-mcca-slice,
+  .vlsi-mcca-layout,
+  .vlsi-mcca-four,
+  .vlsi-mcca-final {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  .vlsi-evidence-images {
+    grid-template-columns: 1fr;
+  }
+
+  .vlsi-evidence-item {
+    grid-template-rows: minmax(220px, 34vh) auto;
+  }
+
+  .vlsi-cell-panel .vlsi-evidence-images .vlsi-evidence-item,
+  .vlsi-cska-panel .vlsi-evidence-images .vlsi-evidence-item,
+  .vlsi-cska-panel .vlsi-two-card-grid .vlsi-evidence-card,
+  .vlsi-cska-panel .vlsi-one-card-grid .vlsi-evidence-card,
+  .vlsi-cell-panel .vlsi-evidence-item p,
+  .vlsi-cska-panel .vlsi-evidence-item p,
+  .vlsi-cell-panel .vlsi-evidence-item img,
+  .vlsi-cska-panel .vlsi-evidence-item img {
+    opacity: 1;
+    transform: none;
+  }
+}
