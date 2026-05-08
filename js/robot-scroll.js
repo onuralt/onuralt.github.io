@@ -1,4 +1,5 @@
     const robotChapters = document.querySelectorAll(".robot-chapter");
+    const cvChapters = document.querySelectorAll(".cv-chapter");
     const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
     const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
     const vlsiZoom = document.createElement("div");
@@ -113,6 +114,16 @@
         chapter.style.setProperty("--threshold-y", `${Math.round(ballStack * 76)}px`);
       });
 
+      cvChapters.forEach((chapter) => {
+        const rect = chapter.getBoundingClientRect();
+        const travel = Math.max(rect.height - viewport, 1);
+        const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
+        const sections = [0.08, 0.28, 0.56, 0.7, 0.82].map((start) => reveal(progress, start, 0.12));
+
+        chapter.style.setProperty("--cv-rail-width", `${(progress * 100).toFixed(2)}%`);
+        sections.forEach((value, index) => chapter.style.setProperty(`--cv-section-${index + 1}`, value.toFixed(4)));
+      });
+
       vlsiChapters.forEach((chapter) => {
         const rect = chapter.getBoundingClientRect();
         const viewportWidth = window.innerWidth || 1;
@@ -128,7 +139,7 @@
         const media = reveal(progress, 0.06, 0.18);
         const text = reveal(progress, isCover ? 0.48 : isLateText ? 0.62 : isSequence ? 0.14 : 0.36, isCover ? 0.32 : 0.2);
         const coverMotion = isCover ? reveal(progress, 0.42, 0.42) : 0;
-        const coverShift = isCover ? Math.round(coverMotion * Math.min(viewportWidth * 0.16, 190)) : 0;
+        const coverShift = isCover ? Math.round(coverMotion * Math.min(viewportWidth * 0.22, 280)) : 0;
         const figure1 = reveal(progress, 0.08, 0.14);
         const figure2 = reveal(progress, 0.22, 0.12);
         const figure3 = reveal(progress, 0.36, 0.12);

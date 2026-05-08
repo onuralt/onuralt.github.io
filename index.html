@@ -6,142 +6,132 @@
     <title>Onur Altinordu | Hardware, Verification & Embedded Systems</title>
     <meta
       name="description"
-      content="A presentation-style engineering portfolio focused on connected project evidence in hardware verification, FPGA CPU design, embedded firmware, robotics, and VLSI."
+      content="A presentation-style engineering portfolio and CV focused on hardware verification, embedded systems, robotics, and VLSI."
     >
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/slides.css">
-    <link rel="stylesheet" href="css/robot.css">
-    <link rel="stylesheet" href="css/vlsi.css?v=3">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/base.css?v=3">
+    <link rel="stylesheet" href="css/slides.css?v=15">
+    <link rel="stylesheet" href="css/robot.css?v=3">
+    <link rel="stylesheet" href="css/vlsi.css?v=7">
+    <link rel="stylesheet" href="css/responsive.css?v=9">
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="#top">Onur Altinordu</a>
       <nav aria-label="Portfolio sections">
-        <a href="#verification">Verification</a>
-        <a href="#cpu">FPGA CPU</a>
-        <a href="#firmware">Firmware</a>
+        <a href="#welcome">Welcome</a>
+        <a href="#cv">CV</a>
         <a href="#robotics">Robot</a>
         <a href="#vlsi">VLSI</a>
       </nav>
     </header>
 
     <main id="top" class="deck">
-      <section class="slide cover-slide" aria-labelledby="intro-title">
-        <div class="top-bars" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-        <div class="cover-copy">
-          <p class="eyebrow">Engineering Portfolio</p>
-          <h1 id="intro-title">Hardware Design, Verification & Embedded Systems</h1>
-          <p>
-            A focused set of projects showing how I move from hardware architecture
-            to implementation evidence and verification results.
-          </p>
-        </div>
-        <div class="cover-evidence" aria-label="Representative project evidence">
-          <figure>
-            <img src="images/gbframework/gbframework-004.png" alt="RISC-V formal verification framework architecture">
-            <figcaption>Verification architecture</figcaption>
-          </figure>
-          <figure>
-            <img src="images/pisa-020.png" alt="Annotated datapath for the PISA CPU">
-            <figcaption>CPU implementation</figcaption>
-          </figure>
-          <figure>
-            <img src="images/psinvestigation-004.png" alt="3D PCB rendering for force sensor interface board">
-            <figcaption>Embedded hardware target</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section id="verification" class="slide case-slide" aria-labelledby="verification-title">
-        <article class="case-copy">
-          <p class="eyebrow">Formal Verification</p>
-          <h2 id="verification-title">Generator-Based RISC-V Formal Verification Framework</h2>
-          <p>
-            A generator-oriented workflow for producing formal interfaces, golden
-            models, wrappers, bind files, and ISA equivalence checks from shared
-            core configuration.
-          </p>
-          <ul>
-            <li>Targets: PicoRV32, NERV, Ibex, Hazard3</li>
-            <li>Evidence chain: generated harness, observed RVFI signals, golden model trace</li>
-          </ul>
-        </article>
-        <div class="evidence-grid verification-grid">
-          <figure class="primary">
-            <img src="images/gbframework/gbframework-004.png" alt="RISC-V formal verification framework overview">
-            <figcaption>1. Generator architecture</figcaption>
-          </figure>
-          <figure>
-            <img src="images/gbframework/gbframework-007.png" alt="RVFI waveform trace from formal verification">
-            <figcaption>2. RVFI observation trace</figcaption>
-          </figure>
-          <figure>
-            <img src="images/gbframework/gbframework-009.png" alt="Generated golden model waveform trace">
-            <figcaption>3. Golden model trace</figcaption>
+      <section id="welcome" class="welcome-experience" aria-labelledby="welcome-title">
+        <div class="welcome-pin">
+          <article class="welcome-copy">
+            <p class="eyebrow">About</p>
+            <h1 id="welcome-title">Welcome to my portfolio</h1>
+            <p>
+              My name is Onur Altinordu, and I am an embedded systems engineer with
+              a background in electrical and electronics engineering, processor
+              design, formal verification, robotics, and VLSI.
+            </p>
+            <p>
+              I received my Bachelor of Science in Electrical and Electronics
+              Engineering from Middle East Technical University, where I designed a
+              custom multicycle processor and ISA and built an autonomous
+              target-detecting robot.
+            </p>
+            <p>
+              I am currently completing my M.Sc. in Embedded Systems Engineering at
+              the University of Freiburg. My thesis work focuses on generator-based
+              automated formal verification for parametrized RISC-V cores.
+            </p>
+            <p>
+              This website collects project evidence from hardware verification,
+              FPGA CPU design, STM32 firmware, robotics, and VLSI implementation.
+            </p>
+          </article>
+          <figure class="welcome-photo">
+            <img src="images/onur-profile.png" alt="Portrait of Onur Altinordu">
           </figure>
         </div>
       </section>
 
-      <section id="cpu" class="slide case-slide reverse" aria-labelledby="cpu-title">
-        <article class="case-copy dark">
-          <p class="eyebrow">FPGA & Computer Architecture</p>
-          <h2 id="cpu-title">PISA: Custom 8-bit CPU and ISA on FPGA</h2>
-          <p>
-            A Primitive Instruction Set Architecture implemented on an Altera DE2-70
-            board with a custom datapath, ALU, control unit, instruction set, and
-            Python assembler.
-          </p>
-          <ul>
-            <li>8x8 register file, 16-bit instructions, SRAM-backed data memory</li>
-            <li>Documented FPGA execution and 50 MHz target</li>
-          </ul>
-        </article>
-        <div class="evidence-grid cpu-grid">
-          <figure class="primary">
-            <img src="images/pisa-020.png" alt="Annotated PISA datapath and control structure">
-            <figcaption>1. Datapath and control structure</figcaption>
-          </figure>
-          <figure>
-            <img src="images/pisa-021.png" alt="PISA instruction state and operation grouping">
-            <figcaption>2. ISA operation grouping</figcaption>
-          </figure>
-          <figure>
-            <img src="images/pisa-034.png" alt="PISA CPU simulation waveform">
-            <figcaption>3. Simulation waveform</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section id="firmware" class="slide case-slide" aria-labelledby="firmware-title">
-        <article class="case-copy">
-          <p class="eyebrow">Embedded Firmware</p>
-          <h2 id="firmware-title">Program Skeletons for Incremental STM32 Firmware</h2>
-          <p>
-            A master's project on preserving HAL API ordering while deconstructing
-            STM32 firmware into smaller verified skeletons.
-          </p>
-          <ul>
-            <li>Target: 3D ForceSense sensor on STM32</li>
-            <li>Evidence chain: hardware target, interface board, SPI timing dependency</li>
-          </ul>
-        </article>
-        <div class="evidence-grid firmware-grid">
-          <figure class="primary">
-            <img src="images/psinvestigation-004.png" alt="3D PCB rendering for force sensor interface board">
-            <figcaption>1. Interface board model</figcaption>
-          </figure>
-          <figure>
-            <img src="images/psinvestigation-011.png" alt="STM32 development board connected to a flexible force sensor">
-            <figcaption>2. STM32 sensor target</figcaption>
-          </figure>
-          <figure>
-            <img src="images/psinvestigation-009.png" alt="SPI timing diagram showing chip select, clocks, and MOSI bytes">
-            <figcaption>3. SPI call-order evidence</figcaption>
-          </figure>
-        </div>
+      <section id="cv" class="cv-experience" aria-labelledby="cv-title">
+        <section class="cv-chapter" aria-label="Curriculum vitae overview">
+          <div class="cv-pin">
+            <div class="cv-sheet" aria-labelledby="cv-title">
+              <section class="cv-section cv-education">
+                <p class="eyebrow" id="cv-title">Education</p>
+                <div class="cv-entry">
+                  <h3>M.Sc. Embedded Systems Engineering <span>2021-2026</span></h3>
+                  <p>Albert-Ludwigs Universitat Freiburg. Thesis: Generator-Based Framework for Automated Formal Verification of Parametrized RISC-V Cores.</p>
+                </div>
+                <div class="cv-entry">
+                  <h3>B.Sc. Electrical and Electronics Engineering <span>2014-2020</span></h3>
+                  <p>Middle East Technical University. Thesis: Autonomous Target-Detecting and Tracking Robot.</p>
+                </div>
+              </section>
+              <section class="cv-section cv-work">
+                <p class="eyebrow">Experience</p>
+                <div class="cv-entry">
+                  <img src="images/cv-fzi.png" alt="FZI logo">
+                  <div>
+                    <h3>Master's Thesis at FZI <span>Sep 2025-Feb 2026</span></h3>
+                    <p>Scala/Chisel generators for formal interfaces, golden models, harnesses, and equivalence assertions across PicoRV32, NERV, Ibex, and Hazard3.</p>
+                  </div>
+                </div>
+                <div class="cv-entry">
+                  <img src="images/cv-ufr.png" alt="University of Freiburg logo">
+                  <div>
+                    <h3>Program Skeletons Project <span>Feb 2024-Aug 2025</span></h3>
+                    <p>Reverse incremental development of STM32 firmware for a 3D ForceSense sensor while preserving HAL call-order behavior.</p>
+                  </div>
+                </div>
+                <div class="cv-entry">
+                  <img src="images/cv-metu.png" alt="Middle East Technical University logo">
+                  <div>
+                    <h3>PISA Processor and ISA <span>Mar 2019-Aug 2019</span></h3>
+                    <p>Custom VHDL multicycle processor, datapath, control unit, instruction set, and Python assembler.</p>
+                  </div>
+                </div>
+                <div class="cv-entry">
+                  <img src="images/cv-pavo.png" alt="PAVOTEK logo">
+                  <div>
+                    <h3>Internship at PAVOTEK <span>Sep 2018-Feb 2019</span></h3>
+                    <p>STM32 SPI driver, MODBUS communication, EAGLE PCB design, I2C OLED driver, testing, and debugging.</p>
+                  </div>
+                </div>
+              </section>
+              <section class="cv-section cv-publications">
+                <p class="eyebrow">Papers</p>
+                <div class="cv-entry">
+                  <h3>Checking the HAL Interface Specification Continuously, Right from the Start</h3>
+                  <p>M. Bentele, <strong>O. Altinordu</strong>, J. Korner, A. Podelski, and A. Sikora. arXiv preprint arXiv:2512.16897, 2025. doi:10.48550/arXiv.2512.16897.</p>
+                </div>
+              </section>
+              <section class="cv-section cv-skills">
+                <p class="eyebrow">Skills</p>
+                <div class="cv-entry">
+                  <p><strong>Programming:</strong> C, C++, Python, Scala/Chisel, SystemVerilog, SystemVerilog Assertions, VHDL, LaTeX.</p>
+                </div>
+                <div class="cv-entry">
+                  <p><strong>Tools:</strong> JasperGold, Verilator, Vivado, Quartus, GTKWave, Surfer, CMake, Git, Linux, EAGLE.</p>
+                </div>
+                <div class="cv-entry">
+                  <p><strong>Languages:</strong> Turkish (Native), English (C2), German (A2).</p>
+                </div>
+              </section>
+              <section class="cv-section cv-research">
+                <p class="eyebrow">Research Interests</p>
+                <div class="cv-entry">
+                  <p>Formal Verification, Hardware Generators, RISC-V, Model Checking, Processor Design, Embedded Systems.</p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
       </section>
 
       <section id="robotics" class="robot-experience" aria-labelledby="robot-title">
@@ -712,6 +702,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=3"></script>
+    <script src="js/robot-scroll.js?v=13"></script>
   </body>
 </html>

@@ -76,9 +76,9 @@
   padding: clamp(32px, 5vw, 70px);
   overflow: hidden;
   background:
-    linear-gradient(120deg, rgba(247, 247, 243, 0.98), rgba(247, 247, 243, 0.9) 42%, rgba(224, 232, 229, 0.78)),
-    radial-gradient(circle at 75% 32%, rgba(245, 130, 32, 0.24), transparent 34%);
-  color: var(--ink);
+    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
+    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+  color: #fff;
 }
 
 .robot-pin::before {
@@ -86,7 +86,7 @@
   position: absolute;
   inset: clamp(20px, 3vw, 42px);
   border-top: 8px solid var(--orange);
-  border-bottom: 1px solid rgba(67, 81, 85, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.26);
   pointer-events: none;
 }
 
@@ -118,9 +118,9 @@
 
 .robot-pin-dark {
   background:
-    linear-gradient(120deg, rgba(247, 247, 243, 0.98), rgba(247, 247, 243, 0.9) 42%, rgba(224, 232, 229, 0.78)),
-    radial-gradient(circle at 75% 32%, rgba(245, 130, 32, 0.24), transparent 34%);
-  color: var(--ink);
+    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
+    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+  color: #fff;
 }
 
 .robot-copy {
@@ -286,7 +286,7 @@
   height: 148px;
   align-content: start;
   padding: 16px;
-  color: var(--ink);
+  color: #fff;
   background: rgba(247, 247, 243, 0.9);
   border: 1px solid rgba(67, 81, 85, 0.18);
   border-top: 5px solid var(--orange);
@@ -397,8 +397,8 @@
   width: 32px;
   height: 32px;
   color: var(--orange);
-  background: rgba(245, 130, 32, 0.1);
-  border: 1px solid rgba(245, 130, 32, 0.28);
+  background: rgba(0, 74, 153, 0.1);
+  border: 1px solid rgba(0, 74, 153, 0.28);
   border-radius: 50%;
   font-size: 1rem;
   font-weight: 900;
@@ -486,9 +486,9 @@
 .robot-filter-pin {
   grid-template-columns: minmax(350px, 1fr) minmax(330px, 1fr);
   background:
-    linear-gradient(120deg, rgba(247, 247, 243, 0.98), rgba(247, 247, 243, 0.9) 42%, rgba(224, 232, 229, 0.78)),
-    radial-gradient(circle at 75% 32%, rgba(245, 130, 32, 0.24), transparent 34%);
-  color: var(--ink);
+    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
+    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+  color: #fff;
 }
 
 .robot-filter-copy {
@@ -582,7 +582,7 @@
   width: 100%;
   margin: 0;
   padding: 12px 0 12px 14px;
-  color: var(--ink);
+  color: #fff;
   border-left: 4px solid var(--orange);
   font-size: 0.92rem;
   font-weight: 820;
@@ -655,7 +655,7 @@
   gap: 20px;
   min-width: 0;
   padding: 18px;
-  color: var(--ink);
+  color: #fff;
   background: rgba(247, 247, 243, 0.88);
   border: 1px solid rgba(67, 81, 85, 0.18);
   border-top: 6px solid var(--orange);
@@ -702,3 +702,42 @@
   transform: translateX(calc((1 - var(--motion-turn)) * 28px));
 }
 
+.robot-opening .robot-pin,
+.robot-pin,
+.robot-pin-dark,
+.robot-filter-pin {
+  color: #fff;
+  background:
+    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
+    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+}
+
+.flow-node,
+.motion-card {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.flow-node small,
+.motion-card p:last-child {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ball-caption,
+.flow-node span,
+.flow-connector {
+  color: #fff;
+}
+
+.flow-connector {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+.ball-stage img,
+.flow-center,
+.robot-media,
+.motion-card figure {
+  border-color: rgba(255, 255, 255, 0.28);
+}

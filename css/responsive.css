@@ -56,6 +56,59 @@
     min-height: 260px;
   }
 
+  .welcome-experience,
+  .cv-experience {
+    width: min(100vw - 24px, 1200px);
+  }
+
+  .welcome-pin,
+  .cv-pin {
+    position: relative;
+    top: auto;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 42px 20px 28px;
+  }
+
+  .welcome-pin::before,
+  .cv-pin::before {
+    inset: 18px;
+  }
+
+  .welcome-copy h1 {
+    font-size: clamp(2rem, 11vw, 3.2rem);
+  }
+
+  .cv-sheet {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: 0;
+  }
+
+  .cv-section,
+  .cv-education,
+  .cv-skills,
+  .cv-work,
+  .cv-publications {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .cv-chapter {
+    min-height: 0;
+  }
+
+  .welcome-photo {
+    width: min(300px, 78vw);
+    order: -1;
+    margin: 0 auto;
+  }
+
+  .cv-section {
+    opacity: 1;
+    transform: none;
+  }
+
   .robot-experience {
     width: min(100vw - 24px, 1200px);
   }

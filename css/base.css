@@ -4,7 +4,8 @@
   --muted: #697174;
   --slate: #435155;
   --slate-dark: #354145;
-  --orange: #f58220;
+  --uni-blue: #004a99;
+  --orange: #fff;
   --gray-bar: #9aa3a8;
   --line: #d8dcda;
 }
@@ -19,8 +20,8 @@ html {
 
 body {
   margin: 0;
-  color: var(--ink);
-  background: #e8eceb;
+  color: #fff;
+  background: #00366f;
   font-family: Avenir, Montserrat, "Segoe UI", system-ui, sans-serif;
   line-height: 1.4;
 }
@@ -46,13 +47,13 @@ figure {
   gap: 24px;
   min-height: 52px;
   padding: 10px clamp(18px, 4vw, 44px);
-  background: rgba(247, 247, 243, 0.95);
-  border-bottom: 1px solid var(--line);
+  background: rgba(0, 74, 153, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.26);
   backdrop-filter: blur(12px);
 }
 
 .brand {
-  color: var(--ink);
+  color: #fff;
   font-size: 0.9rem;
   font-weight: 720;
   text-decoration: none;
@@ -67,14 +68,14 @@ nav {
 }
 
 nav a {
-  color: var(--ink);
+  color: #fff;
   font-size: 0.78rem;
   font-weight: 650;
   text-decoration: none;
 }
 
 nav a:hover {
-  color: var(--orange);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .deck {
@@ -82,4 +83,3 @@ nav a:hover {
   gap: clamp(24px, 5vw, 54px);
   padding: clamp(18px, 3vw, 36px) 0 clamp(44px, 6vw, 72px);
 }
-
