@@ -622,11 +622,12 @@
 .vlsi-cell-label,
 .vlsi-build-scene figcaption,
 .vlsi-mcca-scene figcaption {
-  padding: 10px 12px;
+  padding: 4px 0 0;
   color: #fff;
-  background: rgba(247, 247, 243, 0.96);
-  font-size: 0.75rem;
-  font-weight: 850;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -918,20 +919,22 @@
 .vlsi-wave-scene .vlsi-evidence-card {
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   left: auto;
   right: auto;
   top: auto;
   bottom: auto;
   width: auto;
   height: auto;
+  gap: 16px;
   min-height: clamp(360px, 52vh, 560px);
   margin: 0;
   overflow: hidden;
   color: #fff;
-  background: rgba(247, 247, 243, 0.9);
-  border: 1px solid rgba(67, 81, 85, 0.18);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   border-top: 6px solid var(--orange);
+  padding: 14px;
   box-shadow: 0 24px 54px rgba(28, 36, 38, 0.16);
   will-change: opacity, transform;
 }
@@ -967,9 +970,10 @@
   gap: 12px;
   min-width: 0;
   min-height: 0;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(67, 81, 85, 0.12);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  overflow: hidden;
 }
 
 .vlsi-two-card-grid .vlsi-evidence-item,
@@ -985,7 +989,7 @@
   min-height: 0;
   object-fit: contain;
   object-position: center;
-  background: #fff;
+  background: transparent;
   cursor: zoom-in;
 }
 
@@ -1065,7 +1069,8 @@
 
 .vlsi-evidence-item p {
   margin: 0;
-  color: rgba(28, 36, 38, 0.86);
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.78);
   font-size: clamp(0.82rem, 0.92vw, 0.98rem);
   font-weight: 650;
   line-height: 1.35;
@@ -1163,12 +1168,12 @@
 .vlsi-step-grid figcaption,
 .vlsi-sequence-stage figcaption {
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background: transparent;
 }
 
 .vlsi-evidence-item {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.24);
+  background: transparent;
+  border-color: transparent;
 }
 
 .vlsi-evidence-item p,
@@ -1178,7 +1183,11 @@
 }
 
 .vlsi-evidence-item p {
-  color: var(--ink);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.vlsi-evidence-item img {
+  background: transparent;
 }
 
 @media (max-width: 860px) {
