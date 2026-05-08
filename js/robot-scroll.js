@@ -38,10 +38,8 @@ vlsiEvidenceImages.forEach((image) => {
 function getChapterEndScrollTop(chapter) {
   const rect = chapter.getBoundingClientRect();
   const pageTop = rect.top + window.scrollY;
-  const viewport = window.innerHeight || 1;
-  const travel = Math.max(chapter.offsetHeight - viewport, 0);
 
-  return pageTop + travel;
+  return pageTop + getChapterTravel(chapter);
 }
 
 function getSectionTopScrollTop(section) {
@@ -50,6 +48,24 @@ function getSectionTopScrollTop(section) {
   const rect = section.getBoundingClientRect();
 
   return rect.top + window.scrollY - headerHeight;
+}
+
+function getStickyTop(pin) {
+  const top = pin ? Number.parseFloat(getComputedStyle(pin).top) : 0;
+
+  return Number.isFinite(top) ? top : 0;
+}
+
+function getChapterPin(chapter) {
+  return chapter.querySelector(".cv-pin, .robot-pin, .vlsi-pin");
+}
+
+function getChapterTravel(chapter) {
+  const pin = getChapterPin(chapter);
+  const stickyTop = getStickyTop(pin);
+  const pinHeight = pin?.offsetHeight || window.innerHeight || 1;
+
+  return Math.max(chapter.offsetHeight - stickyTop - pinHeight, 1);
 }
 
 function animateScrollTo(targetTop, duration = 1800) {
@@ -84,11 +100,11 @@ function animateScrollTo(targetTop, duration = 1800) {
 }
 
 function scrollToChapterEnd(chapter) {
-  animateScrollTo(getChapterEndScrollTop(chapter), 2400);
+  animateScrollTo(getChapterEndScrollTop(chapter), 4800);
 }
 
 function scrollToSectionTop(section) {
-  animateScrollTo(getSectionTopScrollTop(section), 1200);
+  animateScrollTo(getSectionTopScrollTop(section), 2400);
 }
 
 function addAdvanceButton(pin, target, label, completeTarget = true) {
@@ -182,7 +198,7 @@ function updateRobotProgress() {
 
   robotChapters.forEach((chapter) => {
     const rect = chapter.getBoundingClientRect();
-    const travel = Math.max(rect.height - viewport, 1);
+    const travel = getChapterTravel(chapter);
     const viewportWidth = window.innerWidth || 1;
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const title = Math.min(Math.max((progress - 0.12) / 0.28, 0), 1);
@@ -307,7 +323,7 @@ function updateRobotProgress() {
 
   cvChapters.forEach((chapter) => {
     const rect = chapter.getBoundingClientRect();
-    const travel = Math.max(rect.height - viewport, 1);
+    const travel = getChapterTravel(chapter);
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const sections = [0.08, 0.28, 0.56, 0.7, 0.82].map((start) =>
       reveal(progress, start, 0.12),
@@ -325,7 +341,7 @@ function updateRobotProgress() {
   vlsiChapters.forEach((chapter) => {
     const rect = chapter.getBoundingClientRect();
     const viewportWidth = window.innerWidth || 1;
-    const travel = Math.max(rect.height - viewport, 1);
+    const travel = getChapterTravel(chapter);
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const isSequence =
       chapter.classList.contains("vlsi-comparison-panel") ||

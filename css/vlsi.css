@@ -45,6 +45,7 @@
   grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
   align-items: center;
   gap: clamp(28px, 5vw, 70px);
+  height: calc(100vh - 52px);
   min-height: calc(100vh - 52px);
   padding: clamp(32px, 5vw, 70px);
   overflow: hidden;
@@ -879,11 +880,11 @@
 }
 
 #vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card {
-  min-height: clamp(420px, 56vh, 580px);
+  min-height: clamp(280px, 34vh, 380px);
 }
 
 #vlsi-cska-layout .vlsi-evidence-item {
-  grid-template-rows: minmax(280px, 1fr) auto;
+  grid-template-rows: minmax(160px, 1fr) auto;
 }
 
 .vlsi-three-card-grid {
@@ -986,6 +987,53 @@
   object-position: center;
   background: #fff;
   cursor: zoom-in;
+}
+
+#vlsi-cska-layout .vlsi-evidence-grid,
+#vlsi-mcca-layout .vlsi-evidence-grid,
+#vlsi-mcca-four .vlsi-evidence-grid,
+#vlsi-mcca-final .vlsi-evidence-grid {
+  width: min(760px, 100%);
+  min-height: 0;
+}
+
+#vlsi-cska-layout .vlsi-evidence-grid,
+#vlsi-mcca-layout .vlsi-evidence-grid {
+  width: min(560px, 100%);
+}
+
+#vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card,
+#vlsi-mcca-layout .vlsi-one-card-grid .vlsi-evidence-card,
+#vlsi-mcca-four .vlsi-one-card-grid .vlsi-evidence-card,
+#vlsi-mcca-final .vlsi-one-card-grid .vlsi-evidence-card {
+  min-height: clamp(240px, 30vh, 340px);
+}
+
+#vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card,
+#vlsi-mcca-layout .vlsi-one-card-grid .vlsi-evidence-card {
+  min-height: 0;
+  height: clamp(220px, 28vh, 300px);
+}
+
+#vlsi-cska-layout .vlsi-evidence-item,
+#vlsi-mcca-layout .vlsi-evidence-item,
+#vlsi-mcca-four .vlsi-evidence-item,
+#vlsi-mcca-final .vlsi-evidence-item {
+  grid-template-rows: minmax(120px, 1fr) auto;
+}
+
+#vlsi-cska-layout .vlsi-evidence-item,
+#vlsi-mcca-layout .vlsi-evidence-item {
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 8px;
+}
+
+#vlsi-cska-layout .vlsi-evidence-item img,
+#vlsi-mcca-layout .vlsi-evidence-item img {
+  align-self: center;
+  height: auto;
+  max-height: min(18vh, 180px);
 }
 
 .vlsi-hover-zoom {
@@ -1154,6 +1202,7 @@
     position: relative;
     top: auto;
     grid-template-columns: 1fr;
+    height: auto;
     min-height: 0;
     padding: 42px 20px 28px;
     overflow: visible;
