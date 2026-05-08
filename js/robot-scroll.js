@@ -1,9 +1,11 @@
 const robotChapters = document.querySelectorAll(".robot-chapter");
 const cvChapters = document.querySelectorAll(".cv-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
+const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
 const vlsiZoom = document.createElement("div");
 const vlsiZoomImage = document.createElement("img");
+let activeScrollAnimation;
 
 vlsiZoom.className = "vlsi-hover-zoom";
 vlsiZoom.setAttribute("aria-hidden", "true");
@@ -33,6 +35,146 @@ vlsiEvidenceImages.forEach((image) => {
   item.addEventListener("focusout", hideVlsiZoom);
 });
 
+function getChapterEndScrollTop(chapter) {
+  const rect = chapter.getBoundingClientRect();
+  const pageTop = rect.top + window.scrollY;
+  const viewport = window.innerHeight || 1;
+  const travel = Math.max(chapter.offsetHeight - viewport, 0);
+
+  return pageTop + travel;
+}
+
+function getSectionTopScrollTop(section) {
+  const headerHeight =
+    document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
+  const rect = section.getBoundingClientRect();
+
+  return rect.top + window.scrollY - headerHeight;
+}
+
+function animateScrollTo(targetTop, duration = 1800) {
+  const startTop = window.scrollY;
+  const maxTop = document.documentElement.scrollHeight - window.innerHeight;
+  const endTop = Math.min(Math.max(targetTop, 0), Math.max(maxTop, 0));
+  const distance = endTop - startTop;
+  const startTime = performance.now();
+  const easeInOutCubic = (value) =>
+    value < 0.5
+      ? 4 * value * value * value
+      : 1 - Math.pow(-2 * value + 2, 3) / 2;
+
+  if (activeScrollAnimation) {
+    cancelAnimationFrame(activeScrollAnimation);
+  }
+
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = easeInOutCubic(progress);
+
+    window.scrollTo(0, startTop + distance * eased);
+
+    if (progress < 1) {
+      activeScrollAnimation = requestAnimationFrame(step);
+    } else {
+      activeScrollAnimation = null;
+    }
+  }
+
+  activeScrollAnimation = requestAnimationFrame(step);
+}
+
+function scrollToChapterEnd(chapter) {
+  animateScrollTo(getChapterEndScrollTop(chapter), 2400);
+}
+
+function scrollToSectionTop(section) {
+  animateScrollTo(getSectionTopScrollTop(section), 1200);
+}
+
+function addAdvanceButton(pin, target, label, completeTarget = true) {
+  if (!pin || !target) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.className = "slide-advance";
+  button.type = "button";
+  button.textContent = label;
+  button.setAttribute("aria-label", label);
+  button.addEventListener("click", () => {
+    if (completeTarget) {
+      scrollToChapterEnd(target);
+    } else {
+      scrollToSectionTop(target);
+    }
+  });
+
+  pin.appendChild(button);
+}
+
+function addSlideAdvanceControls() {
+  const welcome = document.querySelector("#welcome");
+  const orderedSlides = [
+    {
+      pin: welcome?.querySelector(".welcome-pin"),
+      target: cvChapters[0],
+      label: "Go to CV section",
+    },
+    {
+      pin: cvChapters[0]?.querySelector(".cv-pin"),
+      target: robotChapters[0],
+      label: "Go to Robot section",
+    },
+    ...Array.from(robotChapters).map((chapter, index) => ({
+      pin: chapter.querySelector(".robot-pin"),
+      target: robotChapters[index + 1] || vlsiChapters[0],
+      label: robotChapters[index + 1] ? "Next slide" : "Go to VLSI section",
+    })),
+    ...Array.from(vlsiChapters).map((chapter, index) => ({
+      pin: chapter.querySelector(".vlsi-pin"),
+      target: vlsiChapters[index + 1] || welcome,
+      label: vlsiChapters[index + 1] ? "Next slide" : "Back to welcome",
+      completeTarget: Boolean(vlsiChapters[index + 1]),
+    })),
+  ];
+
+  orderedSlides.forEach(({ pin, target, label, completeTarget = true }) =>
+    addAdvanceButton(pin, target, label, completeTarget),
+  );
+}
+
+function setupSectionNavigation() {
+  const welcome = document.querySelector("#welcome");
+  const animatedTargets = new Map([
+    ["#cv", cvChapters[0]],
+    ["#robotics", robotChapters[0]],
+    ["#vlsi", vlsiChapters[0]],
+  ]);
+
+  sectionNavLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const hash = link.getAttribute("href");
+
+      if (hash === "#welcome" && welcome) {
+        event.preventDefault();
+        history.pushState(null, "", hash);
+        scrollToSectionTop(welcome);
+        return;
+      }
+
+      const target = animatedTargets.get(hash);
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+      history.pushState(null, "", hash);
+      scrollToChapterEnd(target);
+    });
+  });
+}
+
 function updateRobotProgress() {
   const viewport = window.innerHeight || 1;
   const reveal = (value, start, span) =>
@@ -47,7 +189,7 @@ function updateRobotProgress() {
     const rail = Math.min(Math.max(progress, 0), 1);
     const mediaY = Math.round(progress * -18);
     const titleY = Math.round((1 - title) * 34);
-    const coverX = Math.round(progress * viewport * -0.3);
+    const coverX = Math.round(progress * viewport * -0.38);
     const coverScale = 1 - progress * 0.36;
     const ballRgb = Math.min(Math.max(progress / 0.14, 0), 1);
     const ballHsv = Math.min(Math.max((progress - 0.34) / 0.16, 0), 1);
@@ -246,6 +388,8 @@ function updateRobotProgress() {
   });
 }
 
+addSlideAdvanceControls();
+setupSectionNavigation();
 updateRobotProgress();
 window.addEventListener("scroll", updateRobotProgress, { passive: true });
 window.addEventListener("scroll", hideVlsiZoom, { passive: true });

@@ -94,7 +94,7 @@
   content: "";
   position: absolute;
   inset: clamp(20px, 3vw, 42px);
-  border-top: 8px solid var(--orange);
+  border-top: 8px solid rgba(255, 255, 255, 0.26);
   border-bottom: 1px solid rgba(255, 255, 255, 0.26);
   pointer-events: none;
 }
@@ -102,13 +102,12 @@
 .robot-pin::after {
   content: "";
   position: absolute;
-  left: clamp(20px, 3vw, 42px);
-  bottom: clamp(20px, 3vw, 42px);
-  width: var(--rail-width);
-  max-width: calc(100% - clamp(40px, 6vw, 84px));
-  height: 3px;
-  background: var(--orange);
-  transform-origin: left;
+  inset: clamp(20px, 3vw, 42px);
+  background:
+    linear-gradient(var(--orange), var(--orange)) top left / var(--rail-width)
+      8px no-repeat,
+    linear-gradient(var(--orange), var(--orange)) bottom right /
+      var(--rail-width) 3px no-repeat;
   pointer-events: none;
 }
 

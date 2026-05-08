@@ -9,6 +9,12 @@
     justify-content: flex-start;
   }
 
+  .slide-advance {
+    right: 28px;
+    bottom: 36px;
+    max-width: calc(100% - 56px);
+  }
+
   .slide {
     min-height: 0;
   }

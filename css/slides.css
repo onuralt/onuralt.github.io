@@ -264,23 +264,19 @@ figcaption {
   position: absolute;
   z-index: 4;
   inset: clamp(20px, 3vw, 42px);
-  border-top: 8px solid var(--orange);
+  border-top: 1px solid rgba(255, 255, 255, 0.26);
   border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+  background:
+    linear-gradient(var(--orange), var(--orange)) top left /
+      var(--cv-rail-width, 100%) 8px no-repeat,
+    linear-gradient(var(--orange), var(--orange)) bottom right /
+      var(--cv-rail-width, 100%) 3px no-repeat;
   pointer-events: none;
 }
 
 .welcome-pin::after,
 .cv-pin::after {
-  content: "";
-  position: absolute;
-  z-index: 5;
-  left: clamp(20px, 3vw, 42px);
-  bottom: clamp(20px, 3vw, 42px);
-  width: var(--cv-rail-width, 100%);
-  max-width: calc(100% - clamp(40px, 6vw, 84px));
-  height: 3px;
-  background: var(--orange);
-  pointer-events: none;
+  content: none;
 }
 
 .welcome-copy,
@@ -430,7 +426,7 @@ figcaption {
 
 .cv-entry {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-columns: 30px minmax(0, 1fr);
   gap: 7px;
   align-items: start;
   padding-top: 6px;
@@ -445,11 +441,10 @@ figcaption {
 }
 
 .cv-entry img {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   padding: 3px;
   object-fit: contain;
-  background: rgba(255, 255, 255, 0.9);
 }
 
 .cv-education {
@@ -482,5 +477,5 @@ figcaption {
   --section-opacity: var(--cv-section-5);
   grid-column: 2;
   grid-row: 3;
-  margin-top: -67px;
+  margin-top: -28px;
 }
