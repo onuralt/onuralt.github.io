@@ -76,8 +76,17 @@
   padding: clamp(32px, 5vw, 70px);
   overflow: hidden;
   background:
-    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
-    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+    linear-gradient(
+      120deg,
+      rgba(0, 74, 153, 0.98),
+      rgba(0, 74, 153, 0.92) 48%,
+      rgba(0, 55, 112, 0.92)
+    ),
+    radial-gradient(
+      circle at 75% 32%,
+      rgba(255, 255, 255, 0.2),
+      transparent 34%
+    );
   color: #fff;
 }
 
@@ -118,8 +127,17 @@
 
 .robot-pin-dark {
   background:
-    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
-    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+    linear-gradient(
+      120deg,
+      rgba(0, 74, 153, 0.98),
+      rgba(0, 74, 153, 0.92) 48%,
+      rgba(0, 55, 112, 0.92)
+    ),
+    radial-gradient(
+      circle at 75% 32%,
+      rgba(255, 255, 255, 0.2),
+      transparent 34%
+    );
   color: #fff;
 }
 
@@ -187,9 +205,7 @@
 
 .robot-opening .robot-product img {
   object-fit: contain;
-  transform:
-    translateX(var(--cover-x))
-    scale(var(--cover-scale));
+  transform: translateX(var(--cover-x)) scale(var(--cover-scale));
 }
 
 .robot-media {
@@ -272,7 +288,10 @@
   position: relative;
   z-index: 3;
   display: grid;
-  grid-template-columns: minmax(138px, 1fr) 52px minmax(138px, 1fr) 52px minmax(138px, 1fr);
+  grid-template-columns: minmax(138px, 1fr) 52px minmax(138px, 1fr) 52px minmax(
+      138px,
+      1fr
+    );
   grid-template-rows: 148px 44px 148px 44px 148px;
   align-items: center;
   width: min(710px, 100%);
@@ -486,8 +505,17 @@
 .robot-filter-pin {
   grid-template-columns: minmax(350px, 1fr) minmax(330px, 1fr);
   background:
-    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
-    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+    linear-gradient(
+      120deg,
+      rgba(0, 74, 153, 0.98),
+      rgba(0, 74, 153, 0.92) 48%,
+      rgba(0, 55, 112, 0.92)
+    ),
+    radial-gradient(
+      circle at 75% 32%,
+      rgba(255, 255, 255, 0.2),
+      transparent 34%
+    );
   color: #fff;
 }
 
@@ -540,9 +568,7 @@
   margin: 0;
   overflow: visible;
   background: transparent;
-  transform:
-    translateX(var(--stack-x, 0px))
-    translateY(var(--stack-y, 0px))
+  transform: translateX(var(--stack-x, 0px)) translateY(var(--stack-y, 0px))
     scale(var(--ball-scale));
   transition: none;
 }
@@ -692,8 +718,7 @@
 
 .motion-approach {
   opacity: var(--motion-approach);
-  transform:
-    translateX(calc((1 - var(--motion-pair)) * 52%))
+  transform: translateX(calc((1 - var(--motion-pair)) * 52%))
     scale(calc(1.06 - var(--motion-pair) * 0.06));
 }
 
@@ -708,8 +733,17 @@
 .robot-filter-pin {
   color: #fff;
   background:
-    linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
-    radial-gradient(circle at 75% 32%, rgba(255, 255, 255, 0.2), transparent 34%);
+    linear-gradient(
+      120deg,
+      rgba(0, 74, 153, 0.98),
+      rgba(0, 74, 153, 0.92) 48%,
+      rgba(0, 55, 112, 0.92)
+    ),
+    radial-gradient(
+      circle at 75% 32%,
+      rgba(255, 255, 255, 0.2),
+      transparent 34%
+    );
 }
 
 .flow-node,
