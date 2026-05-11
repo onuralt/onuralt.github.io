@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/base.css?v=4">
     <link rel="stylesheet" href="css/slides.css?v=20">
     <link rel="stylesheet" href="css/robot.css?v=9">
-    <link rel="stylesheet" href="css/vlsi.css?v=18">
+    <link rel="stylesheet" href="css/vlsi.css?v=23">
     <link rel="stylesheet" href="css/responsive.css?v=9">
   </head>
   <body>
@@ -351,18 +351,17 @@
                 silicon. The OR gate is the simplest example of that translation.
               </p>
             </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="OR gate schematic and layout progression">
-              <article class="vlsi-evidence-card vlsi-cell-or">
-                <div class="vlsi-cell-label"><span>01</span> OR gate</div>
-                <div class="vlsi-evidence-images">
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-or-schematic.jpg" alt="Carry skip adder OR gate schematic">
-                    <p>The schematic defines the OR behavior with connected logic symbols, so the intended function is clear before layout work begins.</p>
-                  </div>
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-or-layout.jpg" alt="Carry skip adder OR gate physical layout">
-                    <p>The layout turns that same OR behavior into routed diffusion, poly, metal, contacts, and vias for physical-rule and schematic-match checks.</p>
-                  </div>
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-or-stack-grid" aria-label="OR gate schematic and layout progression">
+              <article class="vlsi-evidence-card vlsi-cell-or-schematic">
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-or-schematic.jpg" alt="Carry skip adder OR gate schematic">
+                  <p class="vlsi-or-card-copy"><strong>OR schematic:</strong> The schematic defines the OR behavior with connected logic symbols, so the intended function is clear before layout work begins.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cell-or-layout">
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-or-layout.jpg" alt="Carry skip adder OR gate physical layout">
+                  <p class="vlsi-or-card-copy"><strong>OR layout:</strong> The layout turns that same OR behavior into routed diffusion, poly, metal, contacts, and vias for physical-rule and schematic-match checks.</p>
                 </div>
               </article>
             </div>

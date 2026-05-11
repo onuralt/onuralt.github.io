@@ -900,6 +900,17 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.vlsi-or-stack-grid {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: clamp(12px, 1.8vh, 20px);
+  align-content: center;
+  align-self: center;
+  justify-items: center;
+  height: min(64vh, 600px);
+  min-height: 0;
+}
+
 .vlsi-mcca-grid {
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
@@ -950,6 +961,42 @@
 
 .vlsi-one-card-grid .vlsi-evidence-card {
   min-height: clamp(540px, 70vh, 720px);
+}
+
+.vlsi-or-stack-grid .vlsi-evidence-card {
+  grid-template-rows: minmax(0, 1fr);
+  width: min(100%, 620px);
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px 10px 8px;
+}
+
+.vlsi-or-stack-grid .vlsi-evidence-item {
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.vlsi-or-stack-grid .vlsi-evidence-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(20vh, 190px);
+  object-fit: contain;
+}
+
+.vlsi-or-card-copy {
+  display: block;
+  margin: 0;
+  padding-top: 2px;
+  font-size: clamp(0.76rem, 0.82vw, 0.9rem);
+  line-height: 1.28;
+}
+
+.vlsi-or-card-copy strong {
+  color: #fff;
+  font-size: 0.92em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .vlsi-mcca-grid .vlsi-evidence-card {
@@ -1079,6 +1126,16 @@
 .vlsi-cell-or {
   opacity: var(--vlsi-stage-1);
   transform: translateY(calc((1 - var(--vlsi-stage-1)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cell-or-schematic {
+  opacity: var(--vlsi-stage-1);
+  transform: translateY(calc((1 - var(--vlsi-stage-1)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-1))));
+}
+
+.vlsi-cell-or-layout {
+  opacity: var(--vlsi-stage-2);
+  transform: translateY(calc((1 - var(--vlsi-stage-2)) * 30px)) scale(calc(0.96 + (0.04 * var(--vlsi-stage-2))));
 }
 
 .vlsi-cell-xor {
