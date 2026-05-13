@@ -657,28 +657,31 @@
                 I measured worst-case timing and power after simulation. The all-high
                 input case stresses the carry path, so it is useful for comparing
                 how the two adder architectures behave under a difficult transition.
+                The readings below are the direct marker and calculator results from
+                the Cadence runs; power values are shown as magnitudes because the
+                simulator sign depends on current direction.
               </p>
             </article>
             <div class="vlsi-metric-grid">
               <div>
                 <span>CSKA delay</span>
                 <strong>293.99 ps HL / 318.27 ps LH</strong>
-                <p>Marker difference between the input transition and the 16-bit CSKA carry output crossing.</p>
+                <p>The carry-skip adder had the shorter measured carry-output delay in this simulation setup.</p>
               </div>
               <div>
                 <span>MCCA delay</span>
                 <strong>0.991 us HL / 0.990 us LH</strong>
-                <p>Measured between the control/input marker and the MCCA carry output marker in the worst-case run.</p>
+                <p>The Manchester carry-chain delay markers were much larger for the tested precharge/evaluate waveform.</p>
               </div>
               <div>
                 <span>CSKA power</span>
                 <strong>330.4 uW total</strong>
-                <p>Average total power from the calculator window; leakage is 8.178 nA, static power is 14.72 nW, and dynamic capacitance is 5.099 fF.</p>
+                <p>Calculator reading for total power; leakage is 8.178 nA, static power is 14.72 nW, and dynamic capacitance is 5.099 fF.</p>
               </div>
               <div>
                 <span>MCCA power</span>
                 <strong>22.67 uW total</strong>
-                <p>Calculator results show 416.8 nA leakage, 750.2 nW static power, and 338.3 fF dynamic capacitance.</p>
+                <p>Total power was lower, while leakage, static power, and dynamic capacitance were higher than CSKA in the calculator readings.</p>
               </div>
             </div>
           </div>
@@ -692,15 +695,15 @@
               <p>
                 The project connected the full digital design flow: gate behavior,
                 physical layout, extracted simulation, waveform verification, delay
-                measurement, and power analysis. The main lesson was that adder
-                architecture changes real implementation tradeoffs, not just the
-                circuit diagram.
+                measurement, and power analysis. The measured result was not a
+                one-line winner: CSKA showed lower delay and lower leakage/static
+                readings, while MCCA showed lower total power in the tested waveform.
               </p>
             </article>
             <div class="vlsi-takeaways">
               <div><span>01</span> Cadence connected schematic design, layout, extraction, and simulation.</div>
               <div><span>02</span> Small gates became reusable cells, then complete 16-bit adders.</div>
-              <div><span>03</span> CSKA and MCCA use different carry strategies, so they trade speed, power, and layout complexity differently.</div>
+              <div><span>03</span> CSKA and MCCA use different carry strategies, and the measured tradeoffs were mixed rather than one design winning every metric.</div>
               <div><span>04</span> Waveforms and calculator measurements turned the layouts into measurable engineering results.</div>
             </div>
           </div>

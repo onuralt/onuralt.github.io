@@ -539,6 +539,7 @@
   font-size: clamp(1.2rem, 1.7vw, 1.65rem);
   font-weight: 850;
   line-height: 1.08;
+  overflow-wrap: anywhere;
 }
 
 .vlsi-metric-grid p {
