@@ -328,10 +328,15 @@
               <p class="eyebrow">Digital Circuit Design</p>
               <h2 id="vlsi-title">From Silicon Layers to Working Adders</h2>
               <p>
-                This project was my hands-on introduction to VLSI design: drawing
-                layout, connecting schematic behavior to physical layers, building
-                adders from gates, and then using Cadence simulations to measure
-                correctness, delay, noise, and power.
+                I used Cadence to design and simulate two digital adders: the
+                hardware blocks that let a processor add binary numbers. I started
+                with small logic gates, drew both their circuit diagrams and
+                chip-layout views, then combined them into two 16-bit adder designs.
+              </p>
+              <p>
+                Workflow: schematic design, physical layout, extracted views,
+                waveform simulation, delay markers, and calculator measurements for
+                leakage, static power, total power, and dynamic capacitance.
               </p>
             </article>
             <figure class="vlsi-cover-image">
@@ -346,22 +351,22 @@
               <p class="eyebrow">Layers to Logic</p>
               <h3>OR Gate Becomes Physical</h3>
               <p>
-                The project starts at the cell level: first describe the gate as a
-                schematic, then draw the physical layers that would implement it on
-                silicon. The OR gate is the simplest example of that translation.
+                The project starts with one logic gate. A schematic is the circuit
+                diagram; a layout is the physical drawing of transistors, metal
+                routes, contacts, and vias that would become chip geometry.
               </p>
             </article>
             <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-or-stack-grid" aria-label="OR gate schematic and layout progression">
               <article class="vlsi-evidence-card vlsi-cell-or-schematic">
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-or-schematic.jpg" alt="Carry skip adder OR gate schematic">
-                  <p class="vlsi-or-card-copy"><strong>OR schematic:</strong> The schematic defines the OR behavior with connected logic symbols, so the intended function is clear before layout work begins.</p>
+                  <p class="vlsi-or-card-copy"><strong>OR schematic:</strong> The circuit diagram defines the OR behavior before any physical chip drawing begins.</p>
                 </div>
               </article>
               <article class="vlsi-evidence-card vlsi-cell-or-layout">
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-or-layout.jpg" alt="Carry skip adder OR gate physical layout">
-                  <p class="vlsi-or-card-copy"><strong>OR layout:</strong> The layout turns that same OR behavior into routed diffusion, poly, metal, contacts, and vias for physical-rule and schematic-match checks.</p>
+                  <p class="vlsi-or-card-copy"><strong>OR layout:</strong> The same behavior is translated into physical layers that can be checked against the schematic.</p>
                 </div>
               </article>
             </div>
@@ -376,7 +381,7 @@
               <p>
                 The XOR cell is more complex than the OR gate and appears repeatedly
                 in the adders. It helps compute sum bits and propagate signals, so it
-                has to be both logically correct and physically routable.
+                has to be correct as a circuit and practical as physical layout.
               </p>
             </article>
             <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="XOR gate schematic and layout progression">
@@ -384,14 +389,14 @@
                 <div class="vlsi-cell-label"><span>02</span> XOR schematic</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-xor-schematic.jpg" alt="Carry skip adder XOR gate schematic">
-                  <p>The XOR schematic provides the sum and propagate behavior used repeatedly inside the adder hierarchy.</p>
+                  <p>The XOR schematic provides the sum and carry-propagation behavior used repeatedly inside the adder.</p>
                 </div>
               </article>
               <article class="vlsi-evidence-card vlsi-cell-xor">
                 <div class="vlsi-cell-label"><span>03</span> XOR layout</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-xor-layout.jpg" alt="Carry skip adder XOR gate physical layout">
-                  <p>The physical XOR layout shows why a more complex gate needs more routing and denser device placement than the OR cell.</p>
+                  <p>The XOR layout shows how a more complex gate needs denser transistor placement and more routing.</p>
                 </div>
               </article>
             </div>
@@ -402,26 +407,27 @@
           <div class="vlsi-pin">
             <article class="vlsi-copy">
               <p class="eyebrow">Layers to Logic</p>
-              <h3>MUX Enables the Skip Path</h3>
+              <h3>Multiplexer Enables the Skip Path</h3>
               <p>
-                The MUX is the important control primitive for the carry-skip adder.
-                It selects whether the carry ripples normally or skips across a
-                block, then that selection behavior is implemented as layout.
+                A multiplexer is a selector. In the carry-skip adder, it chooses
+                whether a carry moves through the normal path or skips across a
+                block, which is the idea that can make the adder faster than a simple
+                ripple chain.
               </p>
             </article>
             <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="MUX schematic and layout progression">
               <article class="vlsi-evidence-card vlsi-cell-mux">
-                <div class="vlsi-cell-label"><span>03</span> MUX schematic</div>
+                <div class="vlsi-cell-label"><span>03</span> Multiplexer schematic</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-mux-schematic.jpg" alt="Carry skip adder multiplexer schematic">
-                  <p>The MUX schematic selects whether the carry should ripple normally or skip across a block.</p>
+                  <p>The multiplexer schematic defines the selector that chooses the carry path.</p>
                 </div>
               </article>
               <article class="vlsi-evidence-card vlsi-cell-mux">
-                <div class="vlsi-cell-label"><span>04</span> MUX layout</div>
+                <div class="vlsi-cell-label"><span>04</span> Multiplexer layout</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/cska-mux-layout.jpg" alt="Carry skip adder multiplexer physical layout">
-                  <p>The layout makes the selection circuit reusable as a compact physical building block for the skip path.</p>
+                  <p>The layout turns that selector into a reusable physical block for the skip path.</p>
                 </div>
               </article>
             </div>
@@ -447,12 +453,12 @@
               </article>
             </div>
             <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder</p>
+              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
               <h3>One Bit Becomes Reusable</h3>
               <p>
-                The carry-skip adder starts with one full-adder cell: a circuit that
-                adds two input bits and an incoming carry. The schematic explains the
-                logic; the layout shows that the same cell can be built physically.
+                A full adder adds two input bits plus an incoming carry. I built one
+                full-adder cell first, then used it as the repeatable unit for the
+                larger carry-skip adder.
               </p>
             </article>
           </div>
@@ -477,12 +483,12 @@
               </article>
             </div>
             <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder</p>
+              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
               <h3>The Hierarchy Expands</h3>
               <p>
-                Once the cell is stable, the design scales through two-bit skip blocks
-                into the full 16-bit adder. The skip block shortens carry movement
-                when the logic allows it, which is the main idea behind CSKA.
+                After the one-bit cell worked, I grouped cells into two-bit skip
+                blocks and then into a 16-bit adder. The skip path lets a carry jump
+                over a block when the inputs allow it.
               </p>
             </article>
           </div>
@@ -507,12 +513,13 @@
               </article>
             </div>
             <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder</p>
+              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
               <h3>Layout Closes the Loop</h3>
               <p>
-                The schematic and extracted layout show the same 16-bit CSKA from
-                logical hierarchy to physical implementation, closing the loop from
-                small gates to a complete arithmetic unit.
+                The schematic and extracted layout show the same 16-bit design from
+                logical hierarchy to physical implementation. The extracted view is
+                important because it reflects the circuit after layout effects are
+                included.
               </p>
             </article>
           </div>
@@ -521,27 +528,27 @@
         <section id="vlsi-mcca-chain" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain propagate and slice logic">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain</p>
+              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
               <h3>Propagate and Generate Control</h3>
               <p>
-                The MCCA starts with a PG block: XOR produces propagate and AND produces
-                generate. Those signals control a Manchester carry slice, where the
-                local carry decision is made before the circuit is repeated.
+                The Manchester carry chain uses propagate and generate signals to
+                decide how carry moves. The PG block creates those control signals,
+                and the carry slice uses them to make one local carry decision.
               </p>
             </article>
             <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Manchester carry chain PG and slice schematics">
               <article class="vlsi-evidence-card vlsi-mcca-pg">
-                <div class="vlsi-cell-label"><span>01</span> PG logic</div>
+                <div class="vlsi-cell-label"><span>01</span> Propagate/generate logic</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-pg-schematic.jpg" alt="Manchester carry chain PG block schematic">
-                  <p>The PG block derives propagate and generate signals from the adder inputs, setting up the control logic that decides how carry moves.</p>
+                  <p>The propagate/generate block creates the control signals that decide whether a carry should move forward.</p>
                 </div>
               </article>
               <article class="vlsi-evidence-card vlsi-mcca-slice">
                 <div class="vlsi-cell-label"><span>02</span> Carry slice</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-slice-schematic.jpg" alt="Manchester carry chain slice schematic">
-                  <p>The slice schematic shows how propagate and generate drive one local carry decision before the design is repeated into a chain.</p>
+                  <p>The slice schematic shows one carry decision before the design is repeated into a chain.</p>
                 </div>
               </article>
             </div>
@@ -551,12 +558,12 @@
         <section id="vlsi-mcca-layout" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain slice physical layout">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain</p>
+              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
               <h3>Slice Becomes Layout</h3>
               <p>
-                After the Manchester slice is defined as logic, it is drawn as a
-                physical layout. This view shows the device placement and routing that
-                implement one carry stage.
+                After the carry slice is defined as a circuit, it is drawn as
+                physical layout. This view shows the transistor placement and routing
+                that implement one carry stage.
               </p>
             </article>
             <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain slice layout">
@@ -574,12 +581,12 @@
         <section id="vlsi-mcca-four" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain four-bit schematic">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain</p>
+              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
               <h3>Slices Form a Four-Bit Chain</h3>
               <p>
-                After the slice is verified, repeated slices form a four-bit chain.
-                This intermediate step makes the carry path easier to follow before
-                the design expands to the full 16-bit layout.
+                After one slice is verified, repeated slices form a four-bit chain.
+                This intermediate step makes the carry path easier to inspect before
+                scaling to the full 16-bit design.
               </p>
             </article>
             <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain four-bit schematic evidence">
@@ -597,12 +604,12 @@
         <section id="vlsi-mcca-final" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-wide-evidence-panel vlsi-chapter" aria-label="Manchester carry chain sixteen-bit physical layout">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain</p>
+              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
               <h3>Four Chains Become Sixteen Bits</h3>
               <p>
-                The final Manchester carry-chain layout combines four chains into a
-                16-bit physical circuit. The long horizontal routing shows how the
-                repeated carry structure spans the complete word.
+                The final Manchester carry-chain layout combines repeated carry
+                stages into a 16-bit physical circuit. The long horizontal routing
+                shows how the carry structure spans the complete word.
               </p>
             </article>
             <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain sixteen-bit layout evidence">
@@ -632,10 +639,10 @@
               <p class="eyebrow">Simulation Evidence</p>
               <h3>Correct Logic Inside Noisy Waveforms</h3>
               <p>
-                The waveform view is dense because many sum bits switch together. Some
-                traces show small noise and spikes around transitions, but the important
-                check is whether each node settles to a valid logic level and the output
-                matches the expected adder behavior.
+                The waveform view is dense because many signals switch together. The
+                important check is not that the traces look perfectly clean, but that
+                each signal settles to a valid logic level and the adder output
+                matches the expected binary result.
               </p>
             </article>
           </div>
@@ -648,8 +655,8 @@
               <h3>Numbers from the Waveforms</h3>
               <p>
                 I measured worst-case timing and power after simulation. The all-high
-                input case keeps the adder chain in propagation mode, which stresses
-                the carry path and gives a useful comparison between CSKA and MCCA.
+                input case stresses the carry path, so it is useful for comparing
+                how the two adder architectures behave under a difficult transition.
               </p>
             </article>
             <div class="vlsi-metric-grid">
@@ -683,18 +690,18 @@
               <p class="eyebrow">Design Perspective</p>
               <h3>Logic, Layout, and Metrics in One Flow</h3>
               <p>
-                The project connected circuit hierarchy with implementation evidence:
-                gate-level behavior, physical layout, extracted simulation, delay
-                measurement, and power analysis. Comparing CSKA and MCCA made the
-                tradeoff visible across area, routing, switching activity, leakage,
-                propagation delay, and waveform integrity.
+                The project connected the full digital design flow: gate behavior,
+                physical layout, extracted simulation, waveform verification, delay
+                measurement, and power analysis. The main lesson was that adder
+                architecture changes real implementation tradeoffs, not just the
+                circuit diagram.
               </p>
             </article>
             <div class="vlsi-takeaways">
-              <div><span>01</span> Physical layers define transistor and routing behavior.</div>
-              <div><span>02</span> Gate cells scale into arithmetic building blocks.</div>
-              <div><span>03</span> Adder architecture changes delay, area, and power.</div>
-              <div><span>04</span> Simulation ties layout decisions to measurable signals.</div>
+              <div><span>01</span> Cadence connected schematic design, layout, extraction, and simulation.</div>
+              <div><span>02</span> Small gates became reusable cells, then complete 16-bit adders.</div>
+              <div><span>03</span> CSKA and MCCA use different carry strategies, so they trade speed, power, and layout complexity differently.</div>
+              <div><span>04</span> Waveforms and calculator measurements turned the layouts into measurable engineering results.</div>
             </div>
           </div>
         </section>

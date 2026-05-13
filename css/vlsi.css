@@ -78,9 +78,11 @@
   position: relative;
   z-index: 2;
   max-width: 570px;
+  min-width: 0;
   opacity: var(--vlsi-text);
   transform: translateY(var(--vlsi-text-y));
   will-change: opacity, transform;
+  overflow-wrap: break-word;
 }
 
 .vlsi-copy h2,
@@ -1532,6 +1534,12 @@
 
   #vlsi-mcca-chain .vlsi-evidence-grid {
     padding-bottom: 112px;
+  }
+
+  #vlsi-mcca-layout .vlsi-evidence-grid,
+  #vlsi-mcca-four .vlsi-evidence-grid,
+  #vlsi-mcca-final .vlsi-evidence-grid {
+    padding-bottom: 72px;
   }
 
   .vlsi-cell-panel .vlsi-evidence-images .vlsi-evidence-item,
