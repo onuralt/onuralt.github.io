@@ -379,18 +379,19 @@
                 has to be both logically correct and physically routable.
               </p>
             </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="XOR gate schematic and layout progression">
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="XOR gate schematic and layout progression">
               <article class="vlsi-evidence-card vlsi-cell-xor">
-                <div class="vlsi-cell-label"><span>02</span> XOR gate</div>
-                <div class="vlsi-evidence-images">
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-xor-schematic.jpg" alt="Carry skip adder XOR gate schematic">
-                    <p>The XOR schematic provides the sum and propagate behavior used repeatedly inside the adder hierarchy.</p>
-                  </div>
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-xor-layout.jpg" alt="Carry skip adder XOR gate physical layout">
-                    <p>The physical XOR layout shows why a more complex gate needs more routing and denser device placement than the OR cell.</p>
-                  </div>
+                <div class="vlsi-cell-label"><span>02</span> XOR schematic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-xor-schematic.jpg" alt="Carry skip adder XOR gate schematic">
+                  <p>The XOR schematic provides the sum and propagate behavior used repeatedly inside the adder hierarchy.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cell-xor">
+                <div class="vlsi-cell-label"><span>03</span> XOR layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-xor-layout.jpg" alt="Carry skip adder XOR gate physical layout">
+                  <p>The physical XOR layout shows why a more complex gate needs more routing and denser device placement than the OR cell.</p>
                 </div>
               </article>
             </div>
@@ -408,18 +409,19 @@
                 block, then that selection behavior is implemented as layout.
               </p>
             </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="MUX schematic and layout progression">
+            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="MUX schematic and layout progression">
               <article class="vlsi-evidence-card vlsi-cell-mux">
-                <div class="vlsi-cell-label"><span>03</span> MUX</div>
-                <div class="vlsi-evidence-images">
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-mux-schematic.jpg" alt="Carry skip adder multiplexer schematic">
-                    <p>The MUX schematic selects whether the carry should ripple normally or skip across a block.</p>
-                  </div>
-                  <div class="vlsi-evidence-item">
-                    <img src="images/vlsi/cska-mux-layout.jpg" alt="Carry skip adder multiplexer physical layout">
-                    <p>The layout makes the selection circuit reusable as a compact physical building block for the skip path.</p>
-                  </div>
+                <div class="vlsi-cell-label"><span>03</span> MUX schematic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-mux-schematic.jpg" alt="Carry skip adder multiplexer schematic">
+                  <p>The MUX schematic selects whether the carry should ripple normally or skip across a block.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cell-mux">
+                <div class="vlsi-cell-label"><span>04</span> MUX layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-mux-layout.jpg" alt="Carry skip adder multiplexer physical layout">
+                  <p>The layout makes the selection circuit reusable as a compact physical building block for the skip path.</p>
                 </div>
               </article>
             </div>
@@ -488,12 +490,19 @@
 
         <section id="vlsi-cska-layout" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder extracted physical layout">
           <div class="vlsi-pin">
-            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Carry skip adder extracted layout">
-              <article class="vlsi-evidence-card vlsi-cska-final">
-                <div class="vlsi-cell-label"><span>05</span> Physical layout</div>
+            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder schematic and extracted layout">
+              <article class="vlsi-evidence-card vlsi-cska-sixteen">
+                <div class="vlsi-cell-label"><span>05</span> Sixteen-bit schematic</div>
                 <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-16bit-layout.jpg" alt="Sixteen-bit carry skip adder layout">
-                  <p>The layout view shows the repeated CSKA blocks and long routed structure that later feed extracted verification and timing measurement.</p>
+                  <img src="images/vlsi/cska-16bit-schematic.jpg" alt="Sixteen-bit carry skip adder schematic">
+                  <p>The 16-bit schematic shows the full CSKA hierarchy before physical extraction, with repeated skip blocks connected across the word.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cska-final">
+                <div class="vlsi-cell-label"><span>06</span> Extracted layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-16bit-layout-extracted.jpg" alt="Extracted sixteen-bit carry skip adder layout">
+                  <p>The extracted layout view shows the repeated CSKA blocks and long routed structure that later feed verification and timing measurement.</p>
                 </div>
               </article>
             </div>
@@ -501,9 +510,9 @@
               <p class="eyebrow">Carry Skip Adder</p>
               <h3>Layout Closes the Loop</h3>
               <p>
-                The final layout shows the repeated CSKA blocks as one physical
-                circuit. This closes the loop from small gates to a complete 16-bit
-                arithmetic unit.
+                The schematic and extracted layout show the same 16-bit CSKA from
+                logical hierarchy to physical implementation, closing the loop from
+                small gates to a complete arithmetic unit.
               </p>
             </article>
           </div>

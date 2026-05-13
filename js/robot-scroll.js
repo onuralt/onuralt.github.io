@@ -35,6 +35,34 @@ vlsiEvidenceImages.forEach((image) => {
   item.addEventListener("focusout", hideVlsiZoom);
 });
 
+function equalizeVlsiEvidenceCards() {
+  document.querySelectorAll(".vlsi-evidence-grid").forEach((grid) => {
+    const cards = Array.from(grid.querySelectorAll(".vlsi-evidence-card"));
+
+    if (cards.length < 2) {
+      return;
+    }
+
+    cards.forEach((card) => {
+      card.style.height = "";
+    });
+
+    const maxHeight = Math.max(...cards.map((card) => card.offsetHeight));
+
+    cards.forEach((card) => {
+      card.style.height = `${maxHeight}px`;
+    });
+  });
+}
+
+vlsiEvidenceImages.forEach((image) => {
+  if (image.complete) {
+    return;
+  }
+
+  image.addEventListener("load", equalizeVlsiEvidenceCards, { once: true });
+});
+
 function getChapterEndScrollTop(chapter) {
   const rect = chapter.getBoundingClientRect();
   const pageTop = rect.top + window.scrollY;
@@ -406,8 +434,12 @@ function updateRobotProgress() {
 
 addSlideAdvanceControls();
 setupSectionNavigation();
+equalizeVlsiEvidenceCards();
 updateRobotProgress();
 window.addEventListener("scroll", updateRobotProgress, { passive: true });
 window.addEventListener("scroll", hideVlsiZoom, { passive: true });
-window.addEventListener("resize", updateRobotProgress);
+window.addEventListener("resize", () => {
+  equalizeVlsiEvidenceCards();
+  updateRobotProgress();
+});
 window.addEventListener("resize", hideVlsiZoom);
