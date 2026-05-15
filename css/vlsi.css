@@ -19,6 +19,18 @@
   --vlsi-stage-3: 0;
   --vlsi-stage-4: 0;
   --vlsi-stage-5: 0;
+  --mcca-card-1-visible: 0;
+  --mcca-card-1-settle: 0;
+  --mcca-card-1-active: 0;
+  --mcca-card-2-visible: 0;
+  --mcca-card-2-settle: 0;
+  --mcca-card-2-active: 0;
+  --mcca-card-3-visible: 0;
+  --mcca-card-3-settle: 0;
+  --mcca-card-3-active: 0;
+  --mcca-card-4-visible: 0;
+  --mcca-card-4-settle: 0;
+  --mcca-card-4-active: 0;
   --vlsi-media-y: 0px;
   --vlsi-text-y: 0px;
   --vlsi-cover-shift: 0px;
@@ -538,8 +550,9 @@
 
 .vlsi-comparison-panel .vlsi-pin,
 .vlsi-measure-panel .vlsi-pin {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
   align-content: center;
+  align-items: center;
 }
 
 .vlsi-comparison-panel .vlsi-copy,
@@ -649,6 +662,42 @@
 
 .vlsi-metric-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vlsi-comparison-stack {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.vlsi-measure-panel .vlsi-metric-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vlsi-measure-panel .vlsi-waveform img {
+  max-height: min(30vh, 280px);
+  object-fit: contain;
+}
+
+.vlsi-measure-panel .vlsi-metric-grid div {
+  min-height: 0;
+  padding: 14px;
+}
+
+.vlsi-measure-panel .vlsi-metric-grid span,
+.vlsi-measure-panel .vlsi-metric-grid strong {
+  margin-bottom: 8px;
+}
+
+.vlsi-measure-panel .vlsi-metric-grid strong {
+  font-size: clamp(0.95rem, 1.15vw, 1.18rem);
+}
+
+.vlsi-measure-panel .vlsi-metric-grid p {
+  font-size: clamp(0.72rem, 0.78vw, 0.84rem);
+  line-height: 1.22;
 }
 
 .vlsi-cell-flow {
@@ -1251,6 +1300,80 @@
   align-items: stretch;
 }
 
+.vlsi-four-card-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid {
+  isolation: isolate;
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card {
+  transform-origin: center;
+  transition: box-shadow 160ms ease;
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card:nth-child(1) {
+  --spotlight-visible: var(--mcca-card-1-visible);
+  --spotlight-settle: var(--mcca-card-1-settle);
+  --spotlight-active: var(--mcca-card-1-active);
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card:nth-child(2) {
+  --spotlight-visible: var(--mcca-card-2-visible);
+  --spotlight-settle: var(--mcca-card-2-settle);
+  --spotlight-active: var(--mcca-card-2-active);
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card:nth-child(3) {
+  --spotlight-visible: var(--mcca-card-3-visible);
+  --spotlight-settle: var(--mcca-card-3-settle);
+  --spotlight-active: var(--mcca-card-3-active);
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card:nth-child(4) {
+  --spotlight-visible: var(--mcca-card-4-visible);
+  --spotlight-settle: var(--mcca-card-4-settle);
+  --spotlight-active: var(--mcca-card-4-active);
+}
+
+.vlsi-spotlight-panel .vlsi-two-card-grid .vlsi-evidence-card:nth-child(1) {
+  --spotlight-x: 50%;
+}
+
+.vlsi-spotlight-panel .vlsi-two-card-grid .vlsi-evidence-card:nth-child(2) {
+  --spotlight-x: -50%;
+}
+
+.vlsi-spotlight-panel .vlsi-three-card-grid .vlsi-evidence-card:nth-child(1) {
+  --spotlight-x: 100%;
+}
+
+.vlsi-spotlight-panel .vlsi-three-card-grid .vlsi-evidence-card:nth-child(2) {
+  --spotlight-x: 0%;
+}
+
+.vlsi-spotlight-panel .vlsi-three-card-grid .vlsi-evidence-card:nth-child(3) {
+  --spotlight-x: -100%;
+}
+
+.vlsi-spotlight-panel .vlsi-four-card-grid .vlsi-evidence-card:nth-child(1) {
+  --spotlight-x: 150%;
+}
+
+.vlsi-spotlight-panel .vlsi-four-card-grid .vlsi-evidence-card:nth-child(2) {
+  --spotlight-x: 50%;
+}
+
+.vlsi-spotlight-panel .vlsi-four-card-grid .vlsi-evidence-card:nth-child(3) {
+  --spotlight-x: -50%;
+}
+
+.vlsi-spotlight-panel .vlsi-four-card-grid .vlsi-evidence-card:nth-child(4) {
+  --spotlight-x: -150%;
+}
+
 .vlsi-two-card-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
@@ -1330,6 +1453,7 @@
 }
 
 .vlsi-three-card-grid .vlsi-evidence-card,
+.vlsi-four-card-grid .vlsi-evidence-card,
 .vlsi-or-stack-grid .vlsi-evidence-card,
 .vlsi-mcca-grid .vlsi-evidence-card {
   height: 100%;
@@ -1401,6 +1525,7 @@
 .vlsi-two-card-grid .vlsi-evidence-item,
 .vlsi-one-card-grid .vlsi-evidence-item,
 .vlsi-three-card-grid .vlsi-evidence-card:not(.vlsi-cell-or):not(.vlsi-cell-xor):not(.vlsi-cell-mux) .vlsi-evidence-item,
+.vlsi-four-card-grid .vlsi-evidence-card .vlsi-evidence-item,
 .vlsi-mcca-grid .vlsi-evidence-item {
   grid-template-rows: auto auto;
 }
@@ -1417,15 +1542,12 @@
 }
 
 #vlsi-cska-layout .vlsi-evidence-grid,
-#vlsi-mcca-layout .vlsi-evidence-grid,
-#vlsi-mcca-four .vlsi-evidence-grid,
-#vlsi-mcca-final .vlsi-evidence-grid {
+#vlsi-mcca-four .vlsi-evidence-grid {
   width: min(760px, 100%);
   min-height: 0;
 }
 
-#vlsi-cska-layout .vlsi-evidence-grid,
-#vlsi-mcca-layout .vlsi-evidence-grid {
+#vlsi-cska-layout .vlsi-evidence-grid {
   width: min(560px, 100%);
 }
 
@@ -1434,14 +1556,11 @@
 }
 
 #vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card,
-#vlsi-mcca-layout .vlsi-one-card-grid .vlsi-evidence-card,
-#vlsi-mcca-four .vlsi-one-card-grid .vlsi-evidence-card,
-#vlsi-mcca-final .vlsi-one-card-grid .vlsi-evidence-card {
+#vlsi-mcca-four .vlsi-one-card-grid .vlsi-evidence-card {
   min-height: 0;
 }
 
-#vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card,
-#vlsi-mcca-layout .vlsi-one-card-grid .vlsi-evidence-card {
+#vlsi-cska-layout .vlsi-one-card-grid .vlsi-evidence-card {
   min-height: 0;
   height: auto;
 }
@@ -1460,21 +1579,17 @@
 }
 
 #vlsi-cska-layout .vlsi-evidence-item,
-#vlsi-mcca-layout .vlsi-evidence-item,
-#vlsi-mcca-four .vlsi-evidence-item,
-#vlsi-mcca-final .vlsi-evidence-item {
+#vlsi-mcca-four .vlsi-evidence-item {
   grid-template-rows: auto auto;
 }
 
-#vlsi-cska-layout .vlsi-evidence-item,
-#vlsi-mcca-layout .vlsi-evidence-item {
+#vlsi-cska-layout .vlsi-evidence-item {
   grid-template-rows: auto auto;
   gap: 0;
   padding: 0;
 }
 
-#vlsi-cska-layout .vlsi-evidence-item img,
-#vlsi-mcca-layout .vlsi-evidence-item img {
+#vlsi-cska-layout .vlsi-evidence-item img {
   align-self: center;
   height: auto;
 }
@@ -1568,6 +1683,14 @@
 .vlsi-mcca-final {
   opacity: var(--vlsi-stage-5);
   transform: none;
+}
+
+.vlsi-spotlight-panel .vlsi-evidence-grid .vlsi-evidence-card {
+  z-index: 1;
+  opacity: var(--spotlight-visible);
+  transform:
+    translateX(calc((1 - var(--spotlight-settle)) * var(--spotlight-x)))
+    scale(calc(1 + ((1 - var(--spotlight-settle)) * 0.72)));
 }
 
 .vlsi-wave-scene {
@@ -1880,6 +2003,7 @@
 
   .vlsi-evidence-grid,
   .vlsi-three-card-grid,
+  .vlsi-four-card-grid,
   .vlsi-one-card-grid,
   .vlsi-two-card-grid,
   .vlsi-or-stack-grid,
@@ -1943,9 +2067,7 @@
     padding-bottom: 112px;
   }
 
-  #vlsi-mcca-layout .vlsi-evidence-grid,
-  #vlsi-mcca-four .vlsi-evidence-grid,
-  #vlsi-mcca-final .vlsi-evidence-grid {
+  #vlsi-mcca-four .vlsi-evidence-grid {
     padding-bottom: 72px;
   }
 

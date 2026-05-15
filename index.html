@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=23">
     <link rel="stylesheet" href="css/robot.css?v=13">
-    <link rel="stylesheet" href="css/vlsi.css?v=48">
+    <link rel="stylesheet" href="css/vlsi.css?v=53">
     <link rel="stylesheet" href="css/responsive.css?v=9">
   </head>
   <body>
@@ -334,9 +334,10 @@
               <h2 id="vlsi-title">From Silicon Layers to Working Adders</h2>
               <p>
                 I used Cadence to design and simulate two digital adders: the
-                hardware blocks that let a processor add binary numbers. I started
-                with small logic gates, drew both their circuit diagrams and
-                chip-layout views, then combined them into two 16-bit adder designs.
+                hardware blocks that let a processor add binary numbers. The main
+                development path follows a Manchester Carry Chain Adder from
+                control logic to physical layout, then compares it with a completed
+                Carry Skip Adder.
               </p>
               <p>
                 Workflow: schematic design, physical layout, extracted views,
@@ -406,230 +407,42 @@
           </div>
         </section>
 
-        <section id="vlsi-layers" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="Primitive cells become layout">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Layers to Logic</p>
-              <h3>OR Gate Becomes Physical</h3>
-              <p>
-                The project starts with one logic gate. A schematic is the circuit
-                diagram; a layout is the physical drawing of transistors, metal
-                routes, contacts, and vias that would become chip geometry.
-              </p>
-            </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-or-stack-grid" aria-label="OR gate schematic and layout progression">
-              <article class="vlsi-evidence-card vlsi-cell-or-schematic">
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-or-schematic.jpg" alt="Carry skip adder OR gate schematic">
-                  <p class="vlsi-or-card-copy"><strong>OR schematic:</strong> The circuit diagram defines the OR behavior before any physical chip drawing begins.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cell-or-layout">
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-or-layout.jpg" alt="Carry skip adder OR gate physical layout">
-                  <p class="vlsi-or-card-copy"><strong>OR layout:</strong> The same behavior is translated into physical layers that can be checked against the schematic.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="vlsi-xor-cell" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="XOR primitive cell becomes layout">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Layers to Logic</p>
-              <h3>XOR Carries More Structure</h3>
-              <p>
-                The XOR cell is more complex than the OR gate and appears repeatedly
-                in the adders. It helps compute sum bits and propagate signals, so it
-                has to be correct as a circuit and practical as physical layout.
-              </p>
-            </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="XOR gate schematic and layout progression">
-              <article class="vlsi-evidence-card vlsi-cell-xor">
-                <div class="vlsi-cell-label"><span>02</span> XOR schematic</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-xor-schematic.jpg" alt="Carry skip adder XOR gate schematic">
-                  <p>The XOR schematic provides the sum and carry-propagation behavior used repeatedly inside the adder.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cell-xor">
-                <div class="vlsi-cell-label"><span>03</span> XOR layout</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-xor-layout.jpg" alt="Carry skip adder XOR gate physical layout">
-                  <p>The XOR layout shows how a more complex gate needs denser transistor placement and more routing.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="vlsi-mux-cell" class="vlsi-panel vlsi-cell-panel vlsi-chapter" aria-label="MUX primitive cell becomes layout">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Layers to Logic</p>
-              <h3>Multiplexer Enables the Skip Path</h3>
-              <p>
-                A multiplexer is a selector. In the carry-skip adder, it chooses
-                whether a carry moves through the normal path or skips across a
-                block, which is the idea that can make the adder faster than a simple
-                ripple chain.
-              </p>
-            </article>
-            <div class="vlsi-cell-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="MUX schematic and layout progression">
-              <article class="vlsi-evidence-card vlsi-cell-mux">
-                <div class="vlsi-cell-label"><span>03</span> Multiplexer schematic</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-mux-schematic.jpg" alt="Carry skip adder multiplexer schematic">
-                  <p>The multiplexer schematic defines the selector that chooses the carry path.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cell-mux">
-                <div class="vlsi-cell-label"><span>04</span> Multiplexer layout</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-mux-layout.jpg" alt="Carry skip adder multiplexer physical layout">
-                  <p>The layout turns that selector into a reusable physical block for the skip path.</p>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="vlsi-cska-cell" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder design evolution">
-          <div class="vlsi-pin">
-            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder one-bit cell evidence">
-              <article class="vlsi-evidence-card vlsi-cska-one">
-                <div class="vlsi-cell-label"><span>01</span> Full adder schematic</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-1bit-schematic.jpg" alt="One-bit full adder schematic">
-                  <p>The one-bit schematic combines primitive gates into a complete sum-and-carry cell, the repeated unit of the carry-skip adder.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cska-layout">
-                <div class="vlsi-cell-label"><span>02</span> Full adder layout</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-1bit-layout.jpg" alt="One-bit full adder physical layout">
-                  <p>The matching layout shows the same full-adder cell as routed physical geometry that can be reused in larger blocks.</p>
-                </div>
-              </article>
-            </div>
-            <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
-              <h3>One Bit Becomes Reusable</h3>
-              <p>
-                A full adder adds two input bits plus an incoming carry. I built one
-                full-adder cell first, then used it as the repeatable unit for the
-                larger carry-skip adder.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="vlsi-cska-hierarchy" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder hierarchy expansion">
-          <div class="vlsi-pin">
-            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder hierarchy from two-bit block to sixteen-bit schematic">
-              <article class="vlsi-evidence-card vlsi-cska-two">
-                <div class="vlsi-cell-label"><span>03</span> Two-bit skip block</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-2bit-schematic.jpg" alt="Two-bit carry skip adder schematic">
-                  <p>Two one-bit cells are grouped with skip logic, creating a block that can bypass normal ripple-carry movement when propagation conditions allow it.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cska-sixteen">
-                <div class="vlsi-cell-label"><span>04</span> Sixteen-bit schematic</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-16bit-schematic.jpg" alt="Sixteen-bit carry skip adder schematic">
-                  <p>The 16-bit schematic repeats the skip block across the full word, making the adder hierarchy and carry path visible at system scale.</p>
-                </div>
-              </article>
-            </div>
-            <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
-              <h3>The Hierarchy Expands</h3>
-              <p>
-                After the one-bit cell worked, I grouped cells into two-bit skip
-                blocks and then into a 16-bit adder. The skip path lets a carry jump
-                over a block when the inputs allow it.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="vlsi-cska-layout" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-chapter" aria-label="Carry skip adder extracted physical layout">
-          <div class="vlsi-pin">
-            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder schematic and extracted layout">
-              <article class="vlsi-evidence-card vlsi-cska-sixteen">
-                <div class="vlsi-cell-label"><span>05</span> Sixteen-bit schematic</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-16bit-schematic.jpg" alt="Sixteen-bit carry skip adder schematic">
-                  <p>The 16-bit schematic shows the full CSKA hierarchy before physical extraction, with repeated skip blocks connected across the word.</p>
-                </div>
-              </article>
-              <article class="vlsi-evidence-card vlsi-cska-final">
-                <div class="vlsi-cell-label"><span>06</span> Extracted layout</div>
-                <div class="vlsi-evidence-item">
-                  <img src="images/vlsi/cska-16bit-layout-extracted.jpg" alt="Extracted sixteen-bit carry skip adder layout">
-                  <p>The extracted layout view shows the repeated CSKA blocks and long routed structure that later feed verification and timing measurement.</p>
-                </div>
-              </article>
-            </div>
-            <article class="vlsi-copy vlsi-build-copy">
-              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
-              <h3>Layout Closes the Loop</h3>
-              <p>
-                The schematic and extracted layout show the same 16-bit design from
-                logical hierarchy to physical implementation. The extracted view is
-                important because it reflects the circuit after layout effects are
-                included.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="vlsi-mcca-chain" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain propagate and slice logic">
+        <section id="vlsi-mcca-chain" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-spotlight-panel vlsi-chapter" aria-label="Manchester carry chain propagate and slice logic">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
               <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
-              <h3>Propagate and Generate Control</h3>
+              <h3>Control Logic Starts the Chain</h3>
               <p>
                 The Manchester carry chain uses propagate and generate signals to
-                decide how carry moves. The PG block creates those control signals,
-                and the carry slice uses them to make one local carry decision.
+                decide how each carry moves. I first built the PG block, then used
+                those signals inside a carry slice that makes one local carry
+                decision and translated that slice into physical layout.
               </p>
             </article>
-            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Manchester carry chain PG and slice schematics">
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-four-card-grid" aria-label="Manchester carry chain PG, slice, and layout building blocks">
               <article class="vlsi-evidence-card vlsi-mcca-pg">
-                <div class="vlsi-cell-label"><span>01</span> Propagate/generate logic</div>
+                <div class="vlsi-cell-label"><span>01</span> PG schematic</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-pg-schematic.jpg" alt="Manchester carry chain PG block schematic">
                   <p>The propagate/generate block creates the control signals that decide whether a carry should move forward.</p>
                 </div>
               </article>
+              <article class="vlsi-evidence-card vlsi-mcca-pg-layout">
+                <div class="vlsi-cell-label"><span>02</span> PG layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-pg-layout.jpg" alt="Manchester carry chain PG block layout">
+                  <p>The same logic is translated into transistor placement, contacts, and metal routes.</p>
+                </div>
+              </article>
               <article class="vlsi-evidence-card vlsi-mcca-slice">
-                <div class="vlsi-cell-label"><span>02</span> Carry slice</div>
+                <div class="vlsi-cell-label"><span>03</span> Carry slice</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-slice-schematic.jpg" alt="Manchester carry chain slice schematic">
                   <p>The slice schematic shows one carry decision before the design is repeated into a chain.</p>
                 </div>
               </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="vlsi-mcca-layout" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain slice physical layout">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
-              <h3>Slice Becomes Layout</h3>
-              <p>
-                After the carry slice is defined as a circuit, it is drawn as
-                physical layout. This view shows the transistor placement and routing
-                that implement one carry stage.
-              </p>
-            </article>
-            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain slice layout">
               <article class="vlsi-evidence-card vlsi-mcca-layout">
-                <div class="vlsi-cell-label"><span>03</span> Slice layout</div>
+                <div class="vlsi-cell-label"><span>04</span> Slice layout</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-slice-layout.jpg" alt="Manchester carry chain slice physical layout">
                   <p>The physical slice layout shows the routing and device placement needed to implement the carry decision in silicon layers.</p>
@@ -639,43 +452,34 @@
           </div>
         </section>
 
-        <section id="vlsi-mcca-four" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-chapter" aria-label="Manchester carry chain four-bit schematic">
+        <section id="vlsi-mcca-four" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-spotlight-panel vlsi-chapter" aria-label="Manchester carry chain four-bit schematic">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
               <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
-              <h3>Slices Form a Four-Bit Chain</h3>
+              <h3>Slices Scale to Sixteen Bits</h3>
               <p>
-                After one slice is verified, repeated slices form a four-bit chain.
-                This intermediate step makes the carry path easier to inspect before
-                scaling to the full 16-bit design.
+                Repeated slices form a four-bit chain first, then the final
+                16-bit layout. This keeps the development visible from an
+                inspectable intermediate block to the complete carry structure.
               </p>
             </article>
-            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain four-bit schematic evidence">
+            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-three-card-grid" aria-label="Manchester carry chain scaling evidence">
               <article class="vlsi-evidence-card vlsi-mcca-four">
-                <div class="vlsi-cell-label"><span>04</span> Four-bit chain</div>
+                <div class="vlsi-cell-label"><span>05</span> Four-bit schematic</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-4bit-schematic.jpg" alt="Four-bit Manchester carry chain schematic">
                   <p>The four-bit schematic connects repeated slices so the carry chain can be inspected before composing the final adder width.</p>
                 </div>
               </article>
-            </div>
-          </div>
-        </section>
-
-        <section id="vlsi-mcca-final" class="vlsi-panel vlsi-build-panel vlsi-mcca-panel vlsi-wide-evidence-panel vlsi-chapter" aria-label="Manchester carry chain sixteen-bit physical layout">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Manchester Carry Chain Adder (MCCA)</p>
-              <h3>Four Chains Become Sixteen Bits</h3>
-              <p>
-                The final Manchester carry-chain layout combines repeated carry
-                stages into a 16-bit physical circuit. The long horizontal routing
-                shows how the carry structure spans the complete word.
-              </p>
-            </article>
-            <div class="vlsi-mcca-scene vlsi-evidence-grid vlsi-one-card-grid" aria-label="Manchester carry chain sixteen-bit layout evidence">
+              <article class="vlsi-evidence-card vlsi-mcca-four-layout">
+                <div class="vlsi-cell-label"><span>06</span> Four-bit layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/mcca-4bit-layout.jpg" alt="Four-bit Manchester carry chain layout">
+                  <p>The four-bit layout shows how repeated slices begin to form a physical carry path.</p>
+                </div>
+              </article>
               <article class="vlsi-evidence-card vlsi-mcca-final">
-                <div class="vlsi-cell-label"><span>05</span> Sixteen-bit layout</div>
+                <div class="vlsi-cell-label"><span>07</span> Sixteen-bit layout</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/mcca-16bit-layout-only.jpg" alt="Sixteen-bit Manchester carry chain physical layout">
                   <p>The 16-bit layout shows the completed MCCA as a routed physical design, with repeated carry structures visible across the full word.</p>
@@ -685,92 +489,82 @@
           </div>
         </section>
 
-        <section class="vlsi-panel vlsi-analysis-panel vlsi-chapter" aria-label="Functionality and waveform noise">
+        <section id="vlsi-cska-layout" class="vlsi-panel vlsi-build-panel vlsi-cska-panel vlsi-spotlight-panel vlsi-chapter" aria-label="Carry skip adder final schematic and layout">
           <div class="vlsi-pin">
-            <div class="vlsi-wave-scene">
+            <div class="vlsi-build-scene vlsi-evidence-grid vlsi-two-card-grid" aria-label="Carry skip adder final schematic and layout">
+              <article class="vlsi-evidence-card vlsi-cska-sixteen">
+                <div class="vlsi-cell-label"><span>01</span> CSKA schematic</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-16bit-schematic.jpg" alt="Sixteen-bit carry skip adder schematic">
+                  <p>The CSKA schematic shows the alternate full-adder and skip-block hierarchy used for comparison.</p>
+                </div>
+              </article>
+              <article class="vlsi-evidence-card vlsi-cska-final">
+                <div class="vlsi-cell-label"><span>02</span> CSKA extracted layout</div>
+                <div class="vlsi-evidence-item">
+                  <img src="images/vlsi/cska-16bit-layout-extracted.jpg" alt="Extracted sixteen-bit carry skip adder layout">
+                  <p>The same flow produced a physical CSKA layout, giving a second 16-bit adder for waveform and measurement comparison.</p>
+                </div>
+              </article>
+            </div>
+            <article class="vlsi-copy vlsi-build-copy">
+              <p class="eyebrow">Carry Skip Adder (CSKA)</p>
+              <h3>A Second Layout for Comparison</h3>
+              <p>
+                After showing the full layout process with MCCA, CSKA can be shown
+                more compactly: final schematic, extracted layout, and the same
+                measurement flow.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="vlsi-panel vlsi-measure-panel vlsi-chapter" aria-label="Adder waveform comparison and measurements">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Simulation and Measurement</p>
+              <h3>Waveforms Become Metrics</h3>
+              <p>
+                The final comparison checks whether both adders settle to valid
+                logic values, then measures delay and power from the Cadence
+                waveform and calculator outputs.
+              </p>
+            </article>
+            <div class="vlsi-comparison-stack">
               <article class="vlsi-evidence-card vlsi-waveform">
                 <div class="vlsi-cell-label"><span>01</span> Waveform verification</div>
                 <div class="vlsi-evidence-item">
                   <img src="images/vlsi/noisy-waveform-stack.jpg" alt="Dense Cadence waveform stack with many adder signals and calculator window">
-                  <p>The simulation checks that the adder outputs settle to the expected logic values after switching, even when transition noise is visible.</p>
+                  <p>The waveform confirms functional settling before timing and power are compared.</p>
                 </div>
               </article>
-            </div>
-            <article class="vlsi-copy">
-              <p class="eyebrow">Simulation Evidence</p>
-              <h3>Correct Logic Inside Noisy Waveforms</h3>
-              <p>
-                The waveform view is dense because many signals switch together. The
-                important check is not that the traces look perfectly clean, but that
-                each signal settles to a valid logic level and the adder output
-                matches the expected binary result.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="vlsi-panel vlsi-measure-panel vlsi-chapter" aria-label="Delay and power measurements">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Measurement</p>
-              <h3>Numbers from the Waveforms</h3>
-              <p>
-                I measured worst-case timing and power after simulation. The all-high
-                input case stresses the carry path, so it is useful for comparing
-                how the two adder architectures behave under a difficult transition.
-                The readings below are the direct marker and calculator results from
-                the Cadence runs; power values are shown as magnitudes because the
-                simulator sign depends on current direction.
-              </p>
-            </article>
-            <div class="vlsi-metric-grid">
-              <div>
-                <span>CSKA delay</span>
-                <strong>293.99 ps HL / 318.27 ps LH</strong>
-                <p>The carry-skip adder had the shorter measured carry-output delay in this simulation setup.</p>
+              <div class="vlsi-metric-grid">
+                <div>
+                  <span>CSKA delay</span>
+                  <strong>293.99 ps HL / 318.27 ps LH</strong>
+                  <p>Shorter carry-output delay in this simulation setup.</p>
+                </div>
+                <div>
+                  <span>MCCA delay</span>
+                  <strong>0.991 us HL / 0.990 us LH</strong>
+                  <p>Larger delay markers for the tested precharge/evaluate waveform.</p>
+                </div>
+                <div>
+                  <span>CSKA power</span>
+                  <strong>330.4 uW total</strong>
+                  <p>Lower leakage and static readings, higher total power.</p>
+                </div>
+                <div>
+                  <span>MCCA power</span>
+                  <strong>22.67 uW total</strong>
+                  <p>Lower total power, with higher leakage, static power, and dynamic capacitance.</p>
+                </div>
               </div>
-              <div>
-                <span>MCCA delay</span>
-                <strong>0.991 us HL / 0.990 us LH</strong>
-                <p>The Manchester carry-chain delay markers were much larger for the tested precharge/evaluate waveform.</p>
-              </div>
-              <div>
-                <span>CSKA power</span>
-                <strong>330.4 uW total</strong>
-                <p>Calculator reading for total power; leakage is 8.178 nA, static power is 14.72 nW, and dynamic capacitance is 5.099 fF.</p>
-              </div>
-              <div>
-                <span>MCCA power</span>
-                <strong>22.67 uW total</strong>
-                <p>Total power was lower, while leakage, static power, and dynamic capacitance were higher than CSKA in the calculator readings.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="vlsi-panel vlsi-takeaway-panel vlsi-chapter" aria-label="VLSI project summary">
-          <div class="vlsi-pin">
-            <article class="vlsi-copy">
-              <p class="eyebrow">Design Perspective</p>
-              <h3>Logic, Layout, and Metrics in One Flow</h3>
-              <p>
-                The project connected the full digital design flow: gate behavior,
-                physical layout, extracted simulation, waveform verification, delay
-                measurement, and power analysis. The measured result was not a
-                one-line winner: CSKA showed lower delay and lower leakage/static
-                readings, while MCCA showed lower total power in the tested waveform.
-              </p>
-            </article>
-            <div class="vlsi-takeaways">
-              <div><span>01</span> Cadence connected schematic design, layout, extraction, and simulation.</div>
-              <div><span>02</span> Small gates became reusable cells, then complete 16-bit adders.</div>
-              <div><span>03</span> CSKA and MCCA use different carry strategies, and the measured tradeoffs were mixed rather than one design winning every metric.</div>
-              <div><span>04</span> Waveforms and calculator measurements turned the layouts into measurable engineering results.</div>
             </div>
           </div>
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=20"></script>
+    <script src="js/robot-scroll.js?v=22"></script>
   </body>
 </html>

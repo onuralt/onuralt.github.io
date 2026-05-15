@@ -193,6 +193,11 @@ function setCompletedVlsiState() {
     Array.from({ length: 5 }).forEach((_, index) =>
       chapter.style.setProperty(`--vlsi-stage-${index + 1}`, "1"),
     );
+    Array.from({ length: 4 }).forEach((_, index) => {
+      chapter.style.setProperty(`--mcca-card-${index + 1}-visible`, "1");
+      chapter.style.setProperty(`--mcca-card-${index + 1}-settle`, "1");
+      chapter.style.setProperty(`--mcca-card-${index + 1}-active`, "0");
+    });
     chapter.style.setProperty("--vlsi-media-y", "0px");
     chapter.style.setProperty("--vlsi-text-y", "0px");
     chapter.style.setProperty("--vlsi-cover-shift", `${coverShift}px`);
@@ -595,6 +600,16 @@ function updateRobotProgress() {
     const stage3 = reveal(progress, 0.32, 0.12);
     const stage4 = reveal(progress, 0.5, 0.12);
     const stage5 = reveal(progress, 0.68, 0.14);
+    const mccaSpotlightCards = [0.06, 0.28, 0.5, 0.72].map((start) => {
+      const visible = reveal(progress, start, 0.08);
+      const settle = reveal(progress, start + 0.13, 0.11);
+
+      return {
+        active: visible * (1 - settle),
+        settle,
+        visible,
+      };
+    });
 
     chapter.style.setProperty("--vlsi-media", media.toFixed(4));
     chapter.style.setProperty("--vlsi-text", text.toFixed(4));
@@ -614,6 +629,20 @@ function updateRobotProgress() {
     chapter.style.setProperty("--vlsi-stage-3", stage3.toFixed(4));
     chapter.style.setProperty("--vlsi-stage-4", stage4.toFixed(4));
     chapter.style.setProperty("--vlsi-stage-5", stage5.toFixed(4));
+    mccaSpotlightCards.forEach((card, index) => {
+      chapter.style.setProperty(
+        `--mcca-card-${index + 1}-visible`,
+        card.visible.toFixed(4),
+      );
+      chapter.style.setProperty(
+        `--mcca-card-${index + 1}-settle`,
+        card.settle.toFixed(4),
+      );
+      chapter.style.setProperty(
+        `--mcca-card-${index + 1}-active`,
+        card.active.toFixed(4),
+      );
+    });
     chapter.style.setProperty(
       "--vlsi-media-y",
       `${Math.round((1 - media) * 42)}px`,
