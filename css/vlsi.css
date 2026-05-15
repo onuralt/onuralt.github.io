@@ -171,6 +171,34 @@
   align-items: center;
 }
 
+.vlsi-layer-panel .vlsi-copy {
+  display: grid;
+  gap: clamp(22px, 4vh, 44px);
+}
+
+.vlsi-layer-copy-main,
+.vlsi-layer-info {
+  min-width: 0;
+}
+
+.vlsi-layer-info {
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.vlsi-layer-info h4 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  font-weight: 850;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.vlsi-layer-info p:last-child {
+  max-width: 38rem;
+}
+
 .vlsi-layer-panel.reverse .vlsi-pin {
   grid-template-columns: minmax(320px, 0.86fr) minmax(0, 1.14fr);
 }
@@ -220,6 +248,44 @@
   display: block;
   border: 0;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  transition:
+    filter 160ms ease,
+    opacity 160ms ease,
+    outline-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.vlsi-layer-panel.has-active-layer .layout-shape {
+  opacity: 0.3;
+}
+
+.vlsi-layer-panel:has(.legend-chip:is(:hover, :focus-visible, .is-active)) .layout-shape {
+  opacity: 0.3;
+}
+
+.vlsi-layer-panel.has-active-layer .layout-shape.is-active {
+  z-index: 3;
+  opacity: 1;
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  filter: saturate(1.2) brightness(1.16);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+}
+
+.vlsi-layer-panel:has(.metal1-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="metal1"],
+.vlsi-layer-panel:has(.metal2-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="metal2"],
+.vlsi-layer-panel:has(.metal3-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="metal3"],
+.vlsi-layer-panel:has(.poly-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="poly"],
+.vlsi-layer-panel:has(.ndiff-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="ndiff"],
+.vlsi-layer-panel:has(.pdiff-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="pdiff"],
+.vlsi-layer-panel:has(.contact-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="contact"],
+.vlsi-layer-panel:has(.via-chip:is(:hover, :focus-visible, .is-active)) .layout-shape[data-layer="via"] {
+  z-index: 3;
+  opacity: 1;
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  filter: saturate(1.2) brightness(1.16);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
 }
 
 .pdiff {
@@ -238,9 +304,9 @@
 }
 
 .ndiff-row {
-  left: 18%;
-  top: 62%;
-  width: 64%;
+  left: 15%;
+  top: 43%;
+  width: 70%;
   height: 14%;
 }
 
@@ -324,6 +390,11 @@
   left: 47.1%;
 }
 
+.contact-n {
+  top: 47.1%;
+  left: 47.1%;
+}
+
 .contact-poly-a,
 .contact-poly-b {
   top: 65.9%;
@@ -369,6 +440,27 @@
   padding: 6px 8px;
   flex: 1 1 132px;
   border: 1px solid rgba(255, 255, 255, 0.26);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.legend-chip:hover,
+.legend-chip:focus-visible,
+.legend-chip.is-active {
+  border-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.legend-chip:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.legend-chip.is-active {
+  transform: translateY(-2px);
 }
 
 .layer-legend i {
@@ -1632,7 +1724,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .layer-legend span {
+  .layer-legend .legend-chip {
     min-width: 0;
   }
 

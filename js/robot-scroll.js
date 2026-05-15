@@ -3,6 +3,7 @@ const cvChapters = document.querySelectorAll(".cv-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
+const vlsiLayerPanels = document.querySelectorAll(".vlsi-layer-panel");
 const animationToggle = document.querySelector("#animation-toggle");
 const vlsiZoom = document.createElement("div");
 const vlsiZoomImage = document.createElement("img");
@@ -39,6 +40,68 @@ vlsiEvidenceImages.forEach((image) => {
   item.addEventListener("mouseleave", hideVlsiZoom);
   item.addEventListener("focusin", () => showVlsiZoom(image));
   item.addEventListener("focusout", hideVlsiZoom);
+});
+
+vlsiLayerPanels.forEach((panel) => {
+  const defaultTitle = "Inspect a Layer";
+  const defaultCopy =
+    "Hover or focus a layer chip to highlight it in the diagram and see what that mask contributes to the layout.";
+  const title = panel.querySelector("[data-layer-info-title]");
+  const copy = panel.querySelector("[data-layer-info-copy]");
+  const chips = panel.querySelectorAll(".legend-chip[data-layer]");
+  const shapes = panel.querySelectorAll(".layout-shape[data-layer]");
+
+  function setActiveLayer(chip) {
+    const layer = chip.dataset.layer;
+
+    panel.classList.add("has-active-layer");
+    title.textContent = chip.dataset.layerTitle || chip.textContent.trim();
+    copy.textContent = chip.dataset.layerInfo || defaultCopy;
+
+    chips.forEach((item) => {
+      item.classList.toggle("is-active", item === chip);
+      item.setAttribute("aria-pressed", item === chip ? "true" : "false");
+    });
+
+    shapes.forEach((shape) =>
+      shape.classList.toggle("is-active", shape.dataset.layer === layer),
+    );
+  }
+
+  function clearActiveLayer() {
+    panel.classList.remove("has-active-layer");
+    title.textContent = defaultTitle;
+    copy.textContent = defaultCopy;
+
+    chips.forEach((chip) => {
+      chip.classList.remove("is-active");
+      chip.setAttribute("aria-pressed", "false");
+    });
+
+    shapes.forEach((shape) => shape.classList.remove("is-active"));
+  }
+
+  chips.forEach((chip) => {
+    chip.setAttribute("aria-pressed", "false");
+    chip.addEventListener("mouseenter", () => setActiveLayer(chip));
+    chip.addEventListener("focus", () => setActiveLayer(chip));
+    chip.addEventListener("click", () => setActiveLayer(chip));
+    chip.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      setActiveLayer(chip);
+    });
+  });
+
+  panel.querySelector(".layer-legend")?.addEventListener("mouseleave", clearActiveLayer);
+  panel.addEventListener("focusout", (event) => {
+    if (!panel.contains(event.relatedTarget)) {
+      clearActiveLayer();
+    }
+  });
 });
 
 function equalizeVlsiEvidenceCards() {

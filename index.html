@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=23">
     <link rel="stylesheet" href="css/robot.css?v=13">
-    <link rel="stylesheet" href="css/vlsi.css?v=45">
+    <link rel="stylesheet" href="css/vlsi.css?v=48">
     <link rel="stylesheet" href="css/responsive.css?v=9">
   </head>
   <body>
@@ -71,7 +71,7 @@
               <section class="cv-section cv-work">
                 <p class="eyebrow">Experience</p>
                 <div class="cv-entry">
-                  <img src="images/cv-fzi.png" alt="FZI logo">
+                  <img class="cv-logo-fzi" src="images/cv-fzi.png" alt="FZI logo">
                   <div>
                     <h3>Master's Thesis at FZI <span>Sep 2025-Feb 2026</span></h3>
                     <p>Scala/Chisel generators for formal interfaces, golden models, harnesses, and equivalence assertions across PicoRV32, NERV, Ibex, and Hazard3.</p>
@@ -85,14 +85,14 @@
                   </div>
                 </div>
                 <div class="cv-entry">
-                  <img src="images/cv-metu.png" alt="Middle East Technical University logo">
+                  <img class="cv-logo-white" src="images/cv-metu.png" alt="Middle East Technical University logo">
                   <div>
                     <h3>PISA Processor and ISA <span>Mar 2019-Aug 2019</span></h3>
                     <p>Custom VHDL multicycle processor, datapath, control unit, instruction set, and Python assembler.</p>
                   </div>
                 </div>
                 <div class="cv-entry">
-                  <img src="images/cv-pavo.png" alt="PAVOTEK logo">
+                  <img class="cv-logo-white" src="images/cv-pavo.png" alt="PAVOTEK logo">
                   <div>
                     <h3>Internship at PAVOTEK <span>Sep 2018-Feb 2019</span></h3>
                     <p>STM32 SPI driver, MODBUS communication, EAGLE PCB design, I2C OLED driver, testing, and debugging.</p>
@@ -353,46 +353,54 @@
         <section class="vlsi-panel vlsi-layer-panel vlsi-chapter" aria-label="How VLSI layout layers combine">
           <div class="vlsi-pin">
             <article class="vlsi-copy">
-              <p class="eyebrow">Layout Basics</p>
-              <h3>Colors Become Chip Layers</h3>
-              <p>
-                A VLSI layout is drawn as stacked mask layers. Diffusion regions form
-                transistor terminals, polysilicon crosses them to create gates, metal
-                layers route signals, and contacts or vias connect one layer to the
-                next.
-              </p>
-              <p>
-                This clean layer map separates the drawing conventions: contacts
-                connect device layers to Metal1, while square vias connect one
-                metal layer to the next metal layer.
-              </p>
+              <div class="vlsi-layer-copy-main">
+                <p class="eyebrow">Layout Basics</p>
+                <h3>Colors Become Chip Layers</h3>
+                <p>
+                  A VLSI layout is drawn as stacked mask layers. Diffusion regions form
+                  transistor terminals, polysilicon crosses them to create gates, metal
+                  layers route signals, and contacts or vias connect one layer to the
+                  next.
+                </p>
+                <p>
+                  This clean layer map separates the drawing conventions: contacts
+                  connect device layers to Metal1, while square vias connect one
+                  metal layer to the next metal layer.
+                </p>
+              </div>
+              <div class="vlsi-layer-info" aria-live="polite">
+                <p class="eyebrow">Layer Guide</p>
+                <h4 data-layer-info-title>Inspect a Layer</h4>
+                <p data-layer-info-copy>Hover or focus a layer chip to highlight it in the diagram and see what that mask contributes to the layout.</p>
+              </div>
             </article>
             <div class="vlsi-layer-visual" aria-label="Colored VLSI layout layers with contacts and vias">
               <div class="layer-canvas">
-                <span class="layout-shape pdiff pdiff-row"></span>
-                <span class="layout-shape ndiff ndiff-row"></span>
-                <span class="layout-shape poly poly-a"></span>
-                <span class="layout-shape poly poly-b"></span>
-                <span class="layout-shape metal1 metal1-horizontal"></span>
-                <span class="layout-shape metal1 metal1-vertical"></span>
-                <span class="layout-shape metal2 metal2-horizontal"></span>
-                <span class="layout-shape metal2 metal2-vertical"></span>
-                <span class="layout-shape metal3 metal3-horizontal"></span>
-                <span class="layout-shape contact contact-p"></span>
-                <span class="layout-shape contact contact-poly-a"></span>
-                <span class="layout-shape contact contact-poly-b"></span>
-                <span class="layout-shape via via-m1-m2-a"></span>
-                <span class="layout-shape via via-m2-m3"></span>
+                <span class="layout-shape pdiff pdiff-row" data-layer="pdiff"></span>
+                <span class="layout-shape ndiff ndiff-row" data-layer="ndiff"></span>
+                <span class="layout-shape poly poly-a" data-layer="poly"></span>
+                <span class="layout-shape poly poly-b" data-layer="poly"></span>
+                <span class="layout-shape metal1 metal1-horizontal" data-layer="metal1"></span>
+                <span class="layout-shape metal1 metal1-vertical" data-layer="metal1"></span>
+                <span class="layout-shape metal2 metal2-horizontal" data-layer="metal2"></span>
+                <span class="layout-shape metal2 metal2-vertical" data-layer="metal2"></span>
+                <span class="layout-shape metal3 metal3-horizontal" data-layer="metal3"></span>
+                <span class="layout-shape contact contact-p" data-layer="contact"></span>
+                <span class="layout-shape contact contact-n" data-layer="contact"></span>
+                <span class="layout-shape contact contact-poly-a" data-layer="contact"></span>
+                <span class="layout-shape contact contact-poly-b" data-layer="contact"></span>
+                <span class="layout-shape via via-m1-m2-a" data-layer="via"></span>
+                <span class="layout-shape via via-m2-m3" data-layer="via"></span>
               </div>
-              <div class="layer-legend" aria-hidden="true">
-                <span class="legend-chip metal1-chip"><i class="legend-metal1"></i> metal1</span>
-                <span class="legend-chip metal2-chip"><i class="legend-metal2"></i> metal2</span>
-                <span class="legend-chip metal3-chip"><i class="legend-metal3"></i> metal3</span>
-                <span class="legend-chip poly-chip"><i class="legend-poly"></i> polysilicon</span>
-                <span class="legend-chip ndiff-chip"><i class="legend-ndiff"></i> N diffusion</span>
-                <span class="legend-chip pdiff-chip"><i class="legend-pdiff"></i> P diffusion</span>
-                <span class="legend-chip contact-chip"><i class="legend-contact"></i> contacts</span>
-                <span class="legend-chip via-chip"><i class="legend-via"></i> vias</span>
+              <div class="layer-legend" aria-label="VLSI layer selector">
+                <span class="legend-chip metal1-chip" role="button" tabindex="0" data-layer="metal1" data-layer-title="Metal1" data-layer-info="First local routing layer. It connects contacts and short nearby signals before vias hand routes to upper metals."><i class="legend-metal1"></i> metal1</span>
+                <span class="legend-chip metal2-chip" role="button" tabindex="0" data-layer="metal2" data-layer-title="Metal2" data-layer-info="Second routing layer. It crosses over Metal1 through vias and helps move signals across the cell without crowding local wiring."><i class="legend-metal2"></i> metal2</span>
+                <span class="legend-chip metal3-chip" role="button" tabindex="0" data-layer="metal3" data-layer-title="Metal3" data-layer-info="Upper routing layer. Wider horizontal routes can carry longer signals or rails above the lower device-level wiring."><i class="legend-metal3"></i> metal3</span>
+                <span class="legend-chip poly-chip" role="button" tabindex="0" data-layer="poly" data-layer-title="Polysilicon" data-layer-info="Gate material. Where polysilicon crosses diffusion, it defines transistor gates and separates source and drain regions."><i class="legend-poly"></i> polysilicon</span>
+                <span class="legend-chip ndiff-chip" role="button" tabindex="0" data-layer="ndiff" data-layer-title="N Diffusion" data-layer-info="Active silicon for NMOS devices. It forms source and drain terminals in the pull-down side of CMOS logic."><i class="legend-ndiff"></i> N diffusion</span>
+                <span class="legend-chip pdiff-chip" role="button" tabindex="0" data-layer="pdiff" data-layer-title="P Diffusion" data-layer-info="Active silicon for PMOS devices. It forms source and drain terminals in the pull-up side of CMOS logic."><i class="legend-pdiff"></i> P diffusion</span>
+                <span class="legend-chip contact-chip" role="button" tabindex="0" data-layer="contact" data-layer-title="Contacts" data-layer-info="Device-to-metal openings. Contacts connect diffusion or polysilicon up to Metal1."><i class="legend-contact"></i> contacts</span>
+                <span class="legend-chip via-chip" role="button" tabindex="0" data-layer="via" data-layer-title="Vias" data-layer-info="Metal-to-metal openings. Vias connect one metal layer to the next so routes can change vertical levels."><i class="legend-via"></i> vias</span>
               </div>
             </div>
           </div>
@@ -763,6 +771,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=19"></script>
+    <script src="js/robot-scroll.js?v=20"></script>
   </body>
 </html>

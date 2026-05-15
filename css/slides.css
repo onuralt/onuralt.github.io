@@ -370,21 +370,15 @@ figcaption {
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.82fr 1.55fr 0.9fr;
+  grid-template-rows: 1.12fr 1.4fr 0.95fr;
   gap: 14px 18px;
   width: 100%;
-  height: min(72vh, 700px);
+  height: min(76vh, 740px);
   min-height: 0;
 }
 
 .cv-section {
-  background:
-    var(--blueprint-grid),
-    rgba(255, 255, 255, 0.12);
-  background-size:
-    var(--blueprint-grid-size),
-    var(--blueprint-grid-size),
-    auto;
+  background: transparent;
 }
 
 .cv-section {
@@ -469,6 +463,15 @@ figcaption {
   object-fit: contain;
 }
 
+.cv-entry img.cv-logo-white {
+  background: linear-gradient(#fff, #fff) center / 22px 22px no-repeat;
+  padding: 5px;
+}
+
+.cv-entry img.cv-logo-fzi {
+  padding: 1px;
+}
+
 .cv-education {
   --section-opacity: var(--cv-section-1);
   grid-column: 1;
@@ -499,5 +502,4 @@ figcaption {
   --section-opacity: var(--cv-section-5);
   grid-column: 2;
   grid-row: 3;
-  margin-top: -28px;
 }
