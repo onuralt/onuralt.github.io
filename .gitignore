@@ -1,0 +1,39 @@
+# Ignore everything by default so only files served by the static site are tracked.
+*
+
+# Repository metadata and entry points.
+!.gitignore
+!AGENTS.md
+!index.html
+!thesis.pdf
+!vlsi.pdf
+
+# Styles and scripts used by index.html.
+!css/
+!css/*.css
+!css/**/
+!css/**/*.css
+!js/
+!js/*.js
+!js/**/
+!js/**/*.js
+
+# Browser-ready visual assets used by the site.
+!images/
+!images/**/
+!images/*.avif
+!images/*.gif
+!images/*.ico
+!images/*.jpg
+!images/*.jpeg
+!images/*.png
+!images/*.svg
+!images/*.webp
+!images/**/*.avif
+!images/**/*.gif
+!images/**/*.ico
+!images/**/*.jpg
+!images/**/*.jpeg
+!images/**/*.png
+!images/**/*.svg
+!images/**/*.webp

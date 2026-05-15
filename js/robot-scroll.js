@@ -1,5 +1,6 @@
 const robotChapters = document.querySelectorAll(".robot-chapter");
 const cvChapters = document.querySelectorAll(".cv-chapter");
+const thesisChapters = document.querySelectorAll(".thesis-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
@@ -178,6 +179,28 @@ function setCompletedCvState() {
   });
 }
 
+function setCompletedThesisState() {
+  const viewportWidth = window.innerWidth || 1;
+  const coverTravel = Math.min(viewportWidth * 0.26, 340);
+
+  thesisChapters.forEach((chapter) => {
+    chapter.style.setProperty("--thesis-text", "1");
+    chapter.style.setProperty("--thesis-media", "1");
+    chapter.style.setProperty("--thesis-note", "1");
+    chapter.style.setProperty("--thesis-rail-width", "100%");
+    chapter.style.setProperty("--thesis-text-y", "0px");
+    chapter.style.setProperty("--thesis-media-y", "0px");
+    chapter.style.setProperty(
+      "--thesis-cover-x",
+      `${Math.round(coverTravel * -1)}px`,
+    );
+    chapter.style.setProperty("--thesis-cover-scale", "0.64");
+    Array.from({ length: 8 }).forEach((_, index) =>
+      chapter.style.setProperty(`--thesis-step-${index + 1}`, "1"),
+    );
+  });
+}
+
 function setCompletedVlsiState() {
   const viewportWidth = window.innerWidth || 1;
   const coverShift = Math.round(Math.min(viewportWidth * 0.22, 280));
@@ -207,6 +230,7 @@ function setCompletedVlsiState() {
 function setCompletedAnimationState() {
   setCompletedRobotState();
   setCompletedCvState();
+  setCompletedThesisState();
   setCompletedVlsiState();
   equalizeVlsiEvidenceCards();
 }
@@ -262,7 +286,7 @@ function getStickyTop(pin) {
 }
 
 function getChapterPin(chapter) {
-  return chapter.querySelector(".cv-pin, .robot-pin, .vlsi-pin");
+  return chapter.querySelector(".cv-pin, .thesis-pin, .robot-pin, .vlsi-pin");
 }
 
 function getChapterTravel(chapter) {
@@ -355,9 +379,15 @@ function addSlideAdvanceControls() {
     },
     {
       pin: cvChapters[0]?.querySelector(".cv-pin"),
-      target: robotChapters[0],
-      label: "Go to Robot section",
+      target: thesisChapters[0],
+      label: "Go to Thesis section",
     },
+    ...Array.from(thesisChapters).map((chapter, index) => ({
+      pin: chapter.querySelector(".thesis-pin"),
+      target: thesisChapters[index + 1] || robotChapters[0],
+      label: thesisChapters[index + 1] ? "Next slide" : "Go to Robot section",
+      completeTarget: Boolean(thesisChapters[index + 1]),
+    })),
     ...Array.from(robotChapters).map((chapter, index) => ({
       pin: chapter.querySelector(".robot-pin"),
       target: robotChapters[index + 1] || vlsiChapters[0],
@@ -380,6 +410,7 @@ function setupSectionNavigation() {
   const welcome = document.querySelector("#welcome");
   const animatedTargets = new Map([
     ["#cv", cvChapters[0]],
+    ["#thesis", thesisChapters[0]],
     ["#robotics", robotChapters[0]],
     ["#vlsi", vlsiChapters[0]],
   ]);
@@ -562,6 +593,44 @@ function updateRobotProgress() {
     );
     sections.forEach((value, index) =>
       chapter.style.setProperty(`--cv-section-${index + 1}`, value.toFixed(4)),
+    );
+  });
+
+  thesisChapters.forEach((chapter) => {
+    const rect = chapter.getBoundingClientRect();
+    const viewportWidth = window.innerWidth || 1;
+    const travel = getChapterTravel(chapter);
+    const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
+    const isHero = chapter.classList.contains("thesis-hero");
+    const text = reveal(progress, isHero ? 0.12 : 0.08, isHero ? 0.28 : 0.18);
+    const media = reveal(progress, 0.16, 0.22);
+    const note = reveal(progress, 0.76, 0.16);
+    const coverTravel = Math.min(viewportWidth * 0.26, 340);
+    const coverX = Math.round(progress * coverTravel * -1);
+    const coverScale = 1 - progress * 0.36;
+    const steps = [0.1, 0.2, 0.32, 0.44, 0.56, 0.68, 0.78, 0.88].map(
+      (start) => reveal(progress, start, 0.1),
+    );
+
+    chapter.style.setProperty("--thesis-text", text.toFixed(4));
+    chapter.style.setProperty("--thesis-media", media.toFixed(4));
+    chapter.style.setProperty("--thesis-note", note.toFixed(4));
+    chapter.style.setProperty(
+      "--thesis-rail-width",
+      `${(progress * 100).toFixed(2)}%`,
+    );
+    chapter.style.setProperty(
+      "--thesis-text-y",
+      `${Math.round((1 - text) * 36)}px`,
+    );
+    chapter.style.setProperty(
+      "--thesis-media-y",
+      `${Math.round((1 - media) * 42)}px`,
+    );
+    chapter.style.setProperty("--thesis-cover-x", `${coverX}px`);
+    chapter.style.setProperty("--thesis-cover-scale", coverScale.toFixed(4));
+    steps.forEach((value, index) =>
+      chapter.style.setProperty(`--thesis-step-${index + 1}`, value.toFixed(4)),
     );
   });
 

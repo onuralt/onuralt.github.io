@@ -10,6 +10,7 @@
     >
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=23">
+    <link rel="stylesheet" href="css/thesis.css?v=8">
     <link rel="stylesheet" href="css/robot.css?v=13">
     <link rel="stylesheet" href="css/vlsi.css?v=53">
     <link rel="stylesheet" href="css/responsive.css?v=9">
@@ -20,6 +21,7 @@
       <nav aria-label="Portfolio sections">
         <a href="#welcome">Welcome</a>
         <a href="#cv">CV</a>
+        <a href="#thesis">Thesis</a>
         <a href="#robotics">Robot</a>
         <a href="#vlsi">VLSI</a>
       </nav>
@@ -125,6 +127,176 @@
                 </div>
               </section>
             </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="thesis" class="thesis-experience" aria-labelledby="thesis-title">
+        <section class="thesis-panel thesis-hero thesis-chapter" aria-label="Thesis overview">
+          <div class="thesis-pin">
+            <article class="thesis-copy">
+              <p class="eyebrow">Master Thesis</p>
+              <h2 id="thesis-title">Generator-Based Framework for Automated Formal Verification of Parametrized RISC-V Cores</h2>
+              <p>Automated ISA-level equivalence checking for configurable RISC-V processors.</p>
+            </article>
+            <figure class="thesis-cover-image">
+              <img src="images/gbframework/riscv.png" alt="RISC-V logo">
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-problem thesis-chapter" aria-label="Verification scalability problem">
+          <div class="thesis-pin">
+            <article class="thesis-copy">
+              <p class="eyebrow">Problem Definition</p>
+              <h3>Generated Cores Need Generated Verification</h3>
+              <p>A hardware generator can emit many processor variants from one parameterized description. A manually built formal environment does not scale with those variants.</p>
+              <p>The thesis reframes the problem: when the core configuration changes, the interface, model, harness, assertions, and tool scripts should change with it.</p>
+            </article>
+            <div class="thesis-fanout" aria-label="Parameterized core variants and repeated manual verification work">
+              <div class="fanout-source">Gcore(θ)</div>
+              <div class="fanout-variants">
+                <span>RV32I</span><span>RV32IM</span><span>RV32IMC</span><span>memory tracing</span><span>CSR tracing</span><span>PicoRV32</span><span>NERV</span><span>Ibex</span><span>Hazard3</span>
+              </div>
+              <div class="fanout-work">
+                <span>wrappers</span><span>signal maps</span><span>assertions</span><span>JasperGold scripts</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-method thesis-chapter" aria-label="Verification as a generator problem">
+          <div class="thesis-pin">
+            <article class="thesis-copy">
+              <p class="eyebrow">Methodology</p>
+              <h3>The Same θ Drives the Core and the Formal Setup</h3>
+              <p>The configuration vector θ feeds the golden model generator, the formal interface generator, and the verification framework generator.</p>
+              <div class="thesis-equations" aria-label="Generator equations from the thesis methodology">
+                <span>gmθ = gm(θ)</span>
+                <span>fiθ = fi(θ)</span>
+                <span>vfθ = vf(θ)</span>
+              </div>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-flow">
+              <img src="images/thesis/thesis-general-flow-figure-4-1.png" alt="Thesis Figure 4.1 showing RVFIC, RVGM, generated assertions, harness, and JasperGold">
+              <figcaption>One generated verification instance: wrapped DUV, golden model, assertions, harness, and JasperGold.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-rvfic thesis-chapter" aria-label="RVFIC generation pipeline">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVFIC</p>
+              <h3>Signal Maps Become a Uniform Interface</h3>
+              <p>RVFIC reads a JSON map, generates bind/probe logic and a wrapper module, copies DUV sources, and exposes RVFI-style signals without modifying the core RTL.</p>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
+              <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="RVFIC generation pipeline from thesis Figure 4.4">
+              <figcaption>Figure 4.4: RVFIC generation pipeline.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-wave thesis-chapter" aria-label="RVFIC waveform semantics">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">Signal Semantics</p>
+              <h3>Retirement Events Become Visible</h3>
+              <p>In the load/store example, <code>addi x1, x0, 0x100</code> sets the address, <code>sw x2, 0(x1)</code> writes memory, and <code>lw x3, 0(x1)</code> reads it back.</p>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-wide thesis-visual-waveform">
+              <img src="images/thesis/thesis-rvfic-waveform-figure-4-2.png" alt="RVFIC load store waveform from thesis Figure 4.2">
+              <figcaption>Figure 4.2: RVFIC waveform example with a load/store sequence.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-rvgm thesis-chapter" aria-label="RISC-V Golden Model">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVGM</p>
+              <h3>A Synthesizable Golden Reference Model</h3>
+              <p>RVGM computes expected architectural effects for the configured ISA, including PC, register file, memory signals, and optional CSR trace state.</p>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
+              <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="RVGM golden model architecture from thesis Figure 4.7">
+              <figcaption>Figure 4.7: RVGM golden model architecture.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-rvavf thesis-chapter" aria-label="RISC-V Automatic Verification Framework">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVAVF</p>
+              <h3>The Full Formal Flow Is Generated</h3>
+              <p>RVAVF combines RVFIC and RVGM, emits signal-by-signal SVA checks at retirement boundaries, builds the top harness, stages files, and generates JasperGold TCL.</p>
+              <code>make rvavf.formal</code>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
+              <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="RVAVF formal verification architecture from thesis Figure 4.10">
+              <figcaption>Figure 4.10: RVAVF formal verification flow architecture.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-eval thesis-chapter" aria-label="Evaluation on open-source RISC-V cores">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">Evaluation</p>
+              <h3>Open-Source RISC-V Cores</h3>
+              <p>The evaluation covers PicoRV32, NERV, Ibex, and Hazard3. NERV and Ibex achieved broad proof coverage; PicoRV32 and Hazard3 exposed RVFI timing or semantic mismatches rather than functional bugs.</p>
+              <p>CVA6 was attempted but excluded because its RVFI ports did not match the expected signal semantics.</p>
+            </article>
+            <div class="thesis-waveform-stack" aria-label="Counterexample waveform evidence from the thesis evaluation">
+              <figure class="thesis-visual thesis-visual-terminal">
+                <img src="images/thesis/thesis-hazard-counterexample-figure-5-1.png" alt="Hazard3 counterexample waveform from thesis Figure 5.1">
+                <figcaption>Figure 5.1: Hazard3 counterexample waveform.</figcaption>
+              </figure>
+              <figure class="thesis-visual thesis-visual-terminal">
+                <img src="images/thesis/thesis-picorv32-counterexample-figure-5-2.png" alt="PicoRV32 counterexample waveform from thesis Figure 5.2">
+                <figcaption>Figure 5.2: PicoRV32 order-counter timing counterexample.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-contrib thesis-chapter" aria-label="Thesis contributions">
+          <div class="thesis-pin">
+            <article class="thesis-copy">
+              <p class="eyebrow">Contributions</p>
+              <h3>RVFIC, RVGM, and RVAVF Form One Generated Environment</h3>
+              <p>RVFIC generates the observation interface. RVGM generates synthesizable reference behavior. RVAVF generates assertions, harnesses, workspace files, and JasperGold scripts.</p>
+              <p>Together, these components generate a complete ISA-level formal verification environment from shared configuration parameters.</p>
+            </article>
+            <div class="thesis-contrib-strip" aria-label="Three framework contributions">
+              <figure><img src="images/thesis/thesis-picorv32-base-waveform-figure-4-3.png" alt="PicoRV32 base RVFI waveform from thesis Figure 4.3"><figcaption>RVFIC</figcaption></figure>
+              <figure><img src="images/thesis/thesis-rvgm-retirement-waveform-figure-4-8.png" alt="RVGM retirement waveform from thesis Figure 4.8"><figcaption>RVGM</figcaption></figure>
+              <figure><img src="images/thesis/thesis-ibex-csr-waveform-figure-4-5.png" alt="Ibex CSR waveform from thesis Figure 4.5"><figcaption>RVAVF-ready interface</figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-close thesis-chapter" aria-label="Thesis closing summary">
+          <div class="thesis-pin">
+            <article class="thesis-copy">
+              <p class="eyebrow">Thesis Summary</p>
+              <h3>Formal Verification as a Generated Artifact</h3>
+              <p>The thesis treats verification as a generator problem, combining a formal interface generator, a golden model generator, and a verification framework generator, then evaluating the approach on PicoRV32, NERV, Ibex, and Hazard3.</p>
+              <div class="thesis-actions">
+                <a href="thesis.pdf">Read thesis PDF</a>
+                <a href="https://github.com/onuralt/RVAVF">View project/repository</a>
+                <a href="https://github.com/onuralt">Contact</a>
+              </div>
+              <div class="thesis-tags thesis-close-tags" aria-label="Research and engineering areas">
+                <span>Formal Verification</span><span>Hardware Verification</span><span>RISC-V</span><span>Chisel</span><span>SystemVerilog Assertions</span><span>RVFI</span><span>Processor Verification</span><span>JasperGold</span>
+              </div>
+            </article>
+            <figure class="thesis-visual thesis-visual-card thesis-visual-flow">
+              <img src="images/thesis/thesis-general-flow-figure-4-1.png" alt="Generator-based verification flow summary">
+              <figcaption>Generator-based formal verification framework.</figcaption>
+            </figure>
           </div>
         </section>
       </section>
@@ -565,6 +737,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=22"></script>
+    <script src="js/robot-scroll.js?v=23"></script>
   </body>
 </html>
