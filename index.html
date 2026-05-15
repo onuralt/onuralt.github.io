@@ -8,10 +8,10 @@
       name="description"
       content="A presentation-style engineering portfolio and CV focused on hardware verification, embedded systems, robotics, and VLSI."
     >
-    <link rel="stylesheet" href="css/base.css?v=4">
-    <link rel="stylesheet" href="css/slides.css?v=20">
-    <link rel="stylesheet" href="css/robot.css?v=9">
-    <link rel="stylesheet" href="css/vlsi.css?v=23">
+    <link rel="stylesheet" href="css/base.css?v=6">
+    <link rel="stylesheet" href="css/slides.css?v=23">
+    <link rel="stylesheet" href="css/robot.css?v=13">
+    <link rel="stylesheet" href="css/vlsi.css?v=45">
     <link rel="stylesheet" href="css/responsive.css?v=9">
   </head>
   <body>
@@ -23,6 +23,11 @@
         <a href="#robotics">Robot</a>
         <a href="#vlsi">VLSI</a>
       </nav>
+      <label class="animation-toggle">
+        <span>Turn off animations</span>
+        <input type="checkbox" id="animation-toggle" aria-label="Turn off animations">
+        <span class="toggle-track" aria-hidden="true"></span>
+      </label>
     </header>
 
     <main id="top" class="deck">
@@ -342,6 +347,54 @@
             <figure class="vlsi-cover-image">
               <img src="images/vlsi/ic.png" alt="Line drawing of an integrated circuit package">
             </figure>
+          </div>
+        </section>
+
+        <section class="vlsi-panel vlsi-layer-panel vlsi-chapter" aria-label="How VLSI layout layers combine">
+          <div class="vlsi-pin">
+            <article class="vlsi-copy">
+              <p class="eyebrow">Layout Basics</p>
+              <h3>Colors Become Chip Layers</h3>
+              <p>
+                A VLSI layout is drawn as stacked mask layers. Diffusion regions form
+                transistor terminals, polysilicon crosses them to create gates, metal
+                layers route signals, and contacts or vias connect one layer to the
+                next.
+              </p>
+              <p>
+                This clean layer map separates the drawing conventions: contacts
+                connect device layers to Metal1, while square vias connect one
+                metal layer to the next metal layer.
+              </p>
+            </article>
+            <div class="vlsi-layer-visual" aria-label="Colored VLSI layout layers with contacts and vias">
+              <div class="layer-canvas">
+                <span class="layout-shape pdiff pdiff-row"></span>
+                <span class="layout-shape ndiff ndiff-row"></span>
+                <span class="layout-shape poly poly-a"></span>
+                <span class="layout-shape poly poly-b"></span>
+                <span class="layout-shape metal1 metal1-horizontal"></span>
+                <span class="layout-shape metal1 metal1-vertical"></span>
+                <span class="layout-shape metal2 metal2-horizontal"></span>
+                <span class="layout-shape metal2 metal2-vertical"></span>
+                <span class="layout-shape metal3 metal3-horizontal"></span>
+                <span class="layout-shape contact contact-p"></span>
+                <span class="layout-shape contact contact-poly-a"></span>
+                <span class="layout-shape contact contact-poly-b"></span>
+                <span class="layout-shape via via-m1-m2-a"></span>
+                <span class="layout-shape via via-m2-m3"></span>
+              </div>
+              <div class="layer-legend" aria-hidden="true">
+                <span class="legend-chip metal1-chip"><i class="legend-metal1"></i> metal1</span>
+                <span class="legend-chip metal2-chip"><i class="legend-metal2"></i> metal2</span>
+                <span class="legend-chip metal3-chip"><i class="legend-metal3"></i> metal3</span>
+                <span class="legend-chip poly-chip"><i class="legend-poly"></i> polysilicon</span>
+                <span class="legend-chip ndiff-chip"><i class="legend-ndiff"></i> N diffusion</span>
+                <span class="legend-chip pdiff-chip"><i class="legend-pdiff"></i> P diffusion</span>
+                <span class="legend-chip contact-chip"><i class="legend-contact"></i> contacts</span>
+                <span class="legend-chip via-chip"><i class="legend-via"></i> vias</span>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -710,6 +763,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=18"></script>
+    <script src="js/robot-scroll.js?v=19"></script>
   </body>
 </html>

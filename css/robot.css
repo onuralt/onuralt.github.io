@@ -213,7 +213,13 @@
 .robot-media {
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  background: #fff;
+  background:
+    var(--blueprint-grid),
+    #fff;
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
   transform: translateY(var(--media-y));
 }
@@ -242,7 +248,13 @@
   height: auto;
   min-height: auto;
   justify-self: center;
-  background: transparent;
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   line-height: 0;
 }
 
@@ -328,7 +340,13 @@
   align-self: center;
   margin: 0;
   overflow: hidden;
-  background: #fff;
+  background:
+    var(--blueprint-grid),
+    #fff;
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border: 1px solid rgba(67, 81, 85, 0.18);
   box-shadow: 0 24px 54px rgba(28, 36, 38, 0.2);
   opacity: var(--flow-gif-opacity);
@@ -570,7 +588,13 @@
   place-items: center;
   margin: 0;
   overflow: visible;
-  background: transparent;
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   transform: translateX(var(--stack-x, 0px)) translateY(var(--stack-y, 0px))
     scale(var(--ball-scale));
   transition: none;
@@ -695,7 +719,13 @@
   min-height: 0;
   margin: 0;
   overflow: hidden;
-  background: #fff;
+  background:
+    var(--blueprint-grid),
+    #fff;
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border: 1px solid rgba(67, 81, 85, 0.14);
 }
 
@@ -752,7 +782,13 @@
 .flow-node,
 .motion-card {
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border-color: rgba(255, 255, 255, 0.24);
 }
 

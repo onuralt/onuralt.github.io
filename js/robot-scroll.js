@@ -3,14 +3,20 @@ const cvChapters = document.querySelectorAll(".cv-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
+const animationToggle = document.querySelector("#animation-toggle");
 const vlsiZoom = document.createElement("div");
 const vlsiZoomImage = document.createElement("img");
 let activeScrollAnimation;
+const animationPreferenceKey = "portfolio-animation-disabled";
 
 vlsiZoom.className = "vlsi-hover-zoom";
 vlsiZoom.setAttribute("aria-hidden", "true");
 vlsiZoom.appendChild(vlsiZoomImage);
 document.body.appendChild(vlsiZoom);
+
+function isAnimationDisabled() {
+  return document.body.classList.contains("no-animation");
+}
 
 function showVlsiZoom(image) {
   vlsiZoomImage.src = image.currentSrc || image.src;
@@ -53,6 +59,109 @@ function equalizeVlsiEvidenceCards() {
       card.style.height = `${maxHeight}px`;
     });
   });
+}
+
+function setCompletedRobotState() {
+  const viewport = window.innerHeight || 1;
+  const viewportWidth = window.innerWidth || 1;
+
+  robotChapters.forEach((chapter) => {
+    chapter.style.setProperty("--robot-progress", "1");
+    chapter.style.setProperty("--title-opacity", "1");
+    chapter.style.setProperty("--title-y", "0px");
+    chapter.style.setProperty("--cover-x", `${Math.round(viewport * -0.38)}px`);
+    chapter.style.setProperty("--cover-scale", "0.64");
+    chapter.style.setProperty("--media-y", "-18px");
+    chapter.style.setProperty("--rail-width", "100%");
+    chapter.style.setProperty("--ball-rgb", "1");
+    chapter.style.setProperty("--ball-hsv", "1");
+    chapter.style.setProperty("--ball-threshold", "1");
+    chapter.style.setProperty("--ball-stack", "1");
+    chapter.style.setProperty("--filter-text", "1");
+    chapter.style.setProperty("--caption-rgb-opacity", "0");
+    chapter.style.setProperty("--caption-rgb-y", "-90px");
+    chapter.style.setProperty("--caption-hsv-opacity", "0");
+    chapter.style.setProperty("--caption-hsv-y", "-90px");
+    chapter.style.setProperty("--caption-threshold-opacity", "0");
+    chapter.style.setProperty("--caption-threshold-y", "-90px");
+    chapter.style.setProperty("--caption-track-x", "0px");
+    chapter.style.setProperty("--flow-copy", "1");
+    chapter.style.setProperty("--flow-gif-opacity", "1");
+    chapter.style.setProperty("--flow-gif-scale", "1");
+    Array.from({ length: 8 }).forEach((_, index) => {
+      chapter.style.setProperty(`--flow-${index + 1}`, "1");
+      chapter.style.setProperty(`--flow-line-${index + 1}`, "1");
+    });
+    chapter.style.setProperty("--motion-approach", "1");
+    chapter.style.setProperty("--motion-pair", "1");
+    chapter.style.setProperty("--motion-turn", "1");
+    chapter.style.setProperty("--filter-stack-x", `${Math.round(viewportWidth * 0.025)}px`);
+    chapter.style.setProperty("--ball-scale", "0.95");
+    chapter.style.setProperty("--rgb-x", "0px");
+    chapter.style.setProperty("--rgb-y", "-76px");
+    chapter.style.setProperty("--hsv-x", "24px");
+    chapter.style.setProperty("--hsv-y", "0px");
+    chapter.style.setProperty("--threshold-x", "48px");
+    chapter.style.setProperty("--threshold-y", "76px");
+  });
+}
+
+function setCompletedCvState() {
+  cvChapters.forEach((chapter) => {
+    chapter.style.setProperty("--cv-rail-width", "100%");
+    Array.from({ length: 5 }).forEach((_, index) =>
+      chapter.style.setProperty(`--cv-section-${index + 1}`, "1"),
+    );
+  });
+}
+
+function setCompletedVlsiState() {
+  const viewportWidth = window.innerWidth || 1;
+  const coverShift = Math.round(Math.min(viewportWidth * 0.22, 280));
+
+  vlsiChapters.forEach((chapter) => {
+    chapter.style.setProperty("--vlsi-media", "1");
+    chapter.style.setProperty("--vlsi-text", "1");
+    chapter.style.setProperty("--vlsi-note", "1");
+    chapter.style.setProperty("--vlsi-rail-width", "100%");
+    Array.from({ length: 6 }).forEach((_, index) =>
+      chapter.style.setProperty(`--vlsi-figure-${index + 1}`, "1"),
+    );
+    Array.from({ length: 5 }).forEach((_, index) =>
+      chapter.style.setProperty(`--vlsi-stage-${index + 1}`, "1"),
+    );
+    chapter.style.setProperty("--vlsi-media-y", "0px");
+    chapter.style.setProperty("--vlsi-text-y", "0px");
+    chapter.style.setProperty("--vlsi-cover-shift", `${coverShift}px`);
+  });
+}
+
+function setCompletedAnimationState() {
+  setCompletedRobotState();
+  setCompletedCvState();
+  setCompletedVlsiState();
+  equalizeVlsiEvidenceCards();
+}
+
+function setAnimationDisabled(disabled) {
+  document.body.classList.toggle("no-animation", disabled);
+
+  if (animationToggle) {
+    animationToggle.checked = disabled;
+  }
+
+  localStorage.setItem(animationPreferenceKey, disabled ? "true" : "false");
+
+  if (activeScrollAnimation) {
+    cancelAnimationFrame(activeScrollAnimation);
+    activeScrollAnimation = null;
+  }
+
+  if (disabled) {
+    setCompletedAnimationState();
+  } else {
+    updateRobotProgress();
+  }
 }
 
 vlsiEvidenceImages.forEach((image) => {
@@ -128,11 +237,23 @@ function animateScrollTo(targetTop, duration = 1800) {
 }
 
 function scrollToChapterEnd(chapter) {
+  if (isAnimationDisabled()) {
+    scrollToSectionTop(chapter);
+    return;
+  }
+
   animateScrollTo(getChapterEndScrollTop(chapter), 4800);
 }
 
 function scrollToSectionTop(section) {
-  animateScrollTo(getSectionTopScrollTop(section), 2400);
+  const targetTop = getSectionTopScrollTop(section);
+
+  if (isAnimationDisabled()) {
+    window.scrollTo(0, targetTop);
+    return;
+  }
+
+  animateScrollTo(targetTop, 2400);
 }
 
 function addAdvanceButton(pin, target, label, completeTarget = true) {
@@ -214,12 +335,22 @@ function setupSectionNavigation() {
 
       event.preventDefault();
       history.pushState(null, "", hash);
-      scrollToChapterEnd(target);
+
+      if (isAnimationDisabled()) {
+        scrollToSectionTop(target);
+      } else {
+        scrollToChapterEnd(target);
+      }
     });
   });
 }
 
 function updateRobotProgress() {
+  if (isAnimationDisabled()) {
+    setCompletedAnimationState();
+    return;
+  }
+
   const viewport = window.innerHeight || 1;
   const reveal = (value, start, span) =>
     Math.min(Math.max((value - start) / span, 0), 1);
@@ -435,6 +566,14 @@ function updateRobotProgress() {
 addSlideAdvanceControls();
 setupSectionNavigation();
 equalizeVlsiEvidenceCards();
+
+if (animationToggle) {
+  animationToggle.addEventListener("change", () =>
+    setAnimationDisabled(animationToggle.checked),
+  );
+}
+
+setAnimationDisabled(localStorage.getItem(animationPreferenceKey) === "true");
 updateRobotProgress();
 window.addEventListener("scroll", updateRobotProgress, { passive: true });
 window.addEventListener("scroll", hideVlsiZoom, { passive: true });

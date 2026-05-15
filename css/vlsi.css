@@ -48,6 +48,7 @@
   height: calc(100vh - 52px);
   min-height: calc(100vh - 52px);
   padding: clamp(32px, 5vw, 70px);
+  padding-bottom: max(clamp(32px, 5vw, 70px), 112px);
   overflow: hidden;
   background:
     linear-gradient(120deg, rgba(0, 74, 153, 0.98), rgba(0, 74, 153, 0.92) 48%, rgba(0, 55, 112, 0.92)),
@@ -188,6 +189,261 @@
   will-change: opacity, transform;
 }
 
+.vlsi-layer-visual {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+  align-self: center;
+  opacity: var(--vlsi-media);
+  transform: translateY(var(--vlsi-media-y)) scale(calc(0.96 + (0.04 * var(--vlsi-media))));
+  will-change: opacity, transform;
+}
+
+.layer-canvas {
+  position: relative;
+  aspect-ratio: 1.2;
+  min-height: clamp(260px, 36vh, 380px);
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.08);
+  background-size: 28px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-top: 6px solid var(--orange);
+  box-shadow: 0 26px 58px rgba(28, 36, 38, 0.2);
+}
+
+.layout-shape {
+  position: absolute;
+  display: block;
+  border: 0;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.pdiff {
+  background: rgba(248, 211, 78, 0.7);
+}
+
+.pdiff-row {
+  left: 15%;
+  top: 24%;
+  width: 70%;
+  height: 14%;
+}
+
+.ndiff {
+  background: rgba(56, 194, 118, 0.68);
+}
+
+.ndiff-row {
+  left: 18%;
+  top: 62%;
+  width: 64%;
+  height: 14%;
+}
+
+.poly {
+  width: 6%;
+  height: 64%;
+  top: 18%;
+  background: rgba(231, 85, 76, 0.76);
+}
+
+.poly-a {
+  left: 34%;
+}
+
+.poly-b {
+  left: 60%;
+}
+
+.metal1 {
+  background: rgba(205, 166, 255, 0.9);
+}
+
+.metal1-horizontal {
+  left: 15%;
+  top: 62%;
+  width: 70%;
+  height: 14%;
+}
+
+.metal1-vertical {
+  left: 47%;
+  top: 24%;
+  width: 6%;
+  height: 52%;
+}
+
+.metal2 {
+  background: rgba(103, 48, 178, 0.82);
+}
+
+.metal2-horizontal {
+  left: 24%;
+  top: 12%;
+  width: 52%;
+  height: 7.2%;
+}
+
+.metal2-vertical {
+  left: 24%;
+  top: 12%;
+  width: 6%;
+  height: 76%;
+}
+
+.metal3 {
+  background: rgba(43, 200, 205, 0.78);
+}
+
+.metal3-horizontal {
+  left: 15%;
+  top: 84.6%;
+  width: 70%;
+  height: 7.2%;
+}
+
+.contact,
+.via {
+  width: 5.8%;
+  aspect-ratio: 1;
+  background: #101114;
+  border: 2px solid rgba(255, 255, 255, 0.86);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+}
+
+.contact {
+  border-radius: 50%;
+}
+
+.contact-p {
+  top: 28.1%;
+  left: 47.1%;
+}
+
+.contact-poly-a,
+.contact-poly-b {
+  top: 65.9%;
+}
+
+.contact-poly-a {
+  left: 34.1%;
+}
+
+.contact-poly-b {
+  left: 60.1%;
+}
+
+.via {
+  border-radius: 0;
+}
+
+.via-m1-m2-a {
+  left: 24.1%;
+  top: 65.9%;
+}
+
+.via-m2-m3 {
+  left: 24.1%;
+  top: 84.6%;
+}
+
+.layer-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #fff;
+  font-size: clamp(0.7rem, 0.8vw, 0.84rem);
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 30px;
+  padding: 6px 8px;
+  flex: 1 1 132px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+}
+
+.layer-legend i {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.legend-metal1 {
+  background: rgba(205, 166, 255, 0.95);
+}
+
+.legend-metal2 {
+  background: rgba(103, 48, 178, 0.92);
+}
+
+.legend-metal3 {
+  background: rgba(43, 200, 205, 0.9);
+}
+
+.legend-poly {
+  background: rgba(231, 85, 76, 0.82);
+}
+
+.legend-ndiff {
+  background: rgba(56, 194, 118, 0.86);
+}
+
+.legend-pdiff {
+  background: rgba(248, 211, 78, 0.88);
+}
+
+.legend-contact {
+  background: #101114;
+  border-radius: 50%;
+}
+
+.legend-via {
+  background: #101114;
+}
+
+.metal1-chip {
+  background: rgba(205, 166, 255, 0.3);
+}
+
+.metal2-chip {
+  background: rgba(103, 48, 178, 0.34);
+}
+
+.metal3-chip {
+  background: rgba(43, 200, 205, 0.28);
+}
+
+.poly-chip {
+  background: rgba(199, 54, 50, 0.34);
+}
+
+.ndiff-chip {
+  background: rgba(36, 154, 86, 0.32);
+}
+
+.pdiff-chip {
+  color: #fff8d9;
+  background: rgba(199, 147, 24, 0.34);
+}
+
+.contact-chip {
+  background: rgba(16, 17, 20, 0.34);
+}
+
+.via-chip {
+  background: rgba(16, 17, 20, 0.34);
+}
+
 .vlsi-comparison-panel .vlsi-pin,
 .vlsi-measure-panel .vlsi-pin {
   grid-template-columns: 1fr;
@@ -319,7 +575,13 @@
   display: grid;
   grid-template-rows: auto auto;
   overflow: hidden;
-  background: transparent;
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border: 1px solid rgba(67, 81, 85, 0.18);
   box-shadow: 0 20px 44px rgba(28, 36, 38, 0.16);
 }
@@ -607,7 +869,7 @@
 .vlsi-wave-scene {
   position: relative;
   z-index: 2;
-  min-height: min(66vh, 640px);
+  min-height: min(58vh, 560px);
 }
 
 .vlsi-cell-pair,
@@ -854,7 +1116,7 @@
   gap: clamp(16px, 2vw, 24px);
   align-content: center;
   align-items: start;
-  min-height: min(70vh, 680px);
+  min-height: min(58vh, 560px);
 }
 
 .vlsi-cell-panel .vlsi-pin,
@@ -951,7 +1213,13 @@
   margin: 0;
   overflow: hidden;
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-top: 6px solid var(--orange);
   padding: 0;
@@ -1084,6 +1352,19 @@
 #vlsi-mcca-layout .vlsi-one-card-grid .vlsi-evidence-card {
   min-height: 0;
   height: auto;
+}
+
+.vlsi-cell-panel .vlsi-evidence-card,
+.vlsi-cska-panel .vlsi-evidence-card,
+.vlsi-mcca-panel .vlsi-evidence-card,
+.vlsi-analysis-panel .vlsi-evidence-card {
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
 }
 
 #vlsi-cska-layout .vlsi-evidence-item,
@@ -1235,8 +1516,24 @@
 .vlsi-cell-explain,
 .vlsi-waveform {
   color: #fff;
-  background: rgba(255, 255, 255, 0.12);
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
   border-color: rgba(255, 255, 255, 0.24);
+}
+
+.vlsi-wave-scene .vlsi-waveform {
+  background:
+    var(--blueprint-grid),
+    rgba(255, 255, 255, 0.12);
+  background-size:
+    var(--blueprint-grid-size),
+    var(--blueprint-grid-size),
+    auto;
 }
 
 .vlsi-cell-label,
@@ -1292,8 +1589,12 @@
     grid-template-columns: 1fr;
     height: auto;
     min-height: 0;
-    padding: 42px 20px 28px;
+    padding: 42px 20px 118px;
     overflow: visible;
+  }
+
+  .vlsi-pin .slide-advance {
+    bottom: 28px;
   }
 
   .vlsi-copy,
@@ -1320,6 +1621,19 @@
   .vlsi-cover-image,
   .vlsi-evidence-large {
     min-height: 320px;
+  }
+
+  .layer-canvas {
+    min-height: 0;
+  }
+
+  .layer-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .layer-legend span {
+    min-width: 0;
   }
 
   .vlsi-cover-image {
