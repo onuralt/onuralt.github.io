@@ -3,7 +3,10 @@ const cvChapters = document.querySelectorAll(".cv-chapter");
 const thesisChapters = document.querySelectorAll(".thesis-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
-const vlsiEvidenceImages = document.querySelectorAll(".vlsi-evidence-item img");
+const zoomableDiagramImages = document.querySelectorAll(
+  ".vlsi-evidence-item img, .thesis-framework-diagram img",
+);
+const rvficWaveGuides = document.querySelectorAll("[data-rvfic-wave-guide]");
 const vlsiLayerPanels = document.querySelectorAll(".vlsi-layer-panel");
 const animationToggle = document.querySelector("#animation-toggle");
 const vlsiZoom = document.createElement("div");
@@ -30,8 +33,8 @@ function hideVlsiZoom() {
   vlsiZoom.classList.remove("is-active");
 }
 
-vlsiEvidenceImages.forEach((image) => {
-  const item = image.closest(".vlsi-evidence-item");
+zoomableDiagramImages.forEach((image) => {
+  const item = image.closest(".vlsi-evidence-item, .thesis-framework-diagram");
 
   if (!item) {
     return;
@@ -101,6 +104,105 @@ vlsiLayerPanels.forEach((panel) => {
   panel.addEventListener("focusout", (event) => {
     if (!panel.contains(event.relatedTarget)) {
       clearActiveLayer();
+    }
+  });
+});
+
+rvficWaveGuides.forEach((guide) => {
+  const title = guide.querySelector("[data-rvfic-info-title]");
+  const copy = guide.querySelector("[data-rvfic-info-copy]");
+  const cycleTitle = guide.querySelector("[data-rvfic-cycle-title]");
+  const cycleCopy = guide.querySelector("[data-rvfic-cycle-copy]");
+  const signalButtons = guide.querySelectorAll(".rvfic-signal-name");
+  const cycleButtons = guide.querySelectorAll(".rvfic-cycle-name");
+  const wavePanels = guide.querySelectorAll(".rvfic-wave-panel");
+
+  if (!title || !copy || !signalButtons.length) {
+    return;
+  }
+
+  const defaultTitle = title.textContent;
+  const defaultCopy = copy.textContent;
+  const defaultCycleTitle = cycleTitle?.textContent || "";
+  const defaultCycleCopy = cycleCopy?.textContent || "";
+
+  function clearSignalInfo() {
+    title.textContent = defaultTitle;
+    copy.textContent = defaultCopy;
+
+    signalButtons.forEach((button) => {
+      button.classList.remove("is-active");
+      button.closest(".rvfic-wave-row")?.classList.remove("is-active");
+    });
+  }
+
+  function setSignalInfo(button) {
+    title.textContent = button.dataset.signalTitle || button.textContent.trim();
+    copy.textContent = button.dataset.signalInfo || defaultCopy;
+  }
+
+  function clearCycleInfo() {
+    if (cycleTitle && cycleCopy) {
+      cycleTitle.textContent = defaultCycleTitle;
+      cycleCopy.textContent = defaultCycleCopy;
+    }
+
+    cycleButtons.forEach((button) => button.classList.remove("is-active"));
+    wavePanels.forEach((panel) => panel.removeAttribute("data-active-cycle"));
+  }
+
+  function setCycleInfo(button) {
+    const cycleIndex = button.dataset.cycleIndex;
+
+    if (cycleTitle && cycleCopy) {
+      cycleTitle.textContent = button.dataset.cycleTitle || button.textContent.trim();
+      cycleCopy.textContent = button.dataset.cycleInfo || defaultCycleCopy;
+    }
+
+    cycleButtons.forEach((item) =>
+      item.classList.toggle("is-active", item.dataset.cycleIndex === cycleIndex),
+    );
+    wavePanels.forEach((panel) => {
+      if (cycleIndex) {
+        panel.dataset.activeCycle = cycleIndex;
+      }
+    });
+  }
+
+  signalButtons.forEach((button) => {
+    button.addEventListener("mouseenter", () => setSignalInfo(button));
+    button.addEventListener("focus", () => setSignalInfo(button));
+    button.addEventListener("click", () => setSignalInfo(button));
+    button.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      setSignalInfo(button);
+    });
+  });
+
+  cycleButtons.forEach((button) => {
+    button.addEventListener("mouseenter", () => setCycleInfo(button));
+    button.addEventListener("focus", () => setCycleInfo(button));
+    button.addEventListener("click", () => setCycleInfo(button));
+    button.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      setCycleInfo(button);
+    });
+  });
+
+  guide.addEventListener("mouseleave", clearSignalInfo);
+  guide.addEventListener("mouseleave", clearCycleInfo);
+  guide.addEventListener("focusout", (event) => {
+    if (!guide.contains(event.relatedTarget)) {
+      clearSignalInfo();
+      clearCycleInfo();
     }
   });
 });
@@ -198,6 +300,16 @@ function setCompletedThesisState() {
     Array.from({ length: 8 }).forEach((_, index) =>
       chapter.style.setProperty(`--thesis-step-${index + 1}`, "1"),
     );
+    Array.from({ length: 3 }).forEach((_, index) => {
+      const card = index + 1;
+
+      chapter.style.setProperty(`--framework-card-${card}-visible`, "1");
+      chapter.style.setProperty(`--framework-card-${card}-copy`, "1");
+      chapter.style.setProperty(`--framework-card-${card}-copy-y`, "0px");
+      chapter.style.setProperty(`--framework-card-${card}-x`, "0%");
+      chapter.style.setProperty(`--framework-card-${card}-y`, "0px");
+      chapter.style.setProperty(`--framework-card-${card}-scale`, "1");
+    });
   });
 }
 
@@ -256,7 +368,7 @@ function setAnimationDisabled(disabled) {
   }
 }
 
-vlsiEvidenceImages.forEach((image) => {
+zoomableDiagramImages.forEach((image) => {
   if (image.complete) {
     return;
   }
@@ -602,6 +714,7 @@ function updateRobotProgress() {
     const travel = getChapterTravel(chapter);
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const isHero = chapter.classList.contains("thesis-hero");
+    const isFramework = chapter.classList.contains("thesis-framework");
     const text = reveal(progress, isHero ? 0.12 : 0.08, isHero ? 0.28 : 0.18);
     const media = reveal(progress, 0.16, 0.22);
     const note = reveal(progress, 0.76, 0.16);
@@ -632,6 +745,44 @@ function updateRobotProgress() {
     steps.forEach((value, index) =>
       chapter.style.setProperty(`--thesis-step-${index + 1}`, value.toFixed(4)),
     );
+
+    if (isFramework) {
+      [
+        { visible: 0.04, settle: 0.14, copy: 0.3, startX: 100 },
+        { visible: 0.34, settle: 0.44, copy: 0.58, startX: 0 },
+        { visible: 0.62, settle: 0.72, copy: 0.86, startX: -100 },
+      ].forEach((card, index) => {
+        const cardNumber = index + 1;
+        const visible = reveal(progress, card.visible, 0.08);
+        const settle = reveal(progress, card.settle, 0.22);
+        const copy = reveal(progress, card.copy, 0.12);
+        const x = (1 - settle) * card.startX;
+        const scale = 1.36 - settle * 0.36;
+        const copyY = Math.round((1 - copy) * 18);
+
+        chapter.style.setProperty(
+          `--framework-card-${cardNumber}-visible`,
+          visible.toFixed(4),
+        );
+        chapter.style.setProperty(
+          `--framework-card-${cardNumber}-copy`,
+          copy.toFixed(4),
+        );
+        chapter.style.setProperty(
+          `--framework-card-${cardNumber}-copy-y`,
+          `${copyY}px`,
+        );
+        chapter.style.setProperty(
+          `--framework-card-${cardNumber}-x`,
+          `${x.toFixed(2)}%`,
+        );
+        chapter.style.setProperty(`--framework-card-${cardNumber}-y`, "0px");
+        chapter.style.setProperty(
+          `--framework-card-${cardNumber}-scale`,
+          scale.toFixed(4),
+        );
+      });
+    }
   });
 
   vlsiChapters.forEach((chapter) => {

@@ -10,7 +10,7 @@
     >
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=23">
-    <link rel="stylesheet" href="css/thesis.css?v=8">
+    <link rel="stylesheet" href="css/thesis.css?v=27">
     <link rel="stylesheet" href="css/robot.css?v=13">
     <link rel="stylesheet" href="css/vlsi.css?v=53">
     <link rel="stylesheet" href="css/responsive.css?v=9">
@@ -184,60 +184,140 @@
           </div>
         </section>
 
-        <section class="thesis-panel thesis-rvfic thesis-chapter" aria-label="RVFIC generation pipeline">
-          <div class="thesis-pin thesis-pin-wide">
-            <article class="thesis-copy">
-              <p class="eyebrow">RVFIC</p>
-              <h3>Signal Maps Become a Uniform Interface</h3>
-              <p>RVFIC reads a JSON map, generates bind/probe logic and a wrapper module, copies DUV sources, and exposes RVFI-style signals without modifying the core RTL.</p>
-            </article>
-            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
-              <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="RVFIC generation pipeline from thesis Figure 4.4">
-              <figcaption>Figure 4.4: RVFIC generation pipeline.</figcaption>
-            </figure>
+        <section class="thesis-panel thesis-framework thesis-chapter" aria-label="RVFIC RVGM and RVAVF framework components">
+          <div class="thesis-pin thesis-pin-framework">
+            <div class="thesis-framework-layout" aria-label="Generated verification framework component cards">
+              <article class="thesis-framework-card thesis-framework-card-rvfic">
+                <div class="thesis-framework-label"><span>01</span> RISC-V Formal Interface in Chisel [RVFIC]</div>
+                <figure class="thesis-framework-diagram">
+                  <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="RVFIC generation pipeline from thesis Figure 4.4">
+                </figure>
+                <div class="thesis-framework-card-copy">
+                  <p>RVFIC reads a core-specific signal map and generates the bind/probe logic, wrapper, and copied source workspace needed to expose RVFI-style observations without modifying the processor RTL.</p>
+                </div>
+              </article>
+              <article class="thesis-framework-card thesis-framework-card-rvgm">
+                <div class="thesis-framework-label"><span>02</span> RISC-V Golden Model [RVGM]</div>
+                <figure class="thesis-framework-diagram">
+                  <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="RVGM golden model architecture from thesis Figure 4.7">
+                </figure>
+                <div class="thesis-framework-card-copy">
+                  <p>RVGM is the synthesizable reference model. It decodes the retired instruction and computes the expected architectural effects for the configured ISA, including PC, register, memory, and optional CSR state.</p>
+                </div>
+              </article>
+              <article class="thesis-framework-card thesis-framework-card-rvavf">
+                <div class="thesis-framework-label"><span>03</span> RISC-V Automatic Verification Framework [RVAVF]</div>
+                <figure class="thesis-framework-diagram">
+                  <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="RVAVF formal verification architecture from thesis Figure 4.10">
+                </figure>
+                <div class="thesis-framework-card-copy">
+                  <p>RVAVF connects the RVFIC observation interface to RVGM, emits signal-level SystemVerilog assertions, builds the formal harness, stages the generated files, and writes the JasperGold TCL flow.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
-        <section class="thesis-panel thesis-wave thesis-chapter" aria-label="RVFIC waveform semantics">
-          <div class="thesis-pin thesis-pin-wide">
-            <article class="thesis-copy">
-              <p class="eyebrow">Signal Semantics</p>
-              <h3>Retirement Events Become Visible</h3>
-              <p>In the load/store example, <code>addi x1, x0, 0x100</code> sets the address, <code>sw x2, 0(x1)</code> writes memory, and <code>lw x3, 0(x1)</code> reads it back.</p>
+        <section class="thesis-panel thesis-wave-dynamic thesis-chapter" aria-label="Interactive RVFIC waveform signal guide">
+          <div class="thesis-pin thesis-pin-wave-dynamic" data-rvfic-wave-guide>
+            <article class="thesis-copy thesis-wave-dynamic-copy">
+              <p class="eyebrow">Interactive RVFIC Trace</p>
+              <h3>RVFI-Like Signals Expose Retired State</h3>
+              <p>RVFIC adapts the RISC-V Formal Interface idea to generated Chisel wrappers: each valid retirement cycle exposes the instruction, order, PC, register effects, and memory access in an RVFI-like trace.</p>
+              <a class="thesis-rvfi-reference" href="https://yosyshq.readthedocs.io/projects/riscv-formal/en/latest/rvfi.html" target="_blank" rel="noopener noreferrer">RVFI reference</a>
+              <div class="rvfic-signal-info" aria-live="polite">
+                <p class="eyebrow">Signal Info</p>
+                <h4 data-rvfic-info-title>Hover over a signal name for info</h4>
+                <p data-rvfic-info-copy>RVFIC exposes an RVFI-like trace for one committed instruction per valid cycle.</p>
+              </div>
             </article>
-            <figure class="thesis-visual thesis-visual-card thesis-visual-wide thesis-visual-waveform">
-              <img src="images/thesis/thesis-rvfic-waveform-figure-4-2.png" alt="RVFIC load store waveform from thesis Figure 4.2">
-              <figcaption>Figure 4.2: RVFIC waveform example with a load/store sequence.</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section class="thesis-panel thesis-rvgm thesis-chapter" aria-label="RISC-V Golden Model">
-          <div class="thesis-pin thesis-pin-wide">
-            <article class="thesis-copy">
-              <p class="eyebrow">RVGM</p>
-              <h3>A Synthesizable Golden Reference Model</h3>
-              <p>RVGM computes expected architectural effects for the configured ISA, including PC, register file, memory signals, and optional CSR trace state.</p>
-            </article>
-            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
-              <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="RVGM golden model architecture from thesis Figure 4.7">
-              <figcaption>Figure 4.7: RVGM golden model architecture.</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section class="thesis-panel thesis-rvavf thesis-chapter" aria-label="RISC-V Automatic Verification Framework">
-          <div class="thesis-pin thesis-pin-wide">
-            <article class="thesis-copy">
-              <p class="eyebrow">RVAVF</p>
-              <h3>The Full Formal Flow Is Generated</h3>
-              <p>RVAVF combines RVFIC and RVGM, emits signal-by-signal SVA checks at retirement boundaries, builds the top harness, stages files, and generates JasperGold TCL.</p>
-              <code>make rvavf.formal</code>
-            </article>
-            <figure class="thesis-visual thesis-visual-card thesis-visual-wide">
-              <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="RVAVF formal verification architecture from thesis Figure 4.10">
-              <figcaption>Figure 4.10: RVAVF formal verification flow architecture.</figcaption>
-            </figure>
+            <div class="rvfic-wave-board" aria-label="Interactive RVFIC waveform values">
+              <section class="rvfic-wave-panel" aria-label="Retirement and architectural state signals">
+                <h4>Retirement and Architectural State</h4>
+                <div class="rvfic-cycle-axis" aria-hidden="true">
+                  <span></span><button type="button" class="rvfic-cycle-name" data-cycle-index="1" data-cycle-title="Cycle 1: addi" data-cycle-info="The addi instruction retires. It computes 0x100 from x0 and writes it to x1, setting up the base address used by the following store and load.">cycle 1<br><small>addi</small></button><button type="button" class="rvfic-cycle-name" data-cycle-index="2" data-cycle-title="Cycle 2: sw" data-cycle-info="The store retires. It reads x1 as address 0x100 and x2 as data 0x42, then drives mem_wmask=0xF and mem_wdata=0x42 for the memory write.">cycle 2<br><small>sw</small></button><button type="button" class="rvfic-cycle-name" data-cycle-index="3" data-cycle-title="Cycle 3: lw" data-cycle-info="The load retires. It reads address 0x100 with mem_rmask=0xF, receives mem_rdata=0x42, and writes that value into destination register x3.">cycle 3<br><small>lw</small></button>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="clk" data-signal-info="The clock provides the sampling edge. RVFIC values are interpreted around retirement cycles, so the clock row only gives timing context for the sampled architectural events.">clk</button>
+                  <div class="rvfic-wave-values rvfic-wave-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_valid" data-signal-info="Retirement valid. This pulses high when the core commits an instruction. The other RVFI-like fields on that cycle describe the committed architectural state change.">rvfic_valid</button>
+                  <div class="rvfic-wave-values rvfic-wave-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_order" data-signal-info="Monotonic retirement order. It increments from 1 to 3 for the three retired instructions, allowing the DUV and reference model to compare the same committed instruction.">rvfic_order</button>
+                  <div class="rvfic-wave-values"><span>1</span><span>2</span><span>3</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_insn" data-signal-info="The retired instruction word, shown here as assembly. It identifies whether the retirement event is the address-producing addi, the store, or the load.">rvfic_insn</button>
+                  <div class="rvfic-wave-values"><span>addi x1, x0, <mark>0x100</mark></span><span>sw x2, 0(x1)</span><span>lw x3, 0(x1)</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_pc_rdata" data-signal-info="Program counter before execution. It shows the address of each retired instruction: 0x00 for addi, 0x04 for store, and 0x08 for load.">rvfic_pc_rdata</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span>0x04</span><span>0x08</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_pc_wdata" data-signal-info="Program counter after execution. In this straight-line sequence each instruction advances the architectural PC by four bytes.">rvfic_pc_wdata</button>
+                  <div class="rvfic-wave-values"><span>0x04</span><span>0x08</span><span>0x0C</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rs1_addr" data-signal-info="Source register 1 index. The store and load both read x1 because x1 holds the base address 0x100.">rvfic_rs1_addr</button>
+                  <div class="rvfic-wave-values"><span>x0</span><span>x1</span><span>x1</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rs1_rdata" data-signal-info="Source register 1 data. After addi writes 0x100 into x1, the store and load both read x1 as the memory address base.">rvfic_rs1_rdata</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span><mark>0x100</mark></span><span><mark>0x100</mark></span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rs2_addr" data-signal-info="Source register 2 index. The store reads x2 as its data source; addi and load do not use a second architectural source register in this example.">rvfic_rs2_addr</button>
+                  <div class="rvfic-wave-values"><span>x0</span><span>x2</span><span>x0</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rs2_rdata" data-signal-info="Source register 2 data. During the store, rs2 carries the value 0x42 that will be written to memory.">rvfic_rs2_rdata</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span><mark class="rvfic-data-mark">0x42</mark></span><span>0x00</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rd_addr" data-signal-info="Destination register index. addi writes x1, the store writes no destination register, and the load writes x3.">rvfic_rd_addr</button>
+                  <div class="rvfic-wave-values"><span>x1</span><span>x0</span><span>x3</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_rd_wdata" data-signal-info="Destination register write data. addi writes 0x100 to x1, the store writes no destination register, and the load writes the returned 0x42 to x3.">rvfic_rd_wdata</button>
+                  <div class="rvfic-wave-values"><span><mark>0x100</mark></span><span>0x00</span><span><mark class="rvfic-data-mark">0x42</mark></span></div>
+                </div>
+              </section>
+              <section class="rvfic-wave-panel" aria-label="Memory access signals">
+                <h4>Memory Access</h4>
+                <div class="rvfic-cycle-axis" aria-hidden="true">
+                  <span></span><button type="button" class="rvfic-cycle-name" data-cycle-index="1" data-cycle-title="Cycle 1: addi" data-cycle-info="No memory access occurs in the addi retirement cycle. The important effect is rd_wdata=0x100 to x1.">cycle 1<br><small>addi</small></button><button type="button" class="rvfic-cycle-name" data-cycle-index="2" data-cycle-title="Cycle 2: sw" data-cycle-info="This is the write cycle: mem_addr is 0x100, mem_wmask is 0xF, and mem_wdata is 0x42.">cycle 2<br><small>sw</small></button><button type="button" class="rvfic-cycle-name" data-cycle-index="3" data-cycle-title="Cycle 3: lw" data-cycle-info="This is the read cycle: mem_addr is 0x100, mem_rmask is 0xF, and mem_rdata returns 0x42 for the load writeback.">cycle 3<br><small>lw</small></button>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_mem_addr" data-signal-info="Effective memory address. It becomes 0x100 for the store and load because x1 contains the address produced by addi.">rvfic_mem_addr</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span><mark>0x100</mark></span><span><mark>0x100</mark></span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_mem_rmask" data-signal-info="Read byte-enable mask. It is zero for addi and store, then 0xF for the word load in the third retired instruction.">rvfic_mem_rmask</button>
+                  <div class="rvfic-wave-values"><span>0x0</span><span>0x0</span><span>0xF</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_mem_wmask" data-signal-info="Write byte-enable mask. It is 0xF only for the store, marking that the store writes a full word to memory.">rvfic_mem_wmask</button>
+                  <div class="rvfic-wave-values"><span>0x0</span><span>0xF</span><span>0x0</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_mem_wdata" data-signal-info="Memory write data. During the store, the value 0x42 from rs2 is written to address 0x100.">rvfic_mem_wdata</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span><mark class="rvfic-data-mark">0x42</mark></span><span>0x00</span></div>
+                </div>
+                <div class="rvfic-wave-row">
+                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_mem_rdata" data-signal-info="Memory read data. During the load, the memory returns 0x42 from address 0x100, which is then written back to x3.">rvfic_mem_rdata</button>
+                  <div class="rvfic-wave-values"><span>0x00</span><span>0x00</span><span><mark class="rvfic-data-mark">0x42</mark></span></div>
+                </div>
+                <div class="rvfic-cycle-info" aria-live="polite">
+                  <p class="eyebrow">Cycle Info</p>
+                  <h4 data-rvfic-cycle-title>Hover over a cycle for info</h4>
+                  <p data-rvfic-cycle-copy>Each cycle corresponds to one retired instruction because <code>rvfic_valid</code> is high and the RVFI-like fields describe the committed architectural update.</p>
+                </div>
+              </section>
+            </div>
           </div>
         </section>
 
@@ -737,6 +817,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=23"></script>
+    <script src="js/robot-scroll.js?v=32"></script>
   </body>
 </html>
