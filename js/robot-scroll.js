@@ -12,6 +12,7 @@ const animationToggle = document.querySelector("#animation-toggle");
 const vlsiZoom = document.createElement("div");
 const vlsiZoomImage = document.createElement("img");
 let activeScrollAnimation;
+const thesisProblemInputState = new WeakMap();
 const animationPreferenceKey = "portfolio-animation-disabled";
 
 vlsiZoom.className = "vlsi-hover-zoom";
@@ -298,6 +299,40 @@ function setThesisProblemThetaState(chapter, steps) {
   });
 }
 
+function triggerThesisProblemHandPress(chapter, steps) {
+  if (!chapter.classList.contains("thesis-problem")) {
+    return;
+  }
+
+  const tokenStarted = [steps[0] || 0, steps[2] || 0, steps[4] || 0].map(
+    (value) => value > 0.02,
+  );
+  const previous = thesisProblemInputState.get(chapter) || [
+    false,
+    false,
+    false,
+  ];
+  const shouldPress = tokenStarted.some(
+    (started, index) => started && !previous[index],
+  );
+
+  thesisProblemInputState.set(chapter, tokenStarted);
+
+  if (!shouldPress) {
+    return;
+  }
+
+  const hand = chapter.querySelector(".problem-hand");
+
+  if (!hand) {
+    return;
+  }
+
+  hand.classList.remove("is-pressing");
+  void hand.offsetWidth;
+  hand.classList.add("is-pressing");
+}
+
 function setThesisProblemCopyState(chapter, generator, cores, harness) {
   chapter.style.setProperty("--problem-copy-generator", generator.toFixed(4));
   chapter.style.setProperty("--problem-copy-cores", cores.toFixed(4));
@@ -325,6 +360,8 @@ function setCompletedThesisState() {
       chapter.style.setProperty(`--thesis-step-${index + 1}`, "1"),
     );
     chapter.style.setProperty("--problem-hand-opacity", "0");
+    chapter.style.setProperty("--problem-hand-y", "0px");
+    thesisProblemInputState.delete(chapter);
     setThesisProblemThetaState(chapter, completedSteps);
     setThesisProblemCopyState(chapter, 0, 0, 1);
     Array.from({ length: 3 }).forEach((_, index) => {
@@ -793,6 +830,7 @@ function updateRobotProgress() {
       chapter.style.setProperty(`--thesis-step-${index + 1}`, value.toFixed(4)),
     );
     setThesisProblemThetaState(chapter, steps);
+    triggerThesisProblemHandPress(chapter, steps);
     setThesisProblemCopyState(
       chapter,
       generatorCopy,

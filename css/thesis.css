@@ -34,6 +34,7 @@
   --problem-copy-cores: 0;
   --problem-copy-harness: 0;
   --problem-hand-opacity: 0;
+  --problem-hand-y: 0px;
   --framework-card-1-visible: 0;
   --framework-card-1-copy: 0;
   --framework-card-1-copy-y: 18px;
@@ -887,8 +888,23 @@
   max-width: none;
   opacity: var(--problem-hand-opacity);
   pointer-events: none;
-  will-change: opacity;
-  transform: translateX(20px) scale(2);
+  will-change: opacity, transform;
+  transform: translateX(20px) translateY(var(--problem-hand-y)) scale(2);
+}
+
+.problem-hand.is-pressing {
+  animation: problem-hand-press 220ms ease-out;
+}
+
+@keyframes problem-hand-press {
+  0%,
+  100% {
+    transform: translateX(20px) translateY(0) scale(2);
+  }
+
+  42% {
+    transform: translateX(20px) translateY(24px) scale(2);
+  }
 }
 
 .core-generator-arrow {
