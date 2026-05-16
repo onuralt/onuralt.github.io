@@ -281,9 +281,33 @@ function setCompletedCvState() {
   });
 }
 
+function setThesisProblemThetaState(chapter, steps) {
+  const tokenTravel = 280;
+  const tokenValues = [steps[0] || 0, steps[2] || 0, steps[4] || 0];
+  const nextValues = [steps[1] || 0, steps[3] || 0, steps[5] || 0];
+
+  tokenValues.forEach((value, index) => {
+    const opacity = Math.max(Math.min(value * (1 - nextValues[index]), 1), 0);
+    const y = Math.round((1 - value) * tokenTravel * -1);
+
+    chapter.style.setProperty(
+      `--problem-theta-${index + 1}-opacity`,
+      opacity.toFixed(4),
+    );
+    chapter.style.setProperty(`--problem-theta-${index + 1}-y`, `${y}px`);
+  });
+}
+
+function setThesisProblemCopyState(chapter, generator, cores, harness) {
+  chapter.style.setProperty("--problem-copy-generator", generator.toFixed(4));
+  chapter.style.setProperty("--problem-copy-cores", cores.toFixed(4));
+  chapter.style.setProperty("--problem-copy-harness", harness.toFixed(4));
+}
+
 function setCompletedThesisState() {
   const viewportWidth = window.innerWidth || 1;
   const coverTravel = Math.min(viewportWidth * 0.26, 340);
+  const completedSteps = Array.from({ length: 12 }, () => 1);
 
   thesisChapters.forEach((chapter) => {
     chapter.style.setProperty("--thesis-text", "1");
@@ -297,9 +321,12 @@ function setCompletedThesisState() {
       `${Math.round(coverTravel * -1)}px`,
     );
     chapter.style.setProperty("--thesis-cover-scale", "0.64");
-    Array.from({ length: 8 }).forEach((_, index) =>
+    Array.from({ length: 12 }).forEach((_, index) =>
       chapter.style.setProperty(`--thesis-step-${index + 1}`, "1"),
     );
+    chapter.style.setProperty("--problem-hand-opacity", "0");
+    setThesisProblemThetaState(chapter, completedSteps);
+    setThesisProblemCopyState(chapter, 0, 0, 1);
     Array.from({ length: 3 }).forEach((_, index) => {
       const card = index + 1;
 
@@ -721,13 +748,33 @@ function updateRobotProgress() {
     const coverTravel = Math.min(viewportWidth * 0.26, 340);
     const coverX = Math.round(progress * coverTravel * -1);
     const coverScale = 1 - progress * 0.36;
-    const steps = [0.1, 0.2, 0.32, 0.44, 0.56, 0.68, 0.78, 0.88].map(
-      (start) => reveal(progress, start, 0.1),
+    const stepTimeline = [
+      { start: 0.4, span: 0.1 },
+      { start: 0.52, span: 0.045 },
+      { start: 0.58, span: 0.1 },
+      { start: 0.7, span: 0.045 },
+      { start: 0.75, span: 0.08 },
+      { start: 0.84, span: 0.04 },
+      { start: 0.86, span: 0.07 },
+      { start: 0.89, span: 0.07 },
+      { start: 0.92, span: 0.06 },
+      { start: 0.94, span: 0.04 },
+      { start: 0.965, span: 0.03 },
+      { start: 0.982, span: 0.018 },
+    ];
+    const steps = stepTimeline.map(({ start, span }) =>
+      reveal(progress, start, span),
     );
+    const coreCopy = steps[1];
+    const harnessCopy = steps[6];
+    const generatorCopy = 1 - coreCopy;
+    const generatedCoreCopy = coreCopy * (1 - harnessCopy);
+    const problemHand = media * (1 - steps[5]);
 
     chapter.style.setProperty("--thesis-text", text.toFixed(4));
     chapter.style.setProperty("--thesis-media", media.toFixed(4));
     chapter.style.setProperty("--thesis-note", note.toFixed(4));
+    chapter.style.setProperty("--problem-hand-opacity", problemHand.toFixed(4));
     chapter.style.setProperty(
       "--thesis-rail-width",
       `${(progress * 100).toFixed(2)}%`,
@@ -744,6 +791,13 @@ function updateRobotProgress() {
     chapter.style.setProperty("--thesis-cover-scale", coverScale.toFixed(4));
     steps.forEach((value, index) =>
       chapter.style.setProperty(`--thesis-step-${index + 1}`, value.toFixed(4)),
+    );
+    setThesisProblemThetaState(chapter, steps);
+    setThesisProblemCopyState(
+      chapter,
+      generatorCopy,
+      generatedCoreCopy,
+      harnessCopy,
     );
 
     if (isFramework) {

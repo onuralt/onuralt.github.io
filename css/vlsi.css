@@ -101,14 +101,18 @@
 .vlsi-copy h2,
 .vlsi-copy h3 {
   margin: 0 0 24px;
-  font-size: clamp(2.05rem, 4vw, 4.2rem);
+  font-size: clamp(1.28rem, 2.15vw, 2.45rem);
   font-weight: 520;
   line-height: 1.04;
   text-transform: uppercase;
 }
 
 .vlsi-copy h3 {
-  font-size: clamp(1.9rem, 3.4vw, 3.5rem);
+  font-size: clamp(1.28rem, 2.15vw, 2.45rem);
+}
+
+.vlsi-cover .vlsi-copy h2 {
+  font-size: clamp(2.05rem, 4vw, 4.2rem);
 }
 
 .vlsi-copy p {

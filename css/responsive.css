@@ -139,6 +139,10 @@
 
   .robot-copy h2,
   .robot-copy h3 {
+    font-size: clamp(1.28rem, 2.15vw, 2.45rem);
+  }
+
+  .robot-opening .robot-copy h2 {
     font-size: clamp(2rem, 11vw, 3.2rem);
   }
 

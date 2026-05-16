@@ -9,11 +9,11 @@
       content="A presentation-style engineering portfolio and CV focused on hardware verification, embedded systems, robotics, and VLSI."
     >
     <link rel="stylesheet" href="css/base.css?v=6">
-    <link rel="stylesheet" href="css/slides.css?v=23">
-    <link rel="stylesheet" href="css/thesis.css?v=27">
-    <link rel="stylesheet" href="css/robot.css?v=13">
-    <link rel="stylesheet" href="css/vlsi.css?v=53">
-    <link rel="stylesheet" href="css/responsive.css?v=9">
+    <link rel="stylesheet" href="css/slides.css?v=25">
+    <link rel="stylesheet" href="css/thesis.css?v=56">
+    <link rel="stylesheet" href="css/robot.css?v=15">
+    <link rel="stylesheet" href="css/vlsi.css?v=55">
+    <link rel="stylesheet" href="css/responsive.css?v=11">
   </head>
   <body>
     <header class="site-header">
@@ -149,17 +149,65 @@
           <div class="thesis-pin">
             <article class="thesis-copy">
               <p class="eyebrow">Problem Definition</p>
-              <h3>Generated Cores Need Generated Verification</h3>
-              <p>A hardware generator can emit many processor variants from one parameterized description. A manually built formal environment does not scale with those variants.</p>
-              <p>The thesis reframes the problem: when the core configuration changes, the interface, model, harness, assertions, and tool scripts should change with it.</p>
-            </article>
-            <div class="thesis-fanout" aria-label="Parameterized core variants and repeated manual verification work">
-              <div class="fanout-source">Gcore(θ)</div>
-              <div class="fanout-variants">
-                <span>RV32I</span><span>RV32IM</span><span>RV32IMC</span><span>memory tracing</span><span>CSR tracing</span><span>PicoRV32</span><span>NERV</span><span>Ibex</span><span>Hazard3</span>
+              <div class="problem-copy-stages" aria-live="polite">
+                <div class="problem-copy-stage problem-copy-stage-generator">
+                  <h3>Hardware Generators Produce Core Families</h3>
+                  <p>A hardware generator is a parameterized processor description. It does not represent one fixed core; it can emit different RTL designs from different configurations.</p>
+                </div>
+                <div class="problem-copy-stage problem-copy-stage-cores">
+                  <h3>Parameters Select Concrete Cores</h3>
+                  <p>Each θ is a configuration vector. It can encode ISA extensions, memory options, tracing signals, reset behavior, and implementation choices.</p>
+                  <p>Each generated processor instance is depicted as H(θ).</p>
+                </div>
+                <div class="problem-copy-stage problem-copy-stage-harness">
+                  <h3>Each Core Needs a Verification Harness</h3>
+                  <p>VH means verification harness. For every generated H(θ), a matching harness must connect the right signals, assumptions, assertions, and tool flow.</p>
+                  <p>Building that harness by hand for every generated core is the time-consuming part.</p>
+                </div>
               </div>
-              <div class="fanout-work">
-                <span>wrappers</span><span>signal maps</span><span>assertions</span><span>JasperGold scripts</span>
+            </article>
+            <div class="thesis-fanout core-generator-diagram" aria-label="Hardware core generator produces many RISC-V core instances from configuration vector theta">
+              <figure class="core-instance core-generator-source">
+                <img class="problem-hand" src="images/gbframework/hand.png" alt="" aria-hidden="true">
+                <span class="core-layered-image">
+                  <img src="images/thesis/thesis-core-icon.png" alt="RISC-V core generator">
+                  <span class="core-name">Generator</span>
+                  <span class="core-config-token core-config-token-1">θ₁</span>
+                  <span class="core-config-token core-config-token-2">θ₂</span>
+                  <span class="core-config-token core-config-token-3">...θₜ</span>
+                </span>
+              </figure>
+              <div class="core-generator-arrow" aria-hidden="true"></div>
+              <div class="core-family">
+                <figure class="core-instance core-variant core-variant-1">
+                  <span class="core-layered-image">
+                    <img src="images/thesis/thesis-core-icon.png" alt="Generated RISC-V core instance for configuration theta 1">
+                    <span class="core-name">H(θ₁)</span>
+                    <span class="core-verification-layer">VH₁</span>
+                  </span>
+                  <span class="core-down-arrow" aria-hidden="true"></span>
+                  <span class="core-result-box">R(θ₁)</span>
+                </figure>
+                <span class="core-separator core-separator-one" aria-hidden="true">,</span>
+                <figure class="core-instance core-variant core-variant-2">
+                  <span class="core-layered-image">
+                    <img src="images/thesis/thesis-core-icon.png" alt="Generated RISC-V core instance for configuration theta 2">
+                    <span class="core-name">H(θ₂)</span>
+                    <span class="core-verification-layer">VH₂</span>
+                  </span>
+                  <span class="core-down-arrow" aria-hidden="true"></span>
+                  <span class="core-result-box">R(θ₂)</span>
+                </figure>
+                <span class="core-ellipsis" aria-hidden="true">...</span>
+                <figure class="core-instance core-variant core-variant-t">
+                  <span class="core-layered-image">
+                    <img src="images/thesis/thesis-core-icon.png" alt="Generated RISC-V core instance for configuration theta t">
+                    <span class="core-name">H(θₜ)</span>
+                    <span class="core-verification-layer">VHₜ</span>
+                  </span>
+                  <span class="core-down-arrow" aria-hidden="true"></span>
+                  <span class="core-result-box">R(θₜ)</span>
+                </figure>
               </div>
             </div>
           </div>
@@ -817,6 +865,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=32"></script>
+    <script src="js/robot-scroll.js?v=41"></script>
   </body>
 </html>

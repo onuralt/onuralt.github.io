@@ -157,7 +157,7 @@ figcaption {
 
 .case-copy h2 {
   margin-bottom: 30px;
-  font-size: clamp(1.85rem, 3.8vw, 3.1rem);
+  font-size: clamp(1.28rem, 2.15vw, 2.45rem);
   line-height: 1.12;
   text-transform: uppercase;
 }
@@ -231,7 +231,7 @@ figcaption {
 }
 
 .compact .case-copy h2 {
-  font-size: clamp(1.7rem, 3.4vw, 2.85rem);
+  font-size: clamp(1.28rem, 2.15vw, 2.45rem);
 }
 
 .welcome-experience,
