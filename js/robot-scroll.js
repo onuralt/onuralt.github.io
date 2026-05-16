@@ -297,6 +297,30 @@ function setThesisProblemThetaState(chapter, steps) {
     );
     chapter.style.setProperty(`--problem-theta-${index + 1}-y`, `${y}px`);
   });
+
+  chapter.style.setProperty(
+    "--problem-hand-y",
+    `${getThesisProblemHandPressY(tokenValues)}px`,
+  );
+}
+
+function getThesisProblemHandPressY(tokenValues) {
+  const pressDepth = 34;
+  const pressPeak = 0.24;
+  const releaseSpan = 0.42;
+  const press = tokenValues.map((value) => {
+    if (value <= 0 || value >= 1) {
+      return 0;
+    }
+
+    if (value < pressPeak) {
+      return value / pressPeak;
+    }
+
+    return Math.max(1 - (value - pressPeak) / releaseSpan, 0);
+  });
+
+  return Math.round(Math.max(...press) * pressDepth);
 }
 
 function triggerThesisProblemHandPress(chapter, steps) {
