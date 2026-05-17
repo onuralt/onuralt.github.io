@@ -33,26 +33,31 @@
   --problem-copy-generator: 1;
   --problem-copy-cores: 0;
   --problem-copy-harness: 0;
+  --problem-copy-question: 0;
   --problem-hand-opacity: 0;
   --problem-hand-y: 0px;
-  --framework-card-1-visible: 0;
-  --framework-card-1-copy: 0;
-  --framework-card-1-copy-y: 18px;
-  --framework-card-1-x: 100%;
-  --framework-card-1-y: 0px;
-  --framework-card-1-scale: 1.36;
-  --framework-card-2-visible: 0;
-  --framework-card-2-copy: 0;
-  --framework-card-2-copy-y: 18px;
-  --framework-card-2-x: 0%;
-  --framework-card-2-y: 0px;
-  --framework-card-2-scale: 1.36;
-  --framework-card-3-visible: 0;
-  --framework-card-3-copy: 0;
-  --framework-card-3-copy-y: 18px;
-  --framework-card-3-x: -100%;
-  --framework-card-3-y: 0px;
-  --framework-card-3-scale: 1.36;
+  --method-stage-1: 1;
+  --method-stage-2: 0;
+  --method-stage-3: 0;
+  --method-stage-4: 0;
+  --method-stage-5: 0;
+  --method-stage-6: 0;
+  --method-flow: 0;
+  --method-flow-x: 0px;
+  --method-flow-y: 18px;
+  --method-flow-scale: 1.42;
+  --method-card-1: 0;
+  --method-card-1-x: 0px;
+  --method-card-1-y: 18px;
+  --method-card-1-scale: 1.62;
+  --method-card-2: 0;
+  --method-card-2-x: 0px;
+  --method-card-2-y: 18px;
+  --method-card-2-scale: 1.62;
+  --method-card-3: 0;
+  --method-card-3-x: 0px;
+  --method-card-3-y: 18px;
+  --method-card-3-scale: 1.62;
   position: relative;
   min-height: 220vh;
   background: transparent;
@@ -242,6 +247,10 @@
   opacity: var(--problem-copy-harness);
 }
 
+.problem-copy-stage-question {
+  opacity: var(--problem-copy-question);
+}
+
 .thesis-tags {
   display: flex;
   flex-wrap: wrap;
@@ -394,6 +403,237 @@
 .thesis-visual-flow {
   justify-self: center;
   max-width: min(100%, 600px);
+}
+
+.thesis-method {
+  min-height: 560vh;
+}
+
+.thesis-method-pin {
+  grid-template-columns: minmax(260px, 0.54fr) minmax(0, 1.46fr);
+  gap: clamp(20px, 3vw, 44px);
+  padding: clamp(26px, 3.4vw, 46px);
+  padding-bottom: max(clamp(26px, 3.4vw, 46px), 96px);
+}
+
+.thesis-method-copy {
+  max-width: 520px;
+}
+
+.method-copy-stages {
+  display: grid;
+  align-items: start;
+}
+
+.method-copy-stage {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.method-copy-stage-1 {
+  opacity: var(--method-stage-1);
+}
+
+.method-copy-stage-2 {
+  opacity: var(--method-stage-2);
+}
+
+.method-copy-stage-3 {
+  opacity: var(--method-stage-3);
+}
+
+.method-copy-stage-4 {
+  opacity: var(--method-stage-4);
+}
+
+.method-copy-stage-5 {
+  opacity: var(--method-stage-5);
+}
+
+.method-copy-stage-6 {
+  opacity: var(--method-stage-6);
+}
+
+.thesis-method-visuals {
+  position: relative;
+  z-index: 2;
+  display: block;
+  align-self: center;
+  width: 100%;
+  height: min(72vh, 700px);
+  min-height: min(540px, calc(100vh - 176px));
+  opacity: var(--thesis-media);
+  transform: translateY(var(--thesis-media-y));
+  will-change: opacity, transform;
+}
+
+.method-formula-board {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(9px, 1vw, 14px);
+  width: 64%;
+  height: 58%;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(12px, 1.3vw, 18px);
+  overflow: hidden;
+  background:
+    var(--blueprint-grid),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.1)
+    );
+  background-size: var(--blueprint-grid-size), var(--blueprint-grid-size), auto;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-top: 6px solid var(--orange);
+  box-shadow: 0 18px 44px rgba(18, 25, 32, 0.16);
+}
+
+.method-equation-step {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  padding: clamp(8px, 0.9vw, 12px);
+  background: rgba(4, 35, 72, 0.44);
+  border-left: 5px solid #fff;
+}
+
+.method-equation-step span {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(0.62rem, 0.72vw, 0.82rem);
+  font-weight: 820;
+  line-height: 1.18;
+  text-transform: uppercase;
+}
+
+.method-equation-step code {
+  display: block;
+  min-width: 0;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(0.92rem, 1.05vw, 1.24rem);
+  font-weight: 700;
+  line-height: 1.16;
+  overflow-wrap: anywhere;
+}
+
+.method-visual-card {
+  --method-visual-ratio: 1;
+  --method-image-scale: 1.04;
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: var(--method-visual-ratio);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 5px solid #fff;
+  box-shadow: 0 22px 50px rgba(18, 25, 32, 0.2);
+  opacity: var(--method-item-opacity);
+  pointer-events: var(--method-item-events, none);
+  transform: translate(var(--method-item-x), var(--method-item-y))
+    scale(var(--method-item-scale));
+  transform-origin: center;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  will-change: opacity, transform;
+}
+
+.method-visual-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  object-fit: contain;
+  transform: scale(var(--method-image-scale));
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
+.method-visual-card:hover,
+.method-visual-card:focus-within {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 30px 72px rgba(18, 25, 32, 0.34);
+}
+
+.method-visual-card:hover img,
+.method-visual-card:focus-within img {
+  transform: scale(calc(var(--method-image-scale) + 0.04));
+}
+
+.method-visual-instance {
+  --method-item-opacity: var(--method-flow);
+  --method-item-x: var(--method-flow-x);
+  --method-item-y: var(--method-flow-y);
+  --method-item-scale: var(--method-flow-scale);
+  --method-item-events: var(--method-flow-events, none);
+  --method-visual-ratio: 855 / 1095;
+  --method-image-scale: 1.02;
+  right: 0;
+  top: 0;
+  height: 50%;
+  z-index: 3;
+}
+
+.method-visual-rvfic {
+  --method-item-opacity: var(--method-card-1);
+  --method-item-x: var(--method-card-1-x);
+  --method-item-y: var(--method-card-1-y);
+  --method-item-scale: var(--method-card-1-scale);
+  --method-item-events: var(--method-card-1-events, none);
+  --method-visual-ratio: 1500 / 1578;
+  --method-image-scale: 1.08;
+  left: 0;
+  top: 64%;
+  height: 36%;
+  z-index: 4;
+}
+
+.method-visual-rvgm {
+  --method-item-opacity: var(--method-card-2);
+  --method-item-x: var(--method-card-2-x);
+  --method-item-y: var(--method-card-2-y);
+  --method-item-scale: var(--method-card-2-scale);
+  --method-item-events: var(--method-card-2-events, none);
+  --method-visual-ratio: 1500 / 1741;
+  --method-image-scale: 1.1;
+  left: 35.5%;
+  top: 64%;
+  height: 36%;
+  z-index: 5;
+}
+
+.method-visual-rvavf {
+  --method-item-opacity: var(--method-card-3);
+  --method-item-x: var(--method-card-3-x);
+  --method-item-y: var(--method-card-3-y);
+  --method-item-scale: var(--method-card-3-scale);
+  --method-item-events: var(--method-card-3-events, none);
+  --method-visual-ratio: 1500 / 1575;
+  --method-image-scale: 1.08;
+  left: 70%;
+  top: 64%;
+  height: 36%;
+  z-index: 6;
 }
 
 .thesis-wave-dynamic {
@@ -712,155 +952,6 @@
 .rvfic-wave-panel[data-active-cycle="2"] .rvfic-wave-values span:nth-child(2),
 .rvfic-wave-panel[data-active-cycle="3"] .rvfic-wave-values span:nth-child(3) {
   background: rgba(255, 255, 255, 0.18);
-}
-
-.thesis-framework {
-  min-height: 300vh;
-}
-
-.thesis-pin-framework {
-  grid-template-columns: 1fr;
-  align-items: center;
-}
-
-.thesis-framework-layout {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 1.6vw, 22px);
-  align-items: stretch;
-  align-self: center;
-  justify-self: center;
-  width: 100%;
-  max-width: 1120px;
-  max-height: calc(100vh - 180px);
-  isolation: isolate;
-  transform: none;
-}
-
-.thesis-framework-card {
-  --card-visible: 0;
-  --card-copy: 0;
-  --card-copy-y: 18px;
-  --card-x: 0%;
-  --card-y: 0px;
-  --card-scale: 1.36;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  min-width: 0;
-  height: min(60vh, 600px);
-  min-height: 0;
-  overflow: hidden;
-  opacity: var(--card-visible);
-  color: #fff;
-  background:
-    var(--blueprint-grid),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0.08)
-    );
-  background-size: var(--blueprint-grid-size), var(--blueprint-grid-size), auto;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-top: 7px solid var(--orange);
-  box-shadow: 0 26px 58px rgba(18, 25, 32, 0.24);
-  transform: translate3d(var(--card-x), var(--card-y), 0)
-    scale(var(--card-scale));
-  transform-origin: center;
-  will-change: opacity, transform;
-}
-
-.thesis-framework-card-rvfic {
-  --card-visible: var(--framework-card-1-visible);
-  --card-copy: var(--framework-card-1-copy);
-  --card-copy-y: var(--framework-card-1-copy-y);
-  --card-x: var(--framework-card-1-x);
-  --card-y: var(--framework-card-1-y);
-  --card-scale: var(--framework-card-1-scale);
-  z-index: 3;
-}
-
-.thesis-framework-card-rvgm {
-  --card-visible: var(--framework-card-2-visible);
-  --card-copy: var(--framework-card-2-copy);
-  --card-copy-y: var(--framework-card-2-copy-y);
-  --card-x: var(--framework-card-2-x);
-  --card-y: var(--framework-card-2-y);
-  --card-scale: var(--framework-card-2-scale);
-  z-index: 4;
-}
-
-.thesis-framework-card-rvavf {
-  --card-visible: var(--framework-card-3-visible);
-  --card-copy: var(--framework-card-3-copy);
-  --card-copy-y: var(--framework-card-3-copy-y);
-  --card-x: var(--framework-card-3-x);
-  --card-y: var(--framework-card-3-y);
-  --card-scale: var(--framework-card-3-scale);
-  z-index: 5;
-}
-
-.thesis-framework-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 10px 12px;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  font-size: clamp(0.7rem, 0.8vw, 0.9rem);
-  font-weight: 860;
-  line-height: 1.18;
-  text-transform: uppercase;
-}
-
-.thesis-framework-label span {
-  display: inline-grid;
-  place-items: center;
-  min-width: 24px;
-  min-height: 24px;
-  flex: 0 0 auto;
-  color: #004a99;
-  background: #fff;
-  font-size: 0.8em;
-  font-weight: 900;
-}
-
-.thesis-framework-diagram {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr);
-  min-height: 0;
-  margin: 0;
-  padding: clamp(10px, 1.2vw, 16px);
-}
-
-.thesis-framework-diagram img {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: contain;
-  background: transparent;
-  cursor: zoom-in;
-}
-
-.thesis-framework-card-copy {
-  min-height: 118px;
-  padding: 15px 16px 17px;
-  opacity: var(--card-copy);
-  background: rgba(4, 35, 72, 0.72);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  transform: translateY(var(--card-copy-y));
-  will-change: opacity, transform;
-}
-
-.thesis-framework-card-copy p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.84);
-  font-size: clamp(0.76rem, 0.84vw, 0.96rem);
-  font-weight: 620;
-  line-height: 1.38;
 }
 
 .thesis-fanout {
@@ -1204,12 +1295,6 @@ body.no-animation .thesis-pin * {
   animation: none;
 }
 
-body.no-animation .thesis-framework-card,
-body.no-animation .thesis-framework-card-copy {
-  opacity: 1;
-  transform: none;
-}
-
 @media (max-width: 860px) {
   .thesis-experience {
     width: min(100vw - 24px, 1200px);
@@ -1228,10 +1313,6 @@ body.no-animation .thesis-framework-card-copy {
     min-height: 0;
     padding: 42px 20px 118px;
     overflow: visible;
-  }
-
-  .thesis-pin-framework {
-    min-height: 0;
   }
 
   .thesis-hero .thesis-pin {
@@ -1271,8 +1352,6 @@ body.no-animation .thesis-framework-card-copy {
   .thesis-cover-image,
   .thesis-visual,
   .thesis-fanout,
-  .thesis-framework-card,
-  .thesis-framework-card-copy,
   .rvfic-wave-board,
   .thesis-waveform-stack,
   .thesis-contrib-strip {
@@ -1280,27 +1359,41 @@ body.no-animation .thesis-framework-card-copy {
     transform: none;
   }
 
-  .thesis-framework-layout {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    grid-template-columns: 1fr;
-    margin-top: 24px;
-    transform: none;
-  }
-
-  .thesis-framework-card {
+  .method-copy-stages,
+  .thesis-method-visuals {
+    display: grid;
+    gap: 18px;
     height: auto;
     min-height: 0;
   }
 
-  .thesis-framework-diagram {
-    grid-template-rows: minmax(220px, 34vh) auto;
+  .method-copy-stage,
+  .method-formula-board,
+  .method-visual-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    grid-area: auto;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    transform: none;
   }
 
-  .thesis-framework-card-copy {
-    min-height: 0;
+  .thesis-method-visuals {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    opacity: 1;
+    transform: none;
+  }
+
+  .method-formula-board {
+    grid-template-columns: 1fr;
+  }
+
+  .method-visual-card img {
+    min-height: 220px;
+    transform: none;
   }
 
   .rvfic-wave-board {

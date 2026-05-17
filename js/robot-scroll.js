@@ -4,7 +4,7 @@ const thesisChapters = document.querySelectorAll(".thesis-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const zoomableDiagramImages = document.querySelectorAll(
-  ".vlsi-evidence-item img, .thesis-framework-diagram img",
+  ".vlsi-evidence-item img, .method-visual-card img",
 );
 const rvficWaveGuides = document.querySelectorAll("[data-rvfic-wave-guide]");
 const vlsiLayerPanels = document.querySelectorAll(".vlsi-layer-panel");
@@ -14,6 +14,38 @@ const vlsiZoomImage = document.createElement("img");
 let activeScrollAnimation;
 const thesisProblemInputState = new WeakMap();
 const animationPreferenceKey = "portfolio-animation-disabled";
+const chapterScrollDuration = 4800;
+const problemChapterScrollDuration = 16500;
+const problemTextDuration = 4000;
+const problemCopyTransitionDuration = 500;
+const problemPhaseDuration = 500;
+const problemHandRevealTime = 3900;
+const problemHandRevealDuration = 350;
+const problemStepStartTimes = [
+  4300,
+  4800,
+  5400,
+  5900,
+  6500,
+  7000,
+  8400,
+  9100,
+  9800,
+  12400,
+  13100,
+  13800,
+];
+const methodChapterScrollDuration = 20500;
+const methodStageDuration = 4000;
+const methodCopyTransitionDuration = 500;
+const methodVisualRevealDuration = 1100;
+const methodCardRevealDuration = 1100;
+const methodFlowStartTime = methodStageDuration;
+const methodCardStartTimes = [
+  methodStageDuration * 2,
+  methodStageDuration * 3,
+  methodStageDuration * 4,
+];
 
 vlsiZoom.className = "vlsi-hover-zoom";
 vlsiZoom.setAttribute("aria-hidden", "true");
@@ -22,6 +54,35 @@ document.body.appendChild(vlsiZoom);
 
 function isAnimationDisabled() {
   return document.body.classList.contains("no-animation");
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function easeInOutCubic(value) {
+  return value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+}
+
+function linear(value) {
+  return value;
+}
+
+function getTimedRevealPhase(startMs, spanMs, durationMs) {
+  const start = clamp(startMs / durationMs, 0, 1);
+  const end = clamp((startMs + spanMs) / durationMs, 0, 1);
+
+  return { start, span: Math.max(end - start, 0.0001) };
+}
+
+function getProblemRevealPhase(startMs, spanMs = problemPhaseDuration) {
+  return getTimedRevealPhase(startMs, spanMs, problemChapterScrollDuration);
+}
+
+function getMethodRevealPhase(startMs, spanMs = methodCopyTransitionDuration) {
+  return getTimedRevealPhase(startMs, spanMs, methodChapterScrollDuration);
 }
 
 function showVlsiZoom(image) {
@@ -35,7 +96,9 @@ function hideVlsiZoom() {
 }
 
 zoomableDiagramImages.forEach((image) => {
-  const item = image.closest(".vlsi-evidence-item, .thesis-framework-diagram");
+  const item = image.closest(
+    ".vlsi-evidence-item, .method-visual-card",
+  );
 
   if (!item) {
     return;
@@ -357,10 +420,69 @@ function triggerThesisProblemHandPress(chapter, steps) {
   hand.classList.add("is-pressing");
 }
 
-function setThesisProblemCopyState(chapter, generator, cores, harness) {
+function setThesisProblemCopyState(
+  chapter,
+  generator,
+  cores,
+  harness,
+  question,
+) {
   chapter.style.setProperty("--problem-copy-generator", generator.toFixed(4));
   chapter.style.setProperty("--problem-copy-cores", cores.toFixed(4));
   chapter.style.setProperty("--problem-copy-harness", harness.toFixed(4));
+  chapter.style.setProperty("--problem-copy-question", question.toFixed(4));
+}
+
+function getSettleOffset(value, expandedOffset) {
+  return `${Math.round((1 - value) * expandedOffset)}px`;
+}
+
+function getSettleScale(value, expandedScale) {
+  return (1 + (1 - value) * expandedScale).toFixed(4);
+}
+
+function setThesisMethodState(chapter, stages, flow, cards) {
+  Array.from({ length: 6 }).forEach((_, index) => {
+    const value = stages[index] || 0;
+
+    chapter.style.setProperty(`--method-stage-${index + 1}`, value.toFixed(4));
+  });
+
+  const viewportWidth = window.innerWidth || 1;
+  const viewportHeight = window.innerHeight || 1;
+  const cardFocusX = Math.min(viewportWidth * 0.1, 160);
+  const cardFocusY = Math.min(viewportHeight * 0.14, 130);
+  const cardStartX = [cardFocusX, 0, -cardFocusX];
+
+  chapter.style.setProperty("--method-flow", flow.toFixed(4));
+  chapter.style.setProperty("--method-flow-x", "0px");
+  chapter.style.setProperty("--method-flow-y", getSettleOffset(flow, 42));
+  chapter.style.setProperty("--method-flow-scale", getSettleScale(flow, 0.34));
+  chapter.style.setProperty(
+    "--method-flow-events",
+    flow > 0.25 ? "auto" : "none",
+  );
+  cards.forEach((value, index) => {
+    const card = index + 1;
+
+    chapter.style.setProperty(`--method-card-${card}`, value.toFixed(4));
+    chapter.style.setProperty(
+      `--method-card-${card}-events`,
+      value > 0.25 ? "auto" : "none",
+    );
+    chapter.style.setProperty(
+      `--method-card-${card}-x`,
+      getSettleOffset(value, cardStartX[index] || 0),
+    );
+    chapter.style.setProperty(
+      `--method-card-${card}-y`,
+      getSettleOffset(value, -cardFocusY),
+    );
+    chapter.style.setProperty(
+      `--method-card-${card}-scale`,
+      getSettleScale(value, 0.68),
+    );
+  });
 }
 
 function setCompletedThesisState() {
@@ -387,17 +509,8 @@ function setCompletedThesisState() {
     chapter.style.setProperty("--problem-hand-y", "0px");
     thesisProblemInputState.delete(chapter);
     setThesisProblemThetaState(chapter, completedSteps);
-    setThesisProblemCopyState(chapter, 0, 0, 1);
-    Array.from({ length: 3 }).forEach((_, index) => {
-      const card = index + 1;
-
-      chapter.style.setProperty(`--framework-card-${card}-visible`, "1");
-      chapter.style.setProperty(`--framework-card-${card}-copy`, "1");
-      chapter.style.setProperty(`--framework-card-${card}-copy-y`, "0px");
-      chapter.style.setProperty(`--framework-card-${card}-x`, "0%");
-      chapter.style.setProperty(`--framework-card-${card}-y`, "0px");
-      chapter.style.setProperty(`--framework-card-${card}-scale`, "1");
-    });
+    setThesisProblemCopyState(chapter, 0, 0, 0, 1);
+    setThesisMethodState(chapter, [0, 0, 0, 0, 1], 1, [1, 1, 1]);
   });
 }
 
@@ -497,16 +610,12 @@ function getChapterTravel(chapter) {
   return Math.max(chapter.offsetHeight - stickyTop - pinHeight, 1);
 }
 
-function animateScrollTo(targetTop, duration = 1800) {
+function animateScrollTo(targetTop, duration = 1800, easing = easeInOutCubic) {
   const startTop = window.scrollY;
   const maxTop = document.documentElement.scrollHeight - window.innerHeight;
   const endTop = Math.min(Math.max(targetTop, 0), Math.max(maxTop, 0));
   const distance = endTop - startTop;
   const startTime = performance.now();
-  const easeInOutCubic = (value) =>
-    value < 0.5
-      ? 4 * value * value * value
-      : 1 - Math.pow(-2 * value + 2, 3) / 2;
 
   if (activeScrollAnimation) {
     cancelAnimationFrame(activeScrollAnimation);
@@ -514,7 +623,7 @@ function animateScrollTo(targetTop, duration = 1800) {
 
   function step(now) {
     const progress = Math.min((now - startTime) / duration, 1);
-    const eased = easeInOutCubic(progress);
+    const eased = easing(progress);
 
     window.scrollTo(0, startTop + distance * eased);
 
@@ -528,13 +637,36 @@ function animateScrollTo(targetTop, duration = 1800) {
   activeScrollAnimation = requestAnimationFrame(step);
 }
 
+function getChapterScrollDuration(chapter) {
+  if (chapter.classList.contains("thesis-problem")) {
+    return problemChapterScrollDuration;
+  }
+
+  if (chapter.classList.contains("thesis-method")) {
+    return methodChapterScrollDuration;
+  }
+
+  return chapterScrollDuration;
+}
+
+function getChapterScrollEasing(chapter) {
+  return chapter.classList.contains("thesis-problem") ||
+    chapter.classList.contains("thesis-method")
+    ? linear
+    : easeInOutCubic;
+}
+
 function scrollToChapterEnd(chapter) {
   if (isAnimationDisabled()) {
     scrollToSectionTop(chapter);
     return;
   }
 
-  animateScrollTo(getChapterEndScrollTop(chapter), 4800);
+  animateScrollTo(
+    getChapterEndScrollTop(chapter),
+    getChapterScrollDuration(chapter),
+    getChapterScrollEasing(chapter),
+  );
 }
 
 function scrollToSectionTop(section) {
@@ -802,35 +934,75 @@ function updateRobotProgress() {
     const travel = getChapterTravel(chapter);
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const isHero = chapter.classList.contains("thesis-hero");
-    const isFramework = chapter.classList.contains("thesis-framework");
-    const text = reveal(progress, isHero ? 0.12 : 0.08, isHero ? 0.28 : 0.18);
-    const media = reveal(progress, 0.16, 0.22);
+    const isProblem = chapter.classList.contains("thesis-problem");
+    const isMethod = chapter.classList.contains("thesis-method");
+    const problemTextReveal = getProblemRevealPhase(300, 600);
+    const problemMediaReveal = getProblemRevealPhase(800, 800);
+    const methodTextReveal = getMethodRevealPhase(200, 500);
+    let text = reveal(progress, isHero ? 0.12 : 0.08, isHero ? 0.28 : 0.18);
+    let media = reveal(progress, 0.16, 0.22);
+
+    if (isProblem) {
+      text = reveal(progress, problemTextReveal.start, problemTextReveal.span);
+      media = reveal(
+        progress,
+        problemMediaReveal.start,
+        problemMediaReveal.span,
+      );
+    } else if (isMethod) {
+      text = reveal(progress, methodTextReveal.start, methodTextReveal.span);
+      media = text;
+    }
+
     const note = reveal(progress, 0.76, 0.16);
     const coverTravel = Math.min(viewportWidth * 0.26, 340);
     const coverX = Math.round(progress * coverTravel * -1);
     const coverScale = 1 - progress * 0.36;
-    const stepTimeline = [
-      { start: 0.4, span: 0.1 },
-      { start: 0.52, span: 0.045 },
-      { start: 0.58, span: 0.1 },
-      { start: 0.7, span: 0.045 },
-      { start: 0.75, span: 0.08 },
-      { start: 0.84, span: 0.04 },
-      { start: 0.86, span: 0.07 },
-      { start: 0.89, span: 0.07 },
-      { start: 0.92, span: 0.06 },
-      { start: 0.94, span: 0.04 },
-      { start: 0.965, span: 0.03 },
-      { start: 0.982, span: 0.018 },
-    ];
+    const stepTimeline = isProblem
+      ? problemStepStartTimes.map((startMs) => getProblemRevealPhase(startMs))
+      : Array.from({ length: 12 }, (_, index) => ({
+          start: 0.4 + index * 0.045,
+          span: 0.045,
+        }));
     const steps = stepTimeline.map(({ start, span }) =>
       reveal(progress, start, span),
     );
-    const coreCopy = steps[1];
-    const harnessCopy = steps[6];
+    const problemCopyTransitions = [1, 2, 3].map((stage) =>
+      getProblemRevealPhase(
+        problemTextDuration * stage,
+        problemCopyTransitionDuration,
+      ),
+    );
+    const coreCopy = isProblem
+      ? reveal(
+          progress,
+          problemCopyTransitions[0].start,
+          problemCopyTransitions[0].span,
+        )
+      : steps[1];
+    const harnessCopy = isProblem
+      ? reveal(
+          progress,
+          problemCopyTransitions[1].start,
+          problemCopyTransitions[1].span,
+        )
+      : steps[6];
+    const questionCopy = isProblem
+      ? reveal(
+          progress,
+          problemCopyTransitions[2].start,
+          problemCopyTransitions[2].span,
+        )
+      : 0;
     const generatorCopy = 1 - coreCopy;
     const generatedCoreCopy = coreCopy * (1 - harnessCopy);
-    const problemHand = media * (1 - steps[5]);
+    const verificationCopy = harnessCopy * (1 - questionCopy);
+    const problemHandReveal = isProblem
+      ? getProblemRevealPhase(problemHandRevealTime, problemHandRevealDuration)
+      : { start: 0.16, span: 0.22 };
+    const problemHand =
+      reveal(progress, problemHandReveal.start, problemHandReveal.span) *
+      (1 - steps[5]);
 
     chapter.style.setProperty("--thesis-text", text.toFixed(4));
     chapter.style.setProperty("--thesis-media", media.toFixed(4));
@@ -859,46 +1031,45 @@ function updateRobotProgress() {
       chapter,
       generatorCopy,
       generatedCoreCopy,
-      harnessCopy,
+      verificationCopy,
+      questionCopy,
     );
 
-    if (isFramework) {
-      [
-        { visible: 0.04, settle: 0.14, copy: 0.3, startX: 100 },
-        { visible: 0.34, settle: 0.44, copy: 0.58, startX: 0 },
-        { visible: 0.62, settle: 0.72, copy: 0.86, startX: -100 },
-      ].forEach((card, index) => {
-        const cardNumber = index + 1;
-        const visible = reveal(progress, card.visible, 0.08);
-        const settle = reveal(progress, card.settle, 0.22);
-        const copy = reveal(progress, card.copy, 0.12);
-        const x = (1 - settle) * card.startX;
-        const scale = 1.36 - settle * 0.36;
-        const copyY = Math.round((1 - copy) * 18);
+    if (isMethod) {
+      const methodCopyTransitions = [1, 2, 3, 4].map((stage) =>
+        getMethodRevealPhase(
+          methodStageDuration * stage,
+          methodCopyTransitionDuration,
+        ),
+      );
+      const methodCopyProgress = methodCopyTransitions.map(({ start, span }) =>
+        reveal(progress, start, span),
+      );
+      const methodStages = [
+        1 - methodCopyProgress[0],
+        methodCopyProgress[0] * (1 - methodCopyProgress[1]),
+        methodCopyProgress[1] * (1 - methodCopyProgress[2]),
+        methodCopyProgress[2] * (1 - methodCopyProgress[3]),
+        methodCopyProgress[3],
+      ];
+      const methodFlowReveal = getMethodRevealPhase(
+        methodFlowStartTime,
+        methodVisualRevealDuration,
+      );
+      const methodFlow = reveal(
+        progress,
+        methodFlowReveal.start,
+        methodFlowReveal.span,
+      );
+      const methodCards = methodCardStartTimes.map((startMs) => {
+        const visible = getMethodRevealPhase(startMs, methodCardRevealDuration);
 
-        chapter.style.setProperty(
-          `--framework-card-${cardNumber}-visible`,
-          visible.toFixed(4),
-        );
-        chapter.style.setProperty(
-          `--framework-card-${cardNumber}-copy`,
-          copy.toFixed(4),
-        );
-        chapter.style.setProperty(
-          `--framework-card-${cardNumber}-copy-y`,
-          `${copyY}px`,
-        );
-        chapter.style.setProperty(
-          `--framework-card-${cardNumber}-x`,
-          `${x.toFixed(2)}%`,
-        );
-        chapter.style.setProperty(`--framework-card-${cardNumber}-y`, "0px");
-        chapter.style.setProperty(
-          `--framework-card-${cardNumber}-scale`,
-          scale.toFixed(4),
-        );
+        return reveal(progress, visible.start, visible.span);
       });
+
+      setThesisMethodState(chapter, methodStages, methodFlow, methodCards);
     }
+
   });
 
   vlsiChapters.forEach((chapter) => {

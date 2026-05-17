@@ -10,7 +10,7 @@
     >
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=25">
-    <link rel="stylesheet" href="css/thesis.css?v=57">
+    <link rel="stylesheet" href="css/thesis.css?v=65">
     <link rel="stylesheet" href="css/robot.css?v=15">
     <link rel="stylesheet" href="css/vlsi.css?v=55">
     <link rel="stylesheet" href="css/responsive.css?v=11">
@@ -162,7 +162,11 @@
                 <div class="problem-copy-stage problem-copy-stage-harness">
                   <h3>Each Core Needs a Verification Harness</h3>
                   <p>VH means verification harness. For every generated H(θ), a matching harness must connect the right signals, assumptions, assertions, and tool flow.</p>
-                  <p>Building that harness by hand for every generated core is the time-consuming part.</p>
+                </div>
+                <div class="problem-copy-stage problem-copy-stage-question">
+                  <h3>Manual Harness Creation Becomes the Bottleneck</h3>
+                  <p>Building a matching harness by hand for every generated core is the time-consuming part.</p>
+                  <p>How can this be solved without giving up configurability?</p>
                 </div>
               </div>
             </article>
@@ -214,54 +218,65 @@
         </section>
 
         <section class="thesis-panel thesis-method thesis-chapter" aria-label="Verification as a generator problem">
-          <div class="thesis-pin">
-            <article class="thesis-copy">
+          <div class="thesis-pin thesis-method-pin">
+            <article class="thesis-copy thesis-method-copy">
               <p class="eyebrow">Methodology</p>
-              <h3>The Same θ Drives the Core and the Formal Setup</h3>
-              <p>The configuration vector θ feeds the golden model generator, the formal interface generator, and the verification framework generator.</p>
-              <div class="thesis-equations" aria-label="Generator equations from the thesis methodology">
-                <span>gmθ = gm(θ)</span>
-                <span>fiθ = fi(θ)</span>
-                <span>vfθ = vf(θ)</span>
+              <div class="method-copy-stages" aria-live="polite">
+                <div class="method-copy-stage method-copy-stage-1">
+                  <h3>From &theta; to One Proof Obligation</h3>
+                  <p>A configuration vector &theta; collects the architectural choices that define one generated hardware implementation. The methodology uses that same &theta; for the verification environment, so the design under verification, the reference model, the formal interface, and the framework are matching instances rather than separately maintained setups.</p>
+                </div>
+                <div class="method-copy-stage method-copy-stage-2">
+                  <h3>The Equations Become This Instance</h3>
+                  <p>The generated verification instance V<sub>&theta;</sub> is the composition of the wrapped RTL core and the wrapped golden model. RVAVF connects both to the generated assertion set and the formal backend, turning the abstract requirement into one proof problem.</p>
+                </div>
+                <div class="method-copy-stage method-copy-stage-3">
+                  <h3>RVFIC Exposes the Core Uniformly</h3>
+                  <p>RVFIC supplies the observation layer for that instance. A map describes where architectural signals live inside the DUV, and RVFIC generates the bind probe and wrapper that expose those signals through one RVFI-style interface. The framework can then ignore core-specific signal names and hierarchy.</p>
+                </div>
+                <div class="method-copy-stage method-copy-stage-4">
+                  <h3>RVGM Provides the ISA Reference</h3>
+                  <p>RVGM supplies the specification side. It maintains architectural state, applies the configuration-dependent transition function for each instruction, and emits RVFI-compatible reference events. This is why the comparison can be made at the architectural trace level instead of the microarchitectural signal level.</p>
+                </div>
+                <div class="method-copy-stage method-copy-stage-5">
+                  <h3>RVAVF Builds the Proof Flow</h3>
+                  <p>RVAVF is the orchestration layer. It generates the assertion modules, top-level harness, and formal verification flow around the RVFIC-wrapped DUV and RVGM reference. The result is the verification condition V<sub>&theta;</sub> &#8872; P<sub>&theta;</sub>: the generated instance satisfies the generated property set.</p>
+                </div>
               </div>
             </article>
-            <figure class="thesis-visual thesis-visual-card thesis-visual-flow">
-              <img src="images/thesis/thesis-general-flow-figure-4-1.png" alt="Thesis Figure 4.1 showing RVFIC, RVGM, generated assertions, harness, and JasperGold">
-              <figcaption>One generated verification instance: wrapped DUV, golden model, assertions, harness, and JasperGold.</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section class="thesis-panel thesis-framework thesis-chapter" aria-label="RVFIC RVGM and RVAVF framework components">
-          <div class="thesis-pin thesis-pin-framework">
-            <div class="thesis-framework-layout" aria-label="Generated verification framework component cards">
-              <article class="thesis-framework-card thesis-framework-card-rvfic">
-                <div class="thesis-framework-label"><span>01</span> RISC-V Formal Interface in Chisel [RVFIC]</div>
-                <figure class="thesis-framework-diagram">
-                  <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="RVFIC generation pipeline from thesis Figure 4.4">
-                </figure>
-                <div class="thesis-framework-card-copy">
-                  <p>RVFIC reads a core-specific signal map and generates the bind/probe logic, wrapper, and copied source workspace needed to expose RVFI-style observations without modifying the processor RTL.</p>
-                </div>
-              </article>
-              <article class="thesis-framework-card thesis-framework-card-rvgm">
-                <div class="thesis-framework-label"><span>02</span> RISC-V Golden Model [RVGM]</div>
-                <figure class="thesis-framework-diagram">
-                  <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="RVGM golden model architecture from thesis Figure 4.7">
-                </figure>
-                <div class="thesis-framework-card-copy">
-                  <p>RVGM is the synthesizable reference model. It decodes the retired instruction and computes the expected architectural effects for the configured ISA, including PC, register, memory, and optional CSR state.</p>
-                </div>
-              </article>
-              <article class="thesis-framework-card thesis-framework-card-rvavf">
-                <div class="thesis-framework-label"><span>03</span> RISC-V Automatic Verification Framework [RVAVF]</div>
-                <figure class="thesis-framework-diagram">
-                  <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="RVAVF formal verification architecture from thesis Figure 4.10">
-                </figure>
-                <div class="thesis-framework-card-copy">
-                  <p>RVAVF connects the RVFIC observation interface to RVGM, emits signal-level SystemVerilog assertions, builds the formal harness, stages the generated files, and writes the JasperGold TCL flow.</p>
-                </div>
-              </article>
+            <div class="thesis-method-visuals" aria-label="Generated verification methodology diagrams">
+              <section class="method-formula-board" aria-label="Methodology formulas from the thesis">
+                <article class="method-equation-step">
+                  <span>1. &theta; selects one hardware implementation</span>
+                  <code>H<sub>&theta;</sub> = G<sub>core</sub>(&theta;)</code>
+                </article>
+                <article class="method-equation-step">
+                  <span>2. The same &theta; produces matching verification instances</span>
+                  <code>gm<sub>&theta;</sub> = gm(&theta;)</code>
+                  <code>fi<sub>&theta;</sub> = fi(&theta;), vf<sub>&theta;</sub> = vf(&theta;)</code>
+                </article>
+                <article class="method-equation-step">
+                  <span>3. Wrapped implementation and reference form V<sub>&theta;</sub></span>
+                  <code>V<sub>&theta;</sub> = vf<sub>&theta;</sub>(fi<sub>&theta;</sub>(H<sub>&theta;</sub>), fi<sub>&theta;</sub>(gm<sub>&theta;</sub>))</code>
+                </article>
+                <article class="method-equation-step">
+                  <span>4. Correctness is checked as trace equivalence</span>
+                  <code>&forall;k : &tau;<sub>k</sub><sup>core</sup> = &tau;<sub>k</sub><sup>gm</sup></code>
+                  <code>V<sub>&theta;</sub> &#8872; P<sub>&theta;</sub></code>
+                </article>
+              </section>
+              <figure class="method-visual-card method-visual-instance">
+                <img src="images/thesis/thesis-general-flow-figure-4-1.png" alt="Thesis Figure 4.1 showing RVFIC, RVGM, generated assertions, harness, and JasperGold">
+              </figure>
+              <figure class="method-visual-card method-visual-rvfic">
+                <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="Thesis Figure 4.4 showing the RVFIC generation pipeline">
+              </figure>
+              <figure class="method-visual-card method-visual-rvgm">
+                <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="Thesis Figure 4.7 showing the RVGM golden model architecture">
+              </figure>
+              <figure class="method-visual-card method-visual-rvavf">
+                <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="Thesis Figure 4.10 showing the RVAVF formal verification architecture">
+              </figure>
             </div>
           </div>
         </section>
@@ -395,7 +410,7 @@
             <article class="thesis-copy">
               <p class="eyebrow">Contributions</p>
               <h3>RVFIC, RVGM, and RVAVF Form One Generated Environment</h3>
-              <p>RVFIC generates the observation interface. RVGM generates synthesizable reference behavior. RVAVF generates assertions, harnesses, workspace files, and JasperGold scripts.</p>
+              <p>RVFIC generates the observation interface. RVGM generates synthesizable reference behavior. RVAVF generates assertions, the top-level harness, the formal workspace, and JasperGold scripts.</p>
               <p>Together, these components generate a complete ISA-level formal verification environment from shared configuration parameters.</p>
             </article>
             <div class="thesis-contrib-strip" aria-label="Three framework contributions">
@@ -865,6 +880,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=42"></script>
+    <script src="js/robot-scroll.js?v=52"></script>
   </body>
 </html>
