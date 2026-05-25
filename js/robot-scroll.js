@@ -4,7 +4,7 @@ const thesisChapters = document.querySelectorAll(".thesis-chapter");
 const vlsiChapters = document.querySelectorAll(".vlsi-chapter");
 const sectionNavLinks = document.querySelectorAll('nav a[href^="#"]');
 const zoomableDiagramImages = document.querySelectorAll(
-  ".vlsi-evidence-item img, .method-visual-card img",
+  ".vlsi-evidence-item img, .system-diagram-card img, .system-waveform-card img",
 );
 const rvficWaveGuides = document.querySelectorAll("[data-rvfic-wave-guide]");
 const vlsiLayerPanels = document.querySelectorAll(".vlsi-layer-panel");
@@ -35,16 +35,37 @@ const problemStepStartTimes = [
   13100,
   13800,
 ];
-const methodChapterScrollDuration = 20500;
-const methodStageDuration = 4000;
-const methodCopyTransitionDuration = 500;
-const methodVisualRevealDuration = 1100;
-const methodCardRevealDuration = 1100;
-const methodFlowStartTime = methodStageDuration;
-const methodCardStartTimes = [
-  methodStageDuration * 2,
-  methodStageDuration * 3,
-  methodStageDuration * 4,
+const methodologyFlowChapterScrollDuration = 28000;
+const methodologyFlowStageDuration = 3000;
+const methodologyFlowCopyTransitionDuration = 500;
+const methodologyFlowRevealDuration = 900;
+const methodologyFlowItems = [
+  { key: "parameters", start: 600 },
+  { key: "formal", start: 3600 },
+  { key: "wrapper", start: 6600 },
+  { key: "model", start: 9600 },
+  { key: "checks", start: 12600 },
+  { key: "orchestration", start: 15600 },
+  { key: "results", start: 18600 },
+];
+const methodologyFlowRegions = [
+  { key: "rvfic", start: 20700 },
+  { key: "rvgm", start: 22900 },
+  { key: "rvavf", start: 25100 },
+];
+const methodologyFlowCopySteps = [
+  ...methodologyFlowItems,
+  ...methodologyFlowRegions,
+];
+const methodologyFlowLinks = [
+  { key: "formal-wrapper", start: 7300 },
+  { key: "parameters-wrapper", start: 7600 },
+  { key: "parameters-model", start: 10300 },
+  { key: "wrapper-model", start: 10300 },
+  { key: "checks-orchestration", start: 16200 },
+  { key: "model-orchestration", start: 16500 },
+  { key: "wrapper-orchestration", start: 16800 },
+  { key: "orchestration-results", start: 19200 },
 ];
 
 vlsiZoom.className = "vlsi-hover-zoom";
@@ -81,8 +102,15 @@ function getProblemRevealPhase(startMs, spanMs = problemPhaseDuration) {
   return getTimedRevealPhase(startMs, spanMs, problemChapterScrollDuration);
 }
 
-function getMethodRevealPhase(startMs, spanMs = methodCopyTransitionDuration) {
-  return getTimedRevealPhase(startMs, spanMs, methodChapterScrollDuration);
+function getMethodologyFlowRevealPhase(
+  startMs,
+  spanMs = methodologyFlowRevealDuration,
+) {
+  return getTimedRevealPhase(
+    startMs,
+    spanMs,
+    methodologyFlowChapterScrollDuration,
+  );
 }
 
 function showVlsiZoom(image) {
@@ -97,7 +125,7 @@ function hideVlsiZoom() {
 
 zoomableDiagramImages.forEach((image) => {
   const item = image.closest(
-    ".vlsi-evidence-item, .method-visual-card",
+    ".vlsi-evidence-item, .system-diagram-card, .system-waveform-card",
   );
 
   if (!item) {
@@ -189,20 +217,27 @@ rvficWaveGuides.forEach((guide) => {
   const defaultCopy = copy.textContent;
   const defaultCycleTitle = cycleTitle?.textContent || "";
   const defaultCycleCopy = cycleCopy?.textContent || "";
+  const defaultSignalButton = guide.querySelector(".rvfic-signal-name.is-active");
+
+  function setActiveSignal(button) {
+    signalButtons.forEach((item) => {
+      const isActive = item === button;
+
+      item.classList.toggle("is-active", isActive);
+      item.closest(".rvfic-wave-row")?.classList.toggle("is-active", isActive);
+    });
+  }
 
   function clearSignalInfo() {
     title.textContent = defaultTitle;
     copy.textContent = defaultCopy;
-
-    signalButtons.forEach((button) => {
-      button.classList.remove("is-active");
-      button.closest(".rvfic-wave-row")?.classList.remove("is-active");
-    });
+    setActiveSignal(defaultSignalButton);
   }
 
   function setSignalInfo(button) {
     title.textContent = button.dataset.signalTitle || button.textContent.trim();
     copy.textContent = button.dataset.signalInfo || defaultCopy;
+    setActiveSignal(button);
   }
 
   function clearCycleInfo() {
@@ -433,54 +468,59 @@ function setThesisProblemCopyState(
   chapter.style.setProperty("--problem-copy-question", question.toFixed(4));
 }
 
-function getSettleOffset(value, expandedOffset) {
-  return `${Math.round((1 - value) * expandedOffset)}px`;
-}
+function setThesisMethodologyFlowState(chapter, stages, items, links, regions) {
+  const board = chapter.querySelector(".method-flow-board");
 
-function getSettleScale(value, expandedScale) {
-  return (1 + (1 - value) * expandedScale).toFixed(4);
-}
+  if (!board) {
+    return;
+  }
 
-function setThesisMethodState(chapter, stages, flow, cards) {
-  Array.from({ length: 6 }).forEach((_, index) => {
+  Array.from({ length: 10 }).forEach((_, index) => {
     const value = stages[index] || 0;
 
-    chapter.style.setProperty(`--method-stage-${index + 1}`, value.toFixed(4));
+    chapter.style.setProperty(
+      `--methodology-copy-${index + 1}`,
+      value.toFixed(4),
+    );
   });
 
-  const viewportWidth = window.innerWidth || 1;
-  const viewportHeight = window.innerHeight || 1;
-  const cardFocusX = Math.min(viewportWidth * 0.1, 160);
-  const cardFocusY = Math.min(viewportHeight * 0.14, 130);
-  const cardStartX = [cardFocusX, 0, -cardFocusX];
+  const rect = board.getBoundingClientRect();
+  const boardWidth = rect.width || 760;
+  const boardHeight = rect.height || 560;
 
-  chapter.style.setProperty("--method-flow", flow.toFixed(4));
-  chapter.style.setProperty("--method-flow-x", "0px");
-  chapter.style.setProperty("--method-flow-y", getSettleOffset(flow, 42));
-  chapter.style.setProperty("--method-flow-scale", getSettleScale(flow, 0.34));
-  chapter.style.setProperty(
-    "--method-flow-events",
-    flow > 0.25 ? "auto" : "none",
-  );
-  cards.forEach((value, index) => {
-    const card = index + 1;
+  methodologyFlowItems.forEach(({ key }) => {
+    const element = chapter.querySelector(`.method-flow-${key}`);
+    const value = easeInOutCubic(clamp(items[key] || 0, 0, 1));
+    const centerX = Number(element?.dataset.flowCenterX || 50);
+    const centerY = Number(element?.dataset.flowCenterY || 50);
+    const x = Math.round((1 - value) * ((50 - centerX) * boardWidth * 0.01));
+    const y = Math.round((1 - value) * ((50 - centerY) * boardHeight * 0.01));
+    const scale = 1 + (1 - value) * 0.42;
 
-    chapter.style.setProperty(`--method-card-${card}`, value.toFixed(4));
+    chapter.style.setProperty(`--methodology-${key}`, value.toFixed(4));
+    chapter.style.setProperty(`--methodology-${key}-x`, `${x}px`);
+    chapter.style.setProperty(`--methodology-${key}-y`, `${y}px`);
     chapter.style.setProperty(
-      `--method-card-${card}-events`,
-      value > 0.25 ? "auto" : "none",
+      `--methodology-${key}-scale`,
+      scale.toFixed(4),
     );
+  });
+
+  methodologyFlowLinks.forEach(({ key }) => {
+    const value = easeInOutCubic(clamp(links[key] || 0, 0, 1));
+
     chapter.style.setProperty(
-      `--method-card-${card}-x`,
-      getSettleOffset(value, cardStartX[index] || 0),
+      `--methodology-link-${key}`,
+      value.toFixed(4),
     );
+  });
+
+  methodologyFlowRegions.forEach(({ key }) => {
+    const value = easeInOutCubic(clamp(regions[key] || 0, 0, 1));
+
     chapter.style.setProperty(
-      `--method-card-${card}-y`,
-      getSettleOffset(value, -cardFocusY),
-    );
-    chapter.style.setProperty(
-      `--method-card-${card}-scale`,
-      getSettleScale(value, 0.68),
+      `--methodology-region-${key}`,
+      value.toFixed(4),
     );
   });
 }
@@ -489,6 +529,16 @@ function setCompletedThesisState() {
   const viewportWidth = window.innerWidth || 1;
   const coverTravel = Math.min(viewportWidth * 0.26, 340);
   const completedSteps = Array.from({ length: 12 }, () => 1);
+  const completedMethodologyStages = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1];
+  const completedMethodologyItems = Object.fromEntries(
+    methodologyFlowItems.map(({ key }) => [key, 1]),
+  );
+  const completedMethodologyLinks = Object.fromEntries(
+    methodologyFlowLinks.map(({ key }) => [key, 1]),
+  );
+  const completedMethodologyRegions = Object.fromEntries(
+    methodologyFlowRegions.map(({ key }) => [key, 1]),
+  );
 
   thesisChapters.forEach((chapter) => {
     chapter.style.setProperty("--thesis-text", "1");
@@ -510,7 +560,13 @@ function setCompletedThesisState() {
     thesisProblemInputState.delete(chapter);
     setThesisProblemThetaState(chapter, completedSteps);
     setThesisProblemCopyState(chapter, 0, 0, 0, 1);
-    setThesisMethodState(chapter, [0, 0, 0, 0, 1], 1, [1, 1, 1]);
+    setThesisMethodologyFlowState(
+      chapter,
+      completedMethodologyStages,
+      completedMethodologyItems,
+      completedMethodologyLinks,
+      completedMethodologyRegions,
+    );
   });
 }
 
@@ -642,8 +698,8 @@ function getChapterScrollDuration(chapter) {
     return problemChapterScrollDuration;
   }
 
-  if (chapter.classList.contains("thesis-method")) {
-    return methodChapterScrollDuration;
+  if (chapter.classList.contains("thesis-method-flow")) {
+    return methodologyFlowChapterScrollDuration;
   }
 
   return chapterScrollDuration;
@@ -651,7 +707,7 @@ function getChapterScrollDuration(chapter) {
 
 function getChapterScrollEasing(chapter) {
   return chapter.classList.contains("thesis-problem") ||
-    chapter.classList.contains("thesis-method")
+    chapter.classList.contains("thesis-method-flow")
     ? linear
     : easeInOutCubic;
 }
@@ -935,10 +991,10 @@ function updateRobotProgress() {
     const progress = Math.min(Math.max(-rect.top / travel, 0), 1);
     const isHero = chapter.classList.contains("thesis-hero");
     const isProblem = chapter.classList.contains("thesis-problem");
-    const isMethod = chapter.classList.contains("thesis-method");
+    const isMethodologyFlow = chapter.classList.contains("thesis-method-flow");
     const problemTextReveal = getProblemRevealPhase(300, 600);
     const problemMediaReveal = getProblemRevealPhase(800, 800);
-    const methodTextReveal = getMethodRevealPhase(200, 500);
+    const methodologyTextReveal = getMethodologyFlowRevealPhase(200, 500);
     let text = reveal(progress, isHero ? 0.12 : 0.08, isHero ? 0.28 : 0.18);
     let media = reveal(progress, 0.16, 0.22);
 
@@ -949,8 +1005,12 @@ function updateRobotProgress() {
         problemMediaReveal.start,
         problemMediaReveal.span,
       );
-    } else if (isMethod) {
-      text = reveal(progress, methodTextReveal.start, methodTextReveal.span);
+    } else if (isMethodologyFlow) {
+      text = reveal(
+        progress,
+        methodologyTextReveal.start,
+        methodologyTextReveal.span,
+      );
       media = text;
     }
 
@@ -1035,39 +1095,67 @@ function updateRobotProgress() {
       questionCopy,
     );
 
-    if (isMethod) {
-      const methodCopyTransitions = [1, 2, 3, 4].map((stage) =>
-        getMethodRevealPhase(
-          methodStageDuration * stage,
-          methodCopyTransitionDuration,
-        ),
+    if (isMethodologyFlow) {
+      const methodologyCopyTransitions = methodologyFlowCopySteps
+        .slice(1)
+        .map((item, index) =>
+          getMethodologyFlowRevealPhase(
+            item.start - Math.round(methodologyFlowStageDuration * 0.12),
+            methodologyFlowCopyTransitionDuration + index * 20,
+          ),
+        );
+      const methodologyCopyProgress = methodologyCopyTransitions.map(
+        ({ start, span }) => reveal(progress, start, span),
       );
-      const methodCopyProgress = methodCopyTransitions.map(({ start, span }) =>
-        reveal(progress, start, span),
-      );
-      const methodStages = [
-        1 - methodCopyProgress[0],
-        methodCopyProgress[0] * (1 - methodCopyProgress[1]),
-        methodCopyProgress[1] * (1 - methodCopyProgress[2]),
-        methodCopyProgress[2] * (1 - methodCopyProgress[3]),
-        methodCopyProgress[3],
-      ];
-      const methodFlowReveal = getMethodRevealPhase(
-        methodFlowStartTime,
-        methodVisualRevealDuration,
-      );
-      const methodFlow = reveal(
-        progress,
-        methodFlowReveal.start,
-        methodFlowReveal.span,
-      );
-      const methodCards = methodCardStartTimes.map((startMs) => {
-        const visible = getMethodRevealPhase(startMs, methodCardRevealDuration);
+      const methodologyStages = methodologyFlowCopySteps.map((_, index) => {
+        if (index === 0) {
+          return 1 - methodologyCopyProgress[0];
+        }
 
-        return reveal(progress, visible.start, visible.span);
+        if (index === methodologyFlowCopySteps.length - 1) {
+          return methodologyCopyProgress[index - 1];
+        }
+
+        return (
+          methodologyCopyProgress[index - 1] *
+          (1 - methodologyCopyProgress[index])
+        );
       });
+      const methodologyItemValues = Object.fromEntries(
+        methodologyFlowItems.map(({ key, start }) => {
+          const visible = getMethodologyFlowRevealPhase(start);
 
-      setThesisMethodState(chapter, methodStages, methodFlow, methodCards);
+          return [key, reveal(progress, visible.start, visible.span)];
+        }),
+      );
+      const methodologyLinkValues = Object.fromEntries(
+        methodologyFlowLinks.map(({ key, start }) => {
+          const visible = getMethodologyFlowRevealPhase(
+            start,
+            methodologyFlowRevealDuration * 0.7,
+          );
+
+          return [key, reveal(progress, visible.start, visible.span)];
+        }),
+      );
+      const methodologyRegionValues = Object.fromEntries(
+        methodologyFlowRegions.map(({ key, start }) => {
+          const visible = getMethodologyFlowRevealPhase(
+            start,
+            methodologyFlowRevealDuration * 0.85,
+          );
+
+          return [key, reveal(progress, visible.start, visible.span)];
+        }),
+      );
+
+      setThesisMethodologyFlowState(
+        chapter,
+        methodologyStages,
+        methodologyItemValues,
+        methodologyLinkValues,
+        methodologyRegionValues,
+      );
     }
 
   });

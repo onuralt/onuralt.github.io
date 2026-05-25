@@ -10,7 +10,7 @@
     >
     <link rel="stylesheet" href="css/base.css?v=6">
     <link rel="stylesheet" href="css/slides.css?v=25">
-    <link rel="stylesheet" href="css/thesis.css?v=65">
+    <link rel="stylesheet" href="css/thesis.css?v=82">
     <link rel="stylesheet" href="css/robot.css?v=15">
     <link rel="stylesheet" href="css/vlsi.css?v=55">
     <link rel="stylesheet" href="css/responsive.css?v=11">
@@ -217,66 +217,172 @@
           </div>
         </section>
 
-        <section class="thesis-panel thesis-method thesis-chapter" aria-label="Verification as a generator problem">
-          <div class="thesis-pin thesis-method-pin">
-            <article class="thesis-copy thesis-method-copy">
+        <section class="thesis-panel thesis-method-flow thesis-chapter" aria-label="Methodology flow walkthrough">
+          <div class="thesis-pin thesis-method-flow-pin">
+            <article class="thesis-copy thesis-method-flow-copy">
               <p class="eyebrow">Methodology</p>
-              <div class="method-copy-stages" aria-live="polite">
-                <div class="method-copy-stage method-copy-stage-1">
-                  <h3>From &theta; to One Proof Obligation</h3>
-                  <p>A configuration vector &theta; collects the architectural choices that define one generated hardware implementation. The methodology uses that same &theta; for the verification environment, so the design under verification, the reference model, the formal interface, and the framework are matching instances rather than separately maintained setups.</p>
+              <div class="method-flow-copy-stages" aria-live="polite">
+                <div class="method-flow-copy-stage method-flow-copy-stage-1">
+                  <h3>Core Parameters Start the Flow</h3>
+                  <p>The same configuration choices that produce one RISC-V core also drive the verification setup. This keeps the design and the checks synchronized.</p>
                 </div>
-                <div class="method-copy-stage method-copy-stage-2">
-                  <h3>The Equations Become This Instance</h3>
-                  <p>The generated verification instance V<sub>&theta;</sub> is the composition of the wrapped RTL core and the wrapped golden model. RVAVF connects both to the generated assertion set and the formal backend, turning the abstract requirement into one proof problem.</p>
+                <div class="method-flow-copy-stage method-flow-copy-stage-2">
+                  <h3>Generate the Formal Interface</h3>
+                  <p>The formal interface generator uses the core configuration and signal map to expose retired instructions, PCs, registers, and memory effects in one common RVFI-style shape.</p>
                 </div>
-                <div class="method-copy-stage method-copy-stage-3">
-                  <h3>RVFIC Exposes the Core Uniformly</h3>
-                  <p>RVFIC supplies the observation layer for that instance. A map describes where architectural signals live inside the DUV, and RVFIC generates the bind probe and wrapper that expose those signals through one RVFI-style interface. The framework can then ignore core-specific signal names and hierarchy.</p>
+                <div class="method-flow-copy-stage method-flow-copy-stage-3">
+                  <h3>Wrap the Core Instead of Rewriting It</h3>
+                  <p>The formal interface wrapper binds to the generated core and presents its architectural behavior through RVFI-style signals. Core-specific hierarchy stays behind the wrapper.</p>
                 </div>
-                <div class="method-copy-stage method-copy-stage-4">
-                  <h3>RVGM Provides the ISA Reference</h3>
-                  <p>RVGM supplies the specification side. It maintains architectural state, applies the configuration-dependent transition function for each instruction, and emits RVFI-compatible reference events. This is why the comparison can be made at the architectural trace level instead of the microarchitectural signal level.</p>
+                <div class="method-flow-copy-stage method-flow-copy-stage-4">
+                  <h3>Generate the Matching Reference</h3>
+                  <p>The golden model generator builds the reference model from the same parameters. The DUV and the reference now describe the same instruction-set configuration.</p>
                 </div>
-                <div class="method-copy-stage method-copy-stage-5">
-                  <h3>RVAVF Builds the Proof Flow</h3>
-                  <p>RVAVF is the orchestration layer. It generates the assertion modules, top-level harness, and formal verification flow around the RVFIC-wrapped DUV and RVGM reference. The result is the verification condition V<sub>&theta;</sub> &#8872; P<sub>&theta;</sub>: the generated instance satisfies the generated property set.</p>
+                <div class="method-flow-copy-stage method-flow-copy-stage-5">
+                  <h3>Generate the Checks</h3>
+                  <p>An orchestrator mechanism turns the two traces into formal assertions. Each check compares what the core retired with what the golden model expected.</p>
+                </div>
+                <div class="method-flow-copy-stage method-flow-copy-stage-6">
+                  <h3>Run the Proof Flow</h3>
+                  <p>The framework emits the harness and TCL orchestration, then drives JasperGold to run bounded model checking on the generated instance.</p>
+                </div>
+                <div class="method-flow-copy-stage method-flow-copy-stage-7">
+                  <h3>Read the Result</h3>
+                  <p>The output is a pass result or a counterexample waveform. That result tells whether the generated core matches the generated ISA reference for this configuration.</p>
+                </div>
+                <div class="method-flow-copy-stage method-flow-copy-stage-8">
+                  <h3>RVFIC: RISC-V Formal Interface in Chisel</h3>
+                  <p>RVFIC is the generated observation layer. It uses the core configuration and signal map to generate Chisel and SystemVerilog wrapper logic that exposes retired instructions, PC updates, register writes, memory accesses, and trap state in an RVFI-style interface.</p>
+                </div>
+                <div class="method-flow-copy-stage method-flow-copy-stage-9">
+                  <h3>RVGM: RISC-V Golden Model</h3>
+                  <p>RVGM is the configuration-matched reference model. It decodes the same instruction stream, applies the enabled ISA behavior, updates architectural state, and emits the expected trace event that the DUV must match.</p>
+                </div>
+                <div class="method-flow-copy-stage method-flow-copy-stage-10">
+                  <h3>RVAVF: RISC-V Automated Verification Framework</h3>
+                  <p>RVAVF is the proof-generation and orchestration layer. It connects the DUV wrapper and golden model, generates SystemVerilog Assertions (SVA), emits the top-level harness and TCL/JasperGold run scripts, then reports a pass result or counterexample waveform.</p>
                 </div>
               </div>
             </article>
-            <div class="thesis-method-visuals" aria-label="Generated verification methodology diagrams">
-              <section class="method-formula-board" aria-label="Methodology formulas from the thesis">
-                <article class="method-equation-step">
-                  <span>1. &theta; selects one hardware implementation</span>
-                  <code>H<sub>&theta;</sub> = G<sub>core</sub>(&theta;)</code>
-                </article>
-                <article class="method-equation-step">
-                  <span>2. The same &theta; produces matching verification instances</span>
-                  <code>gm<sub>&theta;</sub> = gm(&theta;)</code>
-                  <code>fi<sub>&theta;</sub> = fi(&theta;), vf<sub>&theta;</sub> = vf(&theta;)</code>
-                </article>
-                <article class="method-equation-step">
-                  <span>3. Wrapped implementation and reference form V<sub>&theta;</sub></span>
-                  <code>V<sub>&theta;</sub> = vf<sub>&theta;</sub>(fi<sub>&theta;</sub>(H<sub>&theta;</sub>), fi<sub>&theta;</sub>(gm<sub>&theta;</sub>))</code>
-                </article>
-                <article class="method-equation-step">
-                  <span>4. Correctness is checked as trace equivalence</span>
-                  <code>&forall;k : &tau;<sub>k</sub><sup>core</sup> = &tau;<sub>k</sub><sup>gm</sup></code>
-                  <code>V<sub>&theta;</sub> &#8872; P<sub>&theta;</sub></code>
-                </article>
+
+            <div class="method-flow-board" aria-label="Animated methodology flow diagram">
+              <svg class="method-flow-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs>
+                  <marker id="method-flow-arrow" viewBox="0 0 10 10" refX="8.9" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto">
+                    <path d="M 1.2 1.8 L 8.9 5 L 1.2 8.2 z"></path>
+                  </marker>
+                </defs>
+                <path class="method-flow-link method-flow-link-formal-wrapper" d="M 20 23 L 20 28.2 L 35 28.2 L 35 32"></path>
+                <path class="method-flow-link method-flow-link-parameters-wrapper" d="M 80 23 L 80 28.2 L 65 28.2 L 65 32"></path>
+                <path class="method-flow-link method-flow-link-parameters-model" d="M 92 15 L 96 15 L 96 65.5 L 86 65.5"></path>
+                <path class="method-flow-link method-flow-link-wrapper-model" d="M 64 54.5 L 74 54.5 L 74 58"></path>
+                <path class="method-flow-link method-flow-link-wrapper-orchestration" d="M 35 54.5 L 35 70 L 42 70 L 42 78.5"></path>
+                <path class="method-flow-link method-flow-link-model-orchestration" d="M 74 73 L 74 74.5 L 58 74.5 L 58 78.5"></path>
+                <path class="method-flow-link method-flow-link-checks-orchestration" d="M 25.5 87.75 L 31 87.75"></path>
+                <path class="method-flow-link method-flow-link-orchestration-results" d="M 73 87.75 L 78.5 87.75"></path>
+              </svg>
+
+              <div class="method-flow-region method-flow-region-rvfic" aria-hidden="true">
+                <span>RVFIC</span>
+              </div>
+              <div class="method-flow-region method-flow-region-rvgm" aria-hidden="true">
+                <span>RVGM</span>
+              </div>
+              <div class="method-flow-region method-flow-region-rvavf" aria-hidden="true">
+                <span>RVAVF</span>
+              </div>
+
+              <article class="method-flow-item method-flow-parameters" data-flow-center-x="80" data-flow-center-y="15">
+                <span class="method-flow-parameters-icon" aria-hidden="true">
+                  <img src="images/thesis/parameters-icon.png" alt="">
+                </span>
+                <span class="method-flow-label-group">
+                  <span>Core Parameters</span>
+                  <strong>ISA, options, signal map</strong>
+                </span>
+              </article>
+
+              <article class="method-flow-item method-flow-formal" data-flow-center-x="20" data-flow-center-y="15">
+                <span>Formal Interface Generator</span>
+                <strong>Creates RVFI-style wrapper</strong>
+              </article>
+
+              <section class="method-flow-item method-flow-wrapper" data-flow-center-x="50" data-flow-center-y="43.25" aria-label="Formal interface wrapper around the design and golden model">
+                <h4>Formal Interface Wrapper</h4>
+                <div class="method-flow-wrapper-grid">
+                  <div class="method-flow-duv-core">
+                    <img class="method-flow-core-image" src="images/thesis/thesis-core-icon.png" alt="RISC-V core">
+                    <span class="method-flow-label-group">
+                      <span>DUV Core</span>
+                      <strong>Wrapped RTL</strong>
+                    </span>
+                  </div>
+                  <div>
+                    <span>Golden Model Generator</span>
+                    <strong>Produces ISA reference</strong>
+                  </div>
+                </div>
               </section>
-              <figure class="method-visual-card method-visual-instance">
-                <img src="images/thesis/thesis-general-flow-figure-4-1.png" alt="Thesis Figure 4.1 showing RVFIC, RVGM, generated assertions, harness, and JasperGold">
+
+              <article class="method-flow-item method-flow-model" data-flow-center-x="74" data-flow-center-y="65.5">
+                <span>Golden Model</span>
+                <strong>Generated reference</strong>
+              </article>
+
+              <article class="method-flow-item method-flow-checks" data-flow-center-x="15.5" data-flow-center-y="87.75">
+                <span>Formal Checks</span>
+                <strong>Trace equivalence assertions</strong>
+              </article>
+
+              <section class="method-flow-item method-flow-orchestration" data-flow-center-x="52" data-flow-center-y="87.25" aria-label="DUV orchestration with TCL script and JasperGold">
+                <h4>DUV Orchestration</h4>
+                <div class="method-flow-tool-row">
+                  <span class="method-flow-tool method-flow-tool-tcl">
+                    <img src="images/thesis/tcl-logo.jpeg" alt="TCL">
+                  </span>
+                  <span class="method-flow-tool method-flow-tool-jasper">
+                    <img src="images/thesis/jaspergold-logo.png" alt="JasperGold">
+                  </span>
+                </div>
+              </section>
+
+              <article class="method-flow-item method-flow-results" data-flow-center-x="86.5" data-flow-center-y="87.75">
+                <span>BMC Results</span>
+                <strong>Pass or counterexample</strong>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-system-intro thesis-rvfic-intro thesis-chapter" aria-label="RVFIC formal interface generator">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVFIC</p>
+              <h3>RVFIC Adds RVFI Signals Without Modifying The Core</h3>
+              <p>RVFIC, the RISC-V Formal Interface in Chisel, generates an RVFI-like observation layer from the core configuration and a JSON signal map. SystemVerilog bind probes tap internal wires non-intrusively, so the DUV source stays unchanged.</p>
+              <div class="thesis-tags">
+                <span>JSON signal map</span><span>computed expressions</span><span>bind probes</span><span>RVFI-style ports</span>
+              </div>
+            </article>
+            <div class="system-diagram-board">
+              <figure class="system-diagram-card system-diagram-tall">
+                <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="RVFIC generation pipeline from map and configuration inputs to wrapper and bind probe outputs">
+                <figcaption>RVFIC generation pipeline</figcaption>
               </figure>
-              <figure class="method-visual-card method-visual-rvfic">
-                <img src="images/thesis/thesis-rvfic-flow-figure-4-4.png" alt="Thesis Figure 4.4 showing the RVFIC generation pipeline">
-              </figure>
-              <figure class="method-visual-card method-visual-rvgm">
-                <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="Thesis Figure 4.7 showing the RVGM golden model architecture">
-              </figure>
-              <figure class="method-visual-card method-visual-rvavf">
-                <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="Thesis Figure 4.10 showing the RVAVF formal verification architecture">
-              </figure>
+              <div class="system-callout-stack" aria-label="RVFIC responsibilities">
+                <article class="system-callout">
+                  <span>Map</span>
+                  <p>Each RVFIC field is mapped to a core signal path or expression.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Bind</span>
+                  <p>Generated probes attach to internal wires without editing RTL.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Expose</span>
+                  <p>The wrapper presents stable RVFI-style outputs for the rest of the flow.</p>
+                </article>
+              </div>
             </div>
           </div>
         </section>
@@ -284,14 +390,14 @@
         <section class="thesis-panel thesis-wave-dynamic thesis-chapter" aria-label="Interactive RVFIC waveform signal guide">
           <div class="thesis-pin thesis-pin-wave-dynamic" data-rvfic-wave-guide>
             <article class="thesis-copy thesis-wave-dynamic-copy">
-              <p class="eyebrow">Interactive RVFIC Trace</p>
-              <h3>RVFI-Like Signals Expose Retired State</h3>
-              <p>RVFIC adapts the RISC-V Formal Interface idea to generated Chisel wrappers: each valid retirement cycle exposes the instruction, order, PC, register effects, and memory access in an RVFI-like trace.</p>
+              <p class="eyebrow">RVFIC</p>
+              <h3>RVFIC Signals Track Each Retired Instruction</h3>
+              <p>The exposed table follows RVFI naming and semantics with an <code>rvfic_</code> prefix. Interrupt and halt behavior are outside this verification scope; the focus is instruction-level equivalence across order, PC, registers, trap state, and memory effects.</p>
               <a class="thesis-rvfi-reference" href="https://yosyshq.readthedocs.io/projects/riscv-formal/en/latest/rvfi.html" target="_blank" rel="noopener noreferrer">RVFI reference</a>
               <div class="rvfic-signal-info" aria-live="polite">
                 <p class="eyebrow">Signal Info</p>
-                <h4 data-rvfic-info-title>Hover over a signal name for info</h4>
-                <p data-rvfic-info-copy>RVFIC exposes an RVFI-like trace for one committed instruction per valid cycle.</p>
+                <h4 data-rvfic-info-title>rvfic_valid</h4>
+                <p data-rvfic-info-copy>Retirement valid. When this signal is high, the row values describe the architectural update committed by one instruction.</p>
               </div>
             </article>
             <div class="rvfic-wave-board" aria-label="Interactive RVFIC waveform values">
@@ -304,8 +410,8 @@
                   <button type="button" class="rvfic-signal-name" data-signal-title="clk" data-signal-info="The clock provides the sampling edge. RVFIC values are interpreted around retirement cycles, so the clock row only gives timing context for the sampled architectural events.">clk</button>
                   <div class="rvfic-wave-values rvfic-wave-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
                 </div>
-                <div class="rvfic-wave-row">
-                  <button type="button" class="rvfic-signal-name" data-signal-title="rvfic_valid" data-signal-info="Retirement valid. This pulses high when the core commits an instruction. The other RVFI-like fields on that cycle describe the committed architectural state change.">rvfic_valid</button>
+                <div class="rvfic-wave-row is-active">
+                  <button type="button" class="rvfic-signal-name is-active" data-signal-title="rvfic_valid" data-signal-info="Retirement valid. This pulses high when the core commits an instruction. The other RVFI-like fields on that cycle describe the committed architectural state change.">rvfic_valid</button>
                   <div class="rvfic-wave-values rvfic-wave-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
                 </div>
                 <div class="rvfic-wave-row">
@@ -376,10 +482,199 @@
                 </div>
                 <div class="rvfic-cycle-info" aria-live="polite">
                   <p class="eyebrow">Cycle Info</p>
-                  <h4 data-rvfic-cycle-title>Hover over a cycle for info</h4>
+                  <h4 data-rvfic-cycle-title>One Retirement Per Column</h4>
                   <p data-rvfic-cycle-copy>Each cycle corresponds to one retired instruction because <code>rvfic_valid</code> is high and the RVFI-like fields describe the committed architectural update.</p>
                 </div>
               </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-system-intro thesis-rvgm-intro thesis-chapter" aria-label="RVGM golden model generator">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVGM</p>
+              <h3>RVGM Builds A Configuration-Matched Reference</h3>
+              <p>RVGM, the RISC-V Golden Model, is a synthesizable Scala/Chisel reference model. It is not a full processor; it is a minimal in-order model that retires at most one instruction per cycle and emits RVFIC-compatible reference events.</p>
+              <div class="thesis-tags">
+                <span>RV32I/RV64I</span><span>M extension</span><span>C extension</span><span>configuration-matched ISA</span>
+              </div>
+            </article>
+            <div class="system-diagram-board">
+              <figure class="system-diagram-card system-diagram-wide">
+                <img src="images/thesis/thesis-rvgm-architecture-figure-4-7.png" alt="RVGM architecture showing instruction decode, specification aggregation, state registers, CSR registers, and RVFI signal outputs">
+                <figcaption>RVGM generated reference architecture</figcaption>
+              </figure>
+              <div class="system-callout-stack" aria-label="RVGM responsibilities">
+                <article class="system-callout">
+                  <span>Configure</span>
+                  <p>The same core parameters select which ISA specs the model includes.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Execute</span>
+                  <p>Instruction specs compute expected PC, register, memory, and CSR effects.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Retire</span>
+                  <p>The generated model emits the expected architectural event for comparison.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-rvgm-trace thesis-chapter" aria-label="RVGM retirement event comparison">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVGM</p>
+              <h3>One Matching Spec Produces The Reference Event</h3>
+              <p>Each instruction has an isolated specification module. The instruction is broadcast to all specs, exactly one match signal is expected, and a one-hot multiplexer selects the matching module's output.</p>
+              <p>This keeps ISA semantics modular: adding an instruction means adding one new SpecModule rather than rewriting the whole model.</p>
+            </article>
+            <div class="trace-compare-board" aria-label="RVGM instruction selection and reference event generation">
+              <div class="rvgm-selection-diagram" aria-label="One-hot RVGM instruction specification selection">
+                <article class="rvgm-selection-node rvgm-selection-input">
+                  <span>Instruction Broadcast</span>
+                  <strong>insn, pc, rs1, rs2, config</strong>
+                </article>
+                <div class="rvgm-selection-arrow" aria-hidden="true"></div>
+                <div class="rvgm-spec-grid" aria-label="Parallel instruction specification modules">
+                  <article class="rvgm-spec-card is-match">
+                    <span>ADDI SpecModule</span>
+                    <code>match = 1</code>
+                  </article>
+                  <article class="rvgm-spec-card">
+                    <span>LW SpecModule</span>
+                    <code>match = 0</code>
+                  </article>
+                  <article class="rvgm-spec-card">
+                    <span>SW SpecModule</span>
+                    <code>match = 0</code>
+                  </article>
+                  <article class="rvgm-spec-card">
+                    <span>MUL SpecModule</span>
+                    <code>match = 0</code>
+                  </article>
+                  <article class="rvgm-spec-card">
+                    <span>C.ADDI SpecModule</span>
+                    <code>enabled by C</code>
+                  </article>
+                  <article class="rvgm-spec-card">
+                    <span>More specs</span>
+                    <code>one per instruction</code>
+                  </article>
+                </div>
+                <div class="rvgm-selection-arrow" aria-hidden="true"></div>
+                <div class="rvgm-selection-bottom">
+                  <article class="rvgm-selection-node rvgm-selection-mux">
+                    <span>Mux1H</span>
+                    <strong>select matching output</strong>
+                  </article>
+                  <div class="rvgm-selection-arrow rvgm-selection-arrow-inline" aria-hidden="true"></div>
+                  <article class="rvgm-selection-node rvgm-selection-event">
+                    <span>Reference Event</span>
+                    <strong>order, pc, rd, mem, trap</strong>
+                  </article>
+                </div>
+              </div>
+              <div class="trace-match-grid">
+                <article class="trace-match-card">
+                  <span>Broadcast</span>
+                  <code>insn -> all SpecModules</code>
+                </article>
+                <article class="trace-match-card">
+                  <span>Match</span>
+                  <code>one module asserts match</code>
+                </article>
+                <article class="trace-match-card">
+                  <span>Select</span>
+                  <code>Mux1H(match, outputs)</code>
+                </article>
+                <article class="trace-match-card">
+                  <span>Retire</span>
+                  <code>RVFIC-compatible event</code>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-system-intro thesis-rvavf-intro thesis-chapter" aria-label="RVAVF formal verification orchestrator">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVAVF</p>
+              <h3>RVAVF Assembles The Formal Job</h3>
+              <p>RVAVF, the RISC-V Automated Verification Framework, ties RVFIC and RVGM together. It generates configurable SVA checks, builds the top-level harness, stages backend scripts, and turns one configuration into one runnable formal workspace.</p>
+              <div class="thesis-tags">
+                <span>SVA generator</span><span>property enables</span><span>top generator</span><span>TCL/JasperGold workspace</span>
+              </div>
+            </article>
+            <div class="system-diagram-board">
+              <figure class="system-diagram-card system-diagram-tall">
+                <img src="images/thesis/thesis-rvavf-architecture-figure-4-10.png" alt="RVAVF architecture showing RVFIC, RVGM, assertion generator, top generator, TCL generator, and generated outputs">
+                <figcaption>RVAVF formal verification architecture</figcaption>
+              </figure>
+              <div class="system-callout-stack" aria-label="RVAVF responsibilities">
+                <article class="system-callout">
+                  <span>Compare</span>
+                  <p>Assertions compare every DUV RVFIC field against the RVGM field.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Constrain</span>
+                  <p>Generated assumptions restrict unsupported instructions and proof scope.</p>
+                </article>
+                <article class="system-callout">
+                  <span>Run</span>
+                  <p>The same flow emits SVA, harness, and JasperGold execution scripts.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="thesis-panel thesis-rvavf-proof thesis-chapter" aria-label="RVAVF generated proof artifacts">
+          <div class="thesis-pin thesis-pin-wide">
+            <article class="thesis-copy">
+              <p class="eyebrow">RVAVF</p>
+              <h3>The Harness Connects DUV, RVGM, And Assertions</h3>
+              <p>The generated <code>rvavf_top</code> module instantiates the RVFIC-wrapped DUV, the RVGM reference, and the assertion module. Shared clock, reset, instruction fetch, and configurable property enables make the same harness reusable across proof configurations.</p>
+            </article>
+            <div class="proof-artifact-board" aria-label="RVAVF artifact and result flow">
+              <div class="proof-artifact-column">
+                <article class="proof-artifact proof-artifact-input">
+                  <span>Generated Inputs</span>
+                  <strong>RVFIC-wrapped DUV</strong>
+                  <strong>RVGM golden model</strong>
+                  <strong>Assertion enables</strong>
+                </article>
+              </div>
+              <div class="proof-flow-arrow" aria-hidden="true"></div>
+              <div class="proof-artifact-column proof-artifact-generated">
+                <article class="proof-artifact">
+                  <span>SVA</span>
+                  <code>40+ configurable checks</code>
+                </article>
+                <article class="proof-artifact">
+                  <span>Harness</span>
+                  <code>rvavf_top.sv</code>
+                </article>
+                <article class="proof-artifact">
+                  <span>Workspace</span>
+                  <code>run.tcl</code>
+                </article>
+              </div>
+              <div class="proof-flow-arrow" aria-hidden="true"></div>
+              <div class="proof-artifact-column">
+                <article class="proof-artifact proof-artifact-backend">
+                  <span>Formal Backend</span>
+                  <img src="images/thesis/jaspergold-logo.png" alt="JasperGold">
+                  <strong>bounded model checking</strong>
+                </article>
+                <div class="proof-result-row">
+                  <span class="proof-result-pass">pass</span>
+                  <span class="proof-result-counterexample">counterexample</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -880,6 +1175,6 @@
         </section>
       </section>
     </main>
-    <script src="js/robot-scroll.js?v=52"></script>
+    <script src="js/robot-scroll.js?v=57"></script>
   </body>
 </html>
